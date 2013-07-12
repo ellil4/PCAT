@@ -1,0 +1,11 @@
+﻿<UserControl x:Class="FiveElementsIntTest.CtSpan.CompWarning"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             d:DesignHeight="600" d:DesignWidth="800" Width="800" Height="600">
+    <Grid Background="Black">
+        <Label Content="请您注意点击目标的正确性" Height="62" HorizontalAlignment="Left" Margin="208,249,0,0" Name="label1" VerticalAlignment="Top" Width="398" Foreground="White" FontSize="32" FontFamily="KaiTi" />
+    </Grid>
+</UserControl>

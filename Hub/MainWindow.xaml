@@ -1,0 +1,11 @@
+﻿<Window x:Class="Hub.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="基本认知能力测验 under develop" Height="156" Width="525" Loaded="Window_Loaded">
+    <Grid>
+        <Label Content="基本认知能力测验" Height="40" HorizontalAlignment="Left" Margin="35,20,0,0" Name="label1" VerticalAlignment="Top" Width="213" FontFamily="Microsoft YaHei" FontSize="25" />
+        <Button Content="开始测验" Height="23" HorizontalAlignment="Left" Margin="254,82,0,0" Name="amStartBtn" VerticalAlignment="Top" Width="75" Click="amStartBtn_Click" />
+        <Button Content="管理…" Height="23" HorizontalAlignment="Left" Margin="335,82,0,0" Name="amResultBtn" VerticalAlignment="Top" Width="75" Click="amResultBtn_Click" IsEnabled="True" />
+        <Button Content="退出" Height="23" HorizontalAlignment="Left" Margin="416,82,0,0" Name="amQuitBtn" VerticalAlignment="Top" Width="75" Click="amQuitBtn_Click" />
+    </Grid>
+</Window>

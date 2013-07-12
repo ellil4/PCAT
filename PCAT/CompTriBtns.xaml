@@ -1,0 +1,18 @@
+﻿<UserControl x:Class="FiveElementsIntTest.CompTriBtns"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" Foreground="White" Background="Black" d:DesignHeight="100" d:DesignWidth="430">
+    <Grid Width="430">
+        <Border BorderBrush="White" BorderThickness="2" Height="40" HorizontalAlignment="Left" Margin="2,58,0,0" Name="borderClear" VerticalAlignment="Top" Width="100" MouseUp="borderClear_MouseUp">
+            <Label Content="清除" FontFamily="KaiTi" FontSize="35" Foreground="White" Height="36" Name="label2" Padding="0" Width="71" />
+        </Border>
+        <Border BorderBrush="White" BorderThickness="2" Height="40" HorizontalAlignment="Left" Margin="329,58,0,0" Name="borderConfirm" VerticalAlignment="Top" Width="100" MouseUp="borderConfirm_MouseUp">
+            <Label Content="确认" FontFamily="KaiTi" FontSize="35" Foreground="White" Height="36" Name="label3" Padding="0" Width="71" />
+        </Border>
+        <Border BorderBrush="White" BorderThickness="2" Height="40" Name="borderBlank" Width="100" Margin="165,2,165,58" MouseUp="borderBlank_MouseUp">
+            <Label Content="空白" Height="36" Name="label1" Foreground="White" FontFamily="KaiTi" FontSize="35" Width="71" Padding="0" Margin="0" />
+        </Border>
+    </Grid>
+</UserControl>

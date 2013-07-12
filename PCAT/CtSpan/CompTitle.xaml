@@ -1,0 +1,21 @@
+﻿<UserControl x:Class="FiveElementsIntTest.CtSpan.CompTitle"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300" Width="800" Height="600" Background="Black" Foreground="White" xmlns:my="clr-namespace:FiveElementsIntTest.CtSpan">
+    <Grid>
+        <TextBlock Height="61" HorizontalAlignment="Left" Margin="297,66,0,0" Name="textBlock1" Text="计数广度" VerticalAlignment="Top" Width="213" FontSize="50" IsHitTestVisible="False" />
+        <TextBlock Height="35" HorizontalAlignment="Left" Margin="300,125,0,0" Name="textBlock2" Text="Counting Span" VerticalAlignment="Top" Width="199" FontFamily="宋体" FontSize="30" IsHitTestVisible="False" />
+        <TextBlock FontSize="32" Height="43" HorizontalAlignment="Left" Margin="98,217,0,0" Name="textBlock3" Text="请您记住图片中深蓝色圆圈的总数，然后根据提" VerticalAlignment="Top" Width="671" IsHitTestVisible="False" FontFamily="KaiTi" />
+        <TextBlock FontSize="32" Height="45" HorizontalAlignment="Left" Margin="40,257,0,0" Name="textBlock4" Text="示进行回忆。 " VerticalAlignment="Top" Width="671" IsHitTestVisible="False" FontFamily="KaiTi" />
+        <TextBlock FontSize="32" Height="43" HorizontalAlignment="Left" Margin="98,339,0,0" Name="textBlock5" Text="在呈现的每张图片中，包括有深蓝色圆圈    " VerticalAlignment="Top" Width="671" IsHitTestVisible="False" FontFamily="KaiTi" />
+        <TextBlock FontSize="32" Height="43" HorizontalAlignment="Left" Margin="40,379,0,0" Name="textBlock6" Text="（3-9个），深蓝色三角形   和浅蓝色圆圈   三类。
+    " VerticalAlignment="Top" Width="748" IsHitTestVisible="False" FontFamily="KaiTi" />
+        <Image Height="43" HorizontalAlignment="Left" Margin="676,335,0,0" Name="image1" Stretch="Fill" VerticalAlignment="Top" Width="43" Source="/PCAT;component/Res/CSDarkblueCircle.bmp" IsHitTestVisible="False" />
+        <Image Height="43" HorizontalAlignment="Left" Margin="409,373,0,0" Name="image2" Source="/PCAT;component/Res/CSTriangle.bmp" Stretch="Fill" VerticalAlignment="Top" Width="43" IsHitTestVisible="False" />
+        <Image Height="43" HorizontalAlignment="Left" Margin="649,375,0,0" Name="image3" Source="/PCAT;component/Res/CSLightblueCircle.bmp" Stretch="Fill" VerticalAlignment="Top" Width="43" IsHitTestVisible="False" />
+        <my:GraphConfirmBtn HorizontalAlignment="Left" Margin="381,487,0,0" x:Name="amGraphConfirmBtn" VerticalAlignment="Top" />
+    </Grid>
+</UserControl>

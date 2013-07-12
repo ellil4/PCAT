@@ -1,0 +1,19 @@
+﻿<UserControl x:Class="FiveElementsIntTest.CtSpan.CompInstruction"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300" Width="800" Height="600" Background="Black" Foreground="White" xmlns:my="clr-namespace:FiveElementsIntTest.CtSpan">
+    <Grid>
+        <TextBlock FontSize="31" Height="43" HorizontalAlignment="Left" Margin="109,57,0,0" Name="textBlock3" Text="您需要：用鼠标逐个点击     ，数出有多少个然后" VerticalAlignment="Top" Width="671" IsHitTestVisible="False" FontFamily="KaiTi" />
+        <TextBlock FontSize="31" Height="43" HorizontalAlignment="Left" Margin="49,96,0,0" Name="textBlock1" Text="重复一遍总数，并记住这个总数。如:" VerticalAlignment="Top" Width="731" IsHitTestVisible="False" FontFamily="KaiTi" />
+        <Image Height="244" HorizontalAlignment="Left" Margin="150,145,0,0" Name="image1" Stretch="Fill" VerticalAlignment="Top" Width="497" Source="file:///C:/Users/el/Documents/Visual%20Studio%202010/Projects/FiveElementsIntTest/PCAT/Res/DemoCtSpan.png" IsHitTestVisible="False" />
+        <TextBlock FontSize="31" Height="43" HorizontalAlignment="Left" Margin="46,399,0,0" Name="textBlock2" Text="此时，您需要用鼠标逐个点击     并数出 1, 2, 3。" VerticalAlignment="Top" Width="653" IsHitTestVisible="False" FontFamily="KaiTi" />
+        <TextBlock FontSize="31" Height="43" HorizontalAlignment="Left" Margin="102,446,0,0" Name="textBlock4" Text="下面先练习一下，从数两幅图片的    开始。" VerticalAlignment="Top" Width="665" IsHitTestVisible="False" FontFamily="KaiTi" />
+        <Image Height="46" HorizontalAlignment="Left" Margin="465,50,0,0" Name="image2" Stretch="Fill" VerticalAlignment="Top" Width="46" Source="/PCAT;component/Res/CSDarkblueCircle.bmp" IsHitTestVisible="False" />
+        <Image Height="46" HorizontalAlignment="Left" Margin="465,392,0,0" Name="image3" Source="/PCAT;component/Res/CSDarkblueCircle.bmp" Stretch="Fill" VerticalAlignment="Top" Width="46" IsHitTestVisible="False" />
+        <Image Height="46" HorizontalAlignment="Left" Margin="575,439,0,0" Name="image4" Source="/PCAT;component/Res/CSDarkblueCircle.bmp" Stretch="Fill" VerticalAlignment="Top" Width="46" IsHitTestVisible="False" />
+        <my:GraphConfirmBtn HorizontalAlignment="Left" Margin="380,499,0,0" x:Name="amGraphConfirmBtn" VerticalAlignment="Top" />
+    </Grid>
+</UserControl>

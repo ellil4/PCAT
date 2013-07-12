@@ -1,0 +1,512 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{9EEF7187-EA88-4B53-9323-C085CEE8107F}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>FiveElementsIntTest</RootNamespace>
+    <AssemblyName>PCAT</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="3DTools">
+      <HintPath>..\Hub\bin\libs\3DTools.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Office.Interop.Excel, Version=14.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Xaml">
+      <RequiredTargetFramework>4.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="WindowsBase" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+  </ItemGroup>
+  <ItemGroup>
+    <ApplicationDefinition Include="App.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </ApplicationDefinition>
+    <Compile Include="BitmapSourceFactory.cs" />
+    <Compile Include="CompCubeDisplay.xaml.cs">
+      <DependentUpon>CompCubeDisplay.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="CompDualDetermine.xaml.cs">
+      <DependentUpon>CompDualDetermine.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="CompCentralText.xaml.cs">
+      <DependentUpon>CompCentralText.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="CompImage.xaml.cs">
+      <DependentUpon>CompImage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="CompSeniorWords.xaml.cs">
+      <DependentUpon>CompSeniorWords.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="CompTriBtns.xaml.cs">
+      <DependentUpon>CompTriBtns.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="CtSpan\CompCountRecallPan.xaml.cs">
+      <DependentUpon>CompCountRecallPan.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="CtSpan\CompInstruction2.xaml.cs">
+      <DependentUpon>CompInstruction2.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="CtSpan\CompInstruction.xaml.cs">
+      <DependentUpon>CompInstruction.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="CtSpan\CompResultReport.xaml.cs">
+      <DependentUpon>CompResultReport.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="CtSpan\CompTitle.xaml.cs">
+      <DependentUpon>CompTitle.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="CtSpan\CompWarning.xaml.cs">
+      <DependentUpon>CompWarning.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="CtSpan\CSPoint.cs" />
+    <Compile Include="CtSpan\CSPointType.cs" />
+    <Compile Include="CtSpan\CtReacTapeSeg.cs" />
+    <Compile Include="CtSpan\FormWriter.cs" />
+    <Compile Include="CtSpan\GraphConfirmBtn.xaml.cs">
+      <DependentUpon>GraphConfirmBtn.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="CtSpan\GraphControl.cs" />
+    <Compile Include="CtSpan\ItemReader.cs" />
+    <Compile Include="CtSpan\Organizer.cs" />
+    <Compile Include="CtSpan\PageCtSpan.xaml.cs">
+      <DependentUpon>PageCtSpan.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="CtSpan\GraphicToken.xaml.cs">
+      <DependentUpon>GraphicToken.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="CtSpan\Proccess.cs" />
+    <Compile Include="CtSpan\SpaceDict.cs" />
+    <Compile Include="CtSpan\StGraphItem.cs" />
+    <Compile Include="CtSpan\StResult.cs" />
+    <Compile Include="CtSpan\TestLoop.cs" />
+    <Compile Include="CtSpan\TokenType.cs" />
+    <Compile Include="Cube\FEIT3DCubeBox.cs" />
+    <Compile Include="Cube\FEIT3DCubes8Rotater.cs" />
+    <Compile Include="Cube\FEIT3DCubes8Sight.cs" />
+    <Compile Include="Cube\FEIT3DPlane.cs" />
+    <Compile Include="Cube\FEIT3DWireFrame.cs" />
+    <Compile Include="Cube\FEITBoxesGear.cs" />
+    <Compile Include="Cube\OrganizerTrailCubes.cs" />
+    <Compile Include="Cube\PageCube.xaml.cs">
+      <DependentUpon>PageCube.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="DemographyPane.xaml.cs">
+      <DependentUpon>DemographyPane.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="DigitSymbol\OutputDigitSymbol.cs" />
+    <Compile Include="DigitSymbol\ResHolderDigitSymbol.cs" />
+    <Compile Include="FEITClickableScreen.cs" />
+    <Compile Include="FEITCentralFlipper.cs" />
+    <Compile Include="GraphicRecog\GRFormWriter.cs" />
+    <Compile Include="OpSpan\OpSpanEquationMaker.cs" />
+    <Compile Include="OpSpan\OrganizerPractiseBase.cs" />
+    <Compile Include="OpSpan\OrganizerPractiseChar.cs" />
+    <Compile Include="OpSpan\OrganizerPractiseEquation.cs" />
+    <Compile Include="OpSpan\SubPageOrderOSPrac.cs" />
+    <Compile Include="ServerConfigDialog.xaml.cs">
+      <DependentUpon>ServerConfigDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SybSrh\PageTitle.xaml.cs">
+      <DependentUpon>PageTitle.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SybSrh\SybSrhItemGenerator.cs" />
+    <Compile Include="SybSrh\SybSrhVisualElem.cs" />
+    <Compile Include="SybSrh\SybSrhSourceFetcher.cs" />
+    <Compile Include="SybSrh\SybSrhWriter.cs" />
+    <Compile Include="SybSrh\PageTitle2.xaml.cs">
+      <DependentUpon>PageTitle2.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SybSrh\PageTitle3.xaml.cs">
+      <DependentUpon>PageTitle3.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UIImageGroup.cs" />
+    <Compile Include="GraphicRecog\GRFormReader.cs" />
+    <Compile Include="GraphicRecog\LayoutGFR.cs" />
+    <Compile Include="GraphicRecog\PageGraphicRecog.xaml.cs">
+      <DependentUpon>PageGraphicRecog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ITFigure\ITFFreePrac.cs" />
+    <Compile Include="ITFigure\ITFigureItem.cs" />
+    <Compile Include="ITFigure\ITFInstruction.cs" />
+    <Compile Include="ITFigure\ITFPrac8.cs" />
+    <Compile Include="ITFigure\ITFProc.cs" />
+    <Compile Include="ITFigure\ITFRealTest.cs" />
+    <Compile Include="ITFigure\PageITFigure.xaml.cs">
+      <DependentUpon>PageITFigure.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="OpSpan\AnswerOpSpan.cs" />
+    <Compile Include="OpSpan\CompNumCheckOS.cs" />
+    <Compile Include="OpSpan\RecorderOpSpan.cs" />
+    <Compile Include="OpSpan\SubPageDetermine.cs" />
+    <Compile Include="OpSpan\SubPageOrderOS.cs" />
+    <Compile Include="RecorderBase.cs" />
+    <Compile Include="SeniorWords\OrganizerSeniorWords.cs" />
+    <Compile Include="SeniorWords\PageSeniorWords.xaml.cs">
+      <DependentUpon>PageSeniorWords.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SeniorWords\StSWResult.cs" />
+    <Compile Include="SeniorWords\StSWItem.cs" />
+    <Compile Include="SeniorWords\SWItemReader.cs" />
+    <Compile Include="SeniorWords\SWReportWriter.cs" />
+    <Compile Include="SubPageOrder.cs" />
+    <Compile Include="SybSrh\LayoutSybSrh.cs" />
+    <Compile Include="SybSrh\PageSybSrh.xaml.cs">
+      <DependentUpon>PageSybSrh.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SybSrh\SybSrhItem.cs" />
+    <Compile Include="SybSrh\SybSrhResult.cs" />
+    <Compile Include="SymSpan\AnswerSSST.cs" />
+    <Compile Include="SymSpan\CompNumCheckSS.cs" />
+    <Compile Include="SymSpan\LoaderSymmSpan.cs" />
+    <Compile Include="SymSpan\OrganizerInstruction.cs" />
+    <Compile Include="SymSpan\OrganizerTrailSS.cs" />
+    <Compile Include="SymSpan\PageSymmSpan.xaml.cs">
+      <DependentUpon>PageSymmSpan.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SymSpan\RandomSelector.cs" />
+    <Compile Include="SymSpan\RecorderSymSpan.cs" />
+    <Compile Include="SymSpan\SubPageOrderSS.cs" />
+    <Compile Include="SymSpan\TrailsGroupSS.cs" />
+    <Compile Include="SymSpan\TrailSS_ST.cs" />
+    <Compile Include="SymSpan\UIGroupNumChecksSS.cs" />
+    <Compile Include="UIGroupNumChecks.cs" />
+    <Compile Include="ControlPane.xaml.cs">
+      <DependentUpon>ControlPane.xaml</DependentUpon>
+    </Compile>
+    <Page Include="CompCubeDisplay.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="CompDigiSymbol.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="CompDualDetermine.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="CompCentralText.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="CompImage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="CompNumCheck.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="CompSeniorWords.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="CompTriBtns.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="CtSpan\CompCountRecallPan.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="CtSpan\CompInstruction2.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="CtSpan\CompInstruction.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="CtSpan\CompResultReport.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="CtSpan\CompTitle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="CtSpan\CompWarning.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="CtSpan\GraphConfirmBtn.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="CtSpan\PageCtSpan.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="CtSpan\GraphicToken.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Cube\PageCube.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="DemographyPane.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="GraphicRecog\PageGraphicRecog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ITFigure\PageITFigure.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="MainWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Compile Include="App.xaml.cs">
+      <DependentUpon>App.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="CompDigiSymbol.xaml.cs">
+      <DependentUpon>CompDigiSymbol.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="CompNumCheck.xaml.cs">
+      <DependentUpon>CompNumCheck.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="DigitSymbol\EvalueDigitSymbol.cs" />
+    <Compile Include="FEITStandard.cs" />
+    <Compile Include="FEITTimer.cs" />
+    <Compile Include="DigitSymbol\LayoutDigitSymbol.cs" />
+    <Compile Include="LayoutInstruction.cs" />
+    <Compile Include="DigitSymbol\ListenerDigitSymbol.cs" />
+    <Compile Include="DigitSymbol\LoaderDigitSymbol.cs" />
+    <Compile Include="MainWindow.xaml.cs">
+      <DependentUpon>MainWindow.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Page Include="DigitSymbol\PageDigitSymbol.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="OpSpan\PageOpSpan.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SeniorWords\PageSeniorWords.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ServerConfigDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SybSrh\PageSybSrh.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SybSrh\PageTitle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SybSrh\PageTitle2.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="SybSrh\PageTitle3.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="SymSpan\PageSymmSpan.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ControlPane.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="OpSpan\LoaderOpSpan.cs" />
+    <Compile Include="OpSpan\OrganizerTrailOS.cs" />
+    <Compile Include="OpSpan\PageOpSpan.xaml.cs">
+      <DependentUpon>PageOpSpan.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="OpSpan\TrailOS_ST.cs" />
+    <Compile Include="OpSpan\TrailGroupOS.cs" />
+    <Compile Include="OpSpan\UIGroupNumChecksOS.cs" />
+    <Compile Include="PageCommon.cs" />
+    <Compile Include="DigitSymbol\PageDigitSymbol.xaml.cs">
+      <DependentUpon>PageDigitSymbol.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <None Include="app.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <AppDesigner Include="Properties\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Res\BAR.jpg" />
+    <Resource Include="Res\CIRCLE.jpg" />
+    <Resource Include="Res\X.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Res\arrow.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Res\CROSS.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Res\LINERIGHT.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Res\LINEMASK.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Res\LINELEFT.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Res\BLANK.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Res\ITF_EXAMPLE.BMP" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Res\BLANK_TEX.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Res\CubeArrowBackAnti.png" />
+    <Resource Include="Res\CubeArrowBackClock.png" />
+    <Resource Include="Res\CubeArrowDownAnti.png" />
+    <Resource Include="Res\CubeArrowDownClock.png" />
+    <Resource Include="Res\CubeArrowFrontAnti.png" />
+    <Resource Include="Res\CubeArrowFrontClock.png" />
+    <Resource Include="Res\CubeArrowLeftAnti.png" />
+    <Resource Include="Res\CubeArrowLeftClock.png" />
+    <Resource Include="Res\CubeArrowRightAnti.png" />
+    <Resource Include="Res\CubeArrowRightClock.png" />
+    <Resource Include="Res\CubeArrowUpAnti.png" />
+    <Resource Include="Res\CubeArrowUpClock.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Res\ArrowTexUp.jpg" />
+    <Resource Include="Res\AxeTex.jpg" />
+    <Resource Include="Res\HalfTexDwonLeft.jpg" />
+    <Resource Include="Res\HalfTexDwonRight.jpg" />
+    <Resource Include="Res\HalfTexUpLeft.jpg" />
+    <Resource Include="Res\HalfTexUpRight.jpg" />
+    <Resource Include="Res\SlashTexULRD.jpg" />
+    <Resource Include="Res\SlashTexURLD.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Res\ArrowTexLeft.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Res\ArrowTexRight.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Res\SLECTED.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Res\DOUBLE_ARROW.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\QAIF\QAIF\QAIF.csproj">
+      <Project>{B50B4F44-15AC-49DB-8086-4B3538CCE37A}</Project>
+      <Name>QAIF</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Network\Network.csproj">
+      <Project>{E6C3362D-9BB5-4FAC-B4E7-7EE2A179CEDD}</Project>
+      <Name>Network</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PCATData\PCATData.csproj">
+      <Project>{AD32DD55-0E46-4369-B78A-E57B79759C1A}</Project>
+      <Name>PCATData</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Res\CSDarkblueCircle.bmp" />
+    <Resource Include="Res\CSLightblueCircle.bmp" />
+    <Resource Include="Res\CSTriangle.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Res\DemoCtSpan.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Res\pageForward.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Res\SymSrhInstruction1.bmp" />
+    <Resource Include="Res\SymSrhInstruction2.bmp" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

@@ -1,0 +1,11 @@
+﻿<UserControl x:Class="FiveElementsIntTest.CompCentralText"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             d:DesignHeight="100" d:DesignWidth="796">
+    <Grid Background="Black">
+        <TextBox Height="100" HorizontalAlignment="Left" Margin="0,0,0,0" Name="mText" VerticalAlignment="Top" Width="796" TextAlignment="Center" Background="Black" Foreground="White" Text="200 + 20 = ?" FontFamily="Batang" FontSize="74" BorderThickness="0" />
+    </Grid>
+</UserControl>

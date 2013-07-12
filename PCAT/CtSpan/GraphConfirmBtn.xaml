@@ -1,0 +1,11 @@
+﻿<UserControl x:Class="FiveElementsIntTest.CtSpan.GraphConfirmBtn"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             d:DesignHeight="70" d:DesignWidth="70" FontFamily="KaiTi" FontSize="30" MouseUp="UserControl_MouseUp" MouseEnter="UserControl_MouseEnter" MouseLeave="UserControl_MouseLeave">
+    <Grid Background="Black">
+        <Image Height="65" HorizontalAlignment="Left" Margin="2,2,0,0" Name="amImage" Stretch="Fill" VerticalAlignment="Top" Width="65" Source="/PCAT;component/Res/pageForward.png" Opacity="1" />
+    </Grid>
+</UserControl>

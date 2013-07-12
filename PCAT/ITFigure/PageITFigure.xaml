@@ -1,0 +1,17 @@
+﻿<Page x:Class="FiveElementsIntTest.ITFigure.PageITFigure"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      mc:Ignorable="d" 
+      d:DesignHeight="300" d:DesignWidth="300"
+	Title="PageITFigure" KeyDown="Page_KeyDown" Focusable="True">
+
+    <Grid Focusable="False">
+        <Canvas Height="100" HorizontalAlignment="Left" Name="amBaseCanvas" VerticalAlignment="Top" Width="200" Background="Black" Focusable="False">
+            <Border BorderBrush="Silver" BorderThickness="1" Canvas.Left="72" Canvas.Top="65" Height="600" Name="mBdrContentArea" Width="800" Focusable="False" />
+            <Border BorderBrush="Silver" BorderThickness="1" Height="768" Name="mBdrEdge" Width="1024" Canvas.Left="74" Canvas.Top="81" Focusable="False" />
+            <Image Canvas.Left="42" Canvas.Top="60" Height="150" Name="amCentralImage" Stretch="Fill" Width="200" Focusable="False" />
+        </Canvas>
+    </Grid>
+</Page>
