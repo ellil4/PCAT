@@ -4,8 +4,8 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" 
-             d:DesignHeight="40" d:DesignWidth="40" MouseUp="UserControl_MouseUp" MouseEnter="UserControl_MouseEnter" MouseLeave="UserControl_MouseLeave" Background="Black" BorderBrush="#FF5C5C5C" BorderThickness="1">
+             d:DesignHeight="40" d:DesignWidth="40" MouseUp="UserControl_MouseUp" MouseEnter="UserControl_MouseEnter" MouseLeave="UserControl_MouseLeave" Background="{x:Null}" BorderBrush="#FF5C5C5C" BorderThickness="1" OpacityMask="{x:Null}">
     <Grid>
-        <Image Height="40" HorizontalAlignment="Left" Name="amImage" Stretch="Fill" VerticalAlignment="Top" Width="40" />
+        <Image Height="40" HorizontalAlignment="Left" Name="amImage" Stretch="Fill" VerticalAlignment="Top" Width="40" OpacityMask="Red" />
     </Grid>
 </UserControl>

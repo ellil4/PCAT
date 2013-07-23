@@ -13,9 +13,9 @@
         <TextBlock FontSize="32" Height="43" HorizontalAlignment="Left" Margin="98,339,0,0" Name="textBlock5" Text="在呈现的每张图片中，包括有深蓝色圆圈    " VerticalAlignment="Top" Width="671" IsHitTestVisible="False" FontFamily="KaiTi" />
         <TextBlock FontSize="32" Height="43" HorizontalAlignment="Left" Margin="40,379,0,0" Name="textBlock6" Text="（3-9个），深蓝色三角形   和浅蓝色圆圈   三类。
     " VerticalAlignment="Top" Width="748" IsHitTestVisible="False" FontFamily="KaiTi" />
-        <Image Height="43" HorizontalAlignment="Left" Margin="676,335,0,0" Name="image1" Stretch="Fill" VerticalAlignment="Top" Width="43" Source="/PCAT;component/Res/CSDarkblueCircle.bmp" IsHitTestVisible="False" />
-        <Image Height="43" HorizontalAlignment="Left" Margin="409,373,0,0" Name="image2" Source="/PCAT;component/Res/CSTriangle.bmp" Stretch="Fill" VerticalAlignment="Top" Width="43" IsHitTestVisible="False" />
-        <Image Height="43" HorizontalAlignment="Left" Margin="649,375,0,0" Name="image3" Source="/PCAT;component/Res/CSLightblueCircle.bmp" Stretch="Fill" VerticalAlignment="Top" Width="43" IsHitTestVisible="False" />
+        <Image Height="43" HorizontalAlignment="Left" Margin="676,335,0,0" Name="image1" Stretch="Fill" VerticalAlignment="Top" Width="43" Source="/PCAT;component/Res/CSDarkblueCircle.png" IsHitTestVisible="False" />
+        <Image Height="43" HorizontalAlignment="Left" Margin="409,373,0,0" Name="image2" Source="/PCAT;component/Res/CSTriangle.png" Stretch="Fill" VerticalAlignment="Top" Width="43" IsHitTestVisible="False" />
+        <Image Height="43" HorizontalAlignment="Left" Margin="649,375,0,0" Name="image3" Source="/PCAT;component/Res/CSLightblueCircle.png" Stretch="Fill" VerticalAlignment="Top" Width="43" IsHitTestVisible="False" />
         <my:GraphConfirmBtn HorizontalAlignment="Left" Margin="381,487,0,0" x:Name="amGraphConfirmBtn" VerticalAlignment="Top" />
     </Grid>
 </UserControl>

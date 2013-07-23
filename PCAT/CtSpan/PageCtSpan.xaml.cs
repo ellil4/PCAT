@@ -19,6 +19,8 @@ namespace FiveElementsIntTest.CtSpan
     /// </summary>
     public partial class PageCtSpan : Page
     {
+        public bool IS_DEVELOPMENT_TOOL = true;
+
         private MainWindow mMainWindow;
         private GraphControl mGC;
 
@@ -135,7 +137,14 @@ namespace FiveElementsIntTest.CtSpan
             ClearAll();
             Focus();
 
-            NextStage();
+            if (!IS_DEVELOPMENT_TOOL)
+            {
+                NextStage();
+            }
+            else
+            {
+                (new DevToolWnd(mOrganizer)).ShowDialog();
+            }
 
             //test
             /*LayoutInstruction li = new LayoutInstruction(ref amBaseCanvas);

@@ -16,6 +16,8 @@ using System.Diagnostics;
 using System.Drawing;
 using System.Windows.Threading;
 using PCATData;
+using System.IO;
+using System.Drawing.Imaging;
 
 namespace FiveElementsIntTest.SybSrh
 {
@@ -25,6 +27,8 @@ namespace FiveElementsIntTest.SybSrh
     public partial class PageSybSrh : Page
     {
         private MainWindow mMainWindow;
+        public bool DEV_MODE = true;
+        public int MAXTRAILCOUNT = 72;
         //public static int TEST1ITEMTILL = 2;
         //public static int TEST2ITEMTILL = TEST1ITEMTILL * 2;
 
@@ -63,6 +67,9 @@ namespace FiveElementsIntTest.SybSrh
             //mSpanResult = new List<SybSrhResult>();
             mGen = new SybSrhItemGenerator();
             mTimer = new FEITTimer();
+
+            if (DEV_MODE)
+                MAXTRAILCOUNT = 12;
 
             m2Minute = new Stopwatch();
 
@@ -158,8 +165,6 @@ namespace FiveElementsIntTest.SybSrh
             mTimer.Start();
         }
 
-        public static int MAXTRAILCOUNT = 72;
-
         public void Next()
         {
             if (m2Minute.ElapsedMilliseconds >= 120000 || mDidCount == MAXTRAILCOUNT)
@@ -243,11 +248,53 @@ namespace FiveElementsIntTest.SybSrh
             m2Minute.Enabled = true;*/
         }
 
+        private String getDumpName(SybSrhVisualElem elem, int itemIdx, String role)
+        {
+            return itemIdx + "_" + role + "_" + elem.Type + 
+                "_" + elem.Index + "_" + elem.IfTrue + ".png";
+        }
+
+        private void dumpPics(String stamp)
+        {
+            SybSrhSourceFetcher fetcher = new SybSrhSourceFetcher(PageSybSrh.RESPATH);
+            String path = DSTPATH + stamp;
+            Directory.CreateDirectory(path);
+            for (int itemIdx = 0; itemIdx < mItems.Count; itemIdx++)
+            {
+                fetcher.GetPic(
+                    mItems[itemIdx].Target[0].Type, 
+                    mItems[itemIdx].Target[0].Index).Save(
+                    path + "\\" + getDumpName(mItems[itemIdx].Target[0], itemIdx, "T0"),
+                    ImageFormat.Png);
+
+                fetcher.GetPic(
+                    mItems[itemIdx].Target[1].Type, 
+                    mItems[itemIdx].Target[1].Index).Save(
+                    path + "\\" + getDumpName(mItems[itemIdx].Target[1], itemIdx, "T1"),
+                    ImageFormat.Png);
+
+                for (int i = 0; i < mItems[itemIdx].Selection.Length; i++)
+                {
+                    fetcher.GetPic(
+                        mItems[itemIdx].Selection[i].Type, 
+                        mItems[itemIdx].Selection[i].Index).Save(
+                        path + "\\" + getDumpName(mItems[itemIdx].Selection[i], itemIdx, "S" + i),
+                        ImageFormat.Png);
+                }
+            }
+        }
+
         private void writeResult()
         {
             PCATDataSaveReport();
             SybSrhWriter writer = new SybSrhWriter();
-            writer.WriteResults(DSTPATH + FEITStandard.GetStamp() + ".txt", mResult);
+            String stamp = FEITStandard.GetStamp();
+            writer.WriteResults(DSTPATH + stamp + ".txt", mResult);
+
+            if (DEV_MODE)
+            {
+                dumpPics(stamp);
+            }
         }
 
         private void appendItemInfo2QRec(ref QRecSymbolSearch rec, SybSrhItem item)

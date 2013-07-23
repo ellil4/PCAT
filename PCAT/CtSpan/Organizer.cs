@@ -22,15 +22,18 @@ namespace FiveElementsIntTest.CtSpan
             mConfirmBtn = new GraphConfirmBtn();
         }
 
-        public void ShowGraph(StGraphItem item)
+        public List<CSPoint> ShowGraph(StGraphItem item)
         {
+            List<CSPoint> retval = null;
             //graph
             mGC.Clear();
-            mGC.DrawScene(item);
+            retval = mGC.DrawScene(item);
             //button
             mPage.amBaseCanvas.Children.Add(mConfirmBtn);
             Canvas.SetTop(mConfirmBtn, FEITStandard.PAGE_BEG_Y + 530);
             Canvas.SetLeft(mConfirmBtn, FEITStandard.PAGE_BEG_X + 730);
+
+            return retval;
         }
 
         public void ShowCountingPan()

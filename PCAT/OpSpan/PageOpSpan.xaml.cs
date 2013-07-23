@@ -86,7 +86,7 @@ namespace FiveElementsIntTest.OpSpan
                 individualUnitCount += mGroupArrangement[i];
             }
 
-            if (!mMainWindow.mDB.TableExists(Names.OPSAPN_EXPRESSION_TABLENAME))
+            /*if (!mMainWindow.mDB.TableExists(Names.OPSAPN_EXPRESSION_TABLENAME))
             {
                 mMainWindow.mDB.CreateOpSpanExpressionTable(individualUnitCount);
             }
@@ -94,7 +94,7 @@ namespace FiveElementsIntTest.OpSpan
             if (!mMainWindow.mDB.TableExists(Names.OPSPAN_ORDER_TABLENAME))
             {
                 mMainWindow.mDB.CreateOPSpanOrderTable(mGroupArrangement.Length);
-            }
+            }*/
             
             nextStep();
         }

@@ -167,25 +167,28 @@ namespace FiveElementsIntTest.CtSpan
             return retval;
         }
 
-        public void DrawScene(StGraphItem item)
+        public List<CSPoint> DrawScene(StGraphItem item)
         {
-            DrawScene(item.TarCount, item.InterCircleCount, item.InterTriCount,
+            return DrawScene(item.TarCount, item.InterCircleCount, item.InterTriCount,
                 item.DistanceTar, item.DistanceComm);
         }
 
-        public void DrawScene(int tarCount, int interCirCount, int interTriCount, 
+        public List<CSPoint> DrawScene(int tarCount, int interCirCount, int interTriCount, 
             short disTar, short disComm)
         {
+            List<CSPoint> retval = null;
             while (true)
             {
                 //assert
                 if (tarCount < 3 || interCirCount < 0 ||
                     interTriCount < 0 || disTar < 0.0 || disComm < 0.0)
                 {
-                    return;
+                    return null;
                 }
 
                 Clear();
+
+                retval = new List<CSPoint>();
 
                 //first 3 target
                 CSPoint pTemp = getOutRangePoint(CSPointType.FirstQuad, disTar);
@@ -193,18 +196,24 @@ namespace FiveElementsIntTest.CtSpan
                     continue;
 
                 DrawTarget(pTemp.x, pTemp.y);
+                pTemp.type = 0;
+                retval.Add(pTemp);
 
                 pTemp = getOutRangePoint(CSPointType.SecondQuad, disTar);
                 if (pTemp == null)
                     continue;
 
                 DrawTarget(pTemp.x, pTemp.y);
+                pTemp.type = 0;
+                retval.Add(pTemp);
 
                 pTemp = getOutRangePoint(CSPointType.ThirdQuad, disTar);
                 if (pTemp == null)
                     continue;
 
                 DrawTarget(pTemp.x, pTemp.y);
+                pTemp.type = 0;
+                retval.Add(pTemp);
 
                 //other targets
                 for (int i = 0; i < tarCount - 3; i++)
@@ -214,6 +223,8 @@ namespace FiveElementsIntTest.CtSpan
                         break;
                     
                     DrawTarget(pTemp.x, pTemp.y);
+                    pTemp.type = 0;
+                    retval.Add(pTemp);
                 }
                 if (pTemp == null)
                     continue;
@@ -226,6 +237,8 @@ namespace FiveElementsIntTest.CtSpan
                         break;
 
                     DrawInterTriangle(pTemp.x, pTemp.y);
+                    pTemp.type = 1;
+                    retval.Add(pTemp);
                 }
                 if (pTemp == null)
                     continue;
@@ -238,12 +251,16 @@ namespace FiveElementsIntTest.CtSpan
                         break;
 
                     DrawInterCircle(pTemp.x, pTemp.y);
+                    pTemp.type = 2;
+                    retval.Add(pTemp);
                 }
                 if (pTemp == null)
                     continue;
 
                 break;
             }
+
+            return retval;
         }
 
         private CSPoint getOutRangePoint(CSPointType type, short radius)

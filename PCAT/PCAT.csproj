@@ -107,6 +107,9 @@
     <Compile Include="CtSpan\CSPoint.cs" />
     <Compile Include="CtSpan\CSPointType.cs" />
     <Compile Include="CtSpan\CtReacTapeSeg.cs" />
+    <Compile Include="CtSpan\DevToolWnd.xaml.cs">
+      <DependentUpon>DevToolWnd.xaml</DependentUpon>
+    </Compile>
     <Compile Include="CtSpan\FormWriter.cs" />
     <Compile Include="CtSpan\GraphConfirmBtn.xaml.cs">
       <DependentUpon>GraphConfirmBtn.xaml</DependentUpon>
@@ -272,6 +275,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="CtSpan\CompWarning.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="CtSpan\DevToolWnd.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -473,6 +480,10 @@
     <None Include="Res\DOUBLE_ARROW.jpg" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\LibTabCharter\LibTabCharter\LibTabCharter.csproj">
+      <Project>{6713CE43-DA29-49CC-AB3A-6ACFC7606EC1}</Project>
+      <Name>LibTabCharter</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\QAIF\QAIF\QAIF.csproj">
       <Project>{B50B4F44-15AC-49DB-8086-4B3538CCE37A}</Project>
       <Name>QAIF</Name>
@@ -487,11 +498,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Res\CSDarkblueCircle.bmp" />
-    <Resource Include="Res\CSLightblueCircle.bmp" />
-    <Resource Include="Res\CSTriangle.bmp" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Res\DemoCtSpan.png" />
   </ItemGroup>
   <ItemGroup>
@@ -500,6 +506,15 @@
   <ItemGroup>
     <Resource Include="Res\SymSrhInstruction1.bmp" />
     <Resource Include="Res\SymSrhInstruction2.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Res\CSDarkblueCircle.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Res\CSLightblueCircle.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Res\CSTriangle.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

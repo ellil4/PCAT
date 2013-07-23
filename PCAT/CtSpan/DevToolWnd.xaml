@@ -1,0 +1,19 @@
+﻿<Window x:Class="FiveElementsIntTest.CtSpan.DevToolWnd"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="DevToolWnd" Height="102" Width="499" Topmost="True" WindowStyle="ToolWindow" ResizeMode="NoResize">
+    <Grid>
+        <TextBox Height="23" HorizontalAlignment="Left" Margin="12,28,0,0" Name="amTBTarCount" VerticalAlignment="Top" Width="66" />
+        <Label Content="目标数" Height="28" HorizontalAlignment="Left" Margin="12,0,0,0" Name="label1" VerticalAlignment="Top" />
+        <TextBox Height="23" HorizontalAlignment="Left" Margin="84,28,0,0" Name="amTBInterCir" VerticalAlignment="Top" Width="66" />
+        <Label Content="干扰圆" Height="28" HorizontalAlignment="Left" Margin="84,0,0,0" Name="label2" VerticalAlignment="Top" />
+        <TextBox Height="23" HorizontalAlignment="Left" Margin="156,28,0,0" Name="amTBInterTri" VerticalAlignment="Top" Width="66" />
+        <Label Content="干扰三角" Height="28" HorizontalAlignment="Left" Margin="156,0,0,0" Name="label3" VerticalAlignment="Top" />
+        <TextBox Height="23" HorizontalAlignment="Left" Margin="228,28,0,0" Name="amTBDisTar" VerticalAlignment="Top" Width="66" />
+        <Label Content="目标距离" Height="28" HorizontalAlignment="Left" Margin="228,0,0,0" Name="label4" VerticalAlignment="Top" />
+        <TextBox Height="23" HorizontalAlignment="Left" Margin="300,28,0,0" Name="amTBDisComm" VerticalAlignment="Top" Width="66" />
+        <Label Content="一般距离" Height="28" HorizontalAlignment="Left" Margin="300,0,0,0" Name="label5" VerticalAlignment="Top" />
+        <Button Content="生成" Height="23" HorizontalAlignment="Left" Margin="390,5,0,0" Name="amBtnDo" VerticalAlignment="Top" Width="75" Click="amBtnDo_Click" />
+        <Button Content="记录" Height="23" HorizontalAlignment="Left" Margin="390,32,0,0" Name="amBtnSave" VerticalAlignment="Top" Width="75" Click="amBtnSave_Click" />
+    </Grid>
+</Window>
