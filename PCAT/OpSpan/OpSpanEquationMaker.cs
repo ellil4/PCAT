@@ -68,7 +68,7 @@ namespace FiveElementsIntTest.OpSpan
 
             _equation = first.ToString() + 
                 Method2String(method1) + second.ToString() + 
-                Method2String(method2) + third;
+                Method2String(method2) + third + " =";
 
             _answer = doCalc(doCalc(first, second, method1), third, method2);
         }

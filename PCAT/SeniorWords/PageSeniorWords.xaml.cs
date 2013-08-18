@@ -57,10 +57,10 @@ namespace FiveElementsIntTest.SeniorWords
             mResults = new List<StSWResult>();
             mTimer = new FEITTimer();
 
-            if (!mMainWindow.mDB.TableExists(Names.VOCAB_TABLENAME))
+            /*if (!mMainWindow.mDB.TableExists(Names.VOCAB_TABLENAME))
             {
                 mMainWindow.mDB.CreateVocabTable(SHEET_LENGTH);
-            }
+            }*/
         }
 
         public int SelectedIdx()

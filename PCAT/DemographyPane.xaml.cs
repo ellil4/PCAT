@@ -27,6 +27,11 @@ namespace FiveElementsIntTest
         {
             InitializeComponent();
 
+            amComboBoxEdu.SelectedIndex = 0;
+            amComboGender.SelectedIndex = 0;
+            amComboHealth.SelectedIndex = 0;
+            amComboJob.SelectedIndex = 0;
+
             mMW = mw;
         }
 
@@ -36,21 +41,22 @@ namespace FiveElementsIntTest
         {
             //register here
             //get test list here
+            TextRange txtRange = new TextRange(amRichNote.Document.ContentStart, amRichNote.Document.ContentEnd);
+            int age = -1;
             if (mMW.mVersion == PCATData.VERSION.CLIENT)
             {
                 Client client = new Client(Methods.GetIPAFromString(mMW.mServerIPA));
                 client.mfDoGrantFunc = callbackStartTest;
 
                 //register client version
-                TextRange txtRange = new TextRange(amRichNote.Document.ContentStart, amRichNote.Document.ContentEnd);
-                int age = -1;
+
                 if (int.TryParse(amTBAge.Text, out age))
                 {
                     client.RegisterRequest(removeQuot(amTBName.Text),
                             removeQuot((String)((ComboBoxItem)amComboGender.SelectedItem).Content),
                             age,
                             removeQuot((String)((ComboBoxItem)amComboHealth.SelectedItem).Content),
-                            removeQuot(amTBEduBG.Text),
+                            removeQuot((String)((ComboBoxItem)amComboBoxEdu.SelectedItem).Content),
                             removeQuot((String)((ComboBoxItem)amComboJob.SelectedItem).Content),
                             removeQuot(txtRange.Text));
                 }
@@ -108,9 +114,24 @@ namespace FiveElementsIntTest
             {
                 TextRange txtRange = new TextRange(amRichNote.Document.ContentStart, amRichNote.Document.ContentEnd);
                 int age = -1;
-                if (int.TryParse(amTBAge.Text, out age))
+                if (int.TryParse(amTBAge.Text, out age) && 
+                    !String.IsNullOrEmpty(amTBName.Text) && !String.IsNullOrWhiteSpace(amTBName.Text))
                 {
-                    StUserRegisterFeedback fb = mMW.mDB.AddUser(removeQuot(amTBName.Text),
+                    String time = "";
+                    DateTime dt = DateTime.Now;
+                    time = dt.Year.ToString() + dt.Month.ToString() + dt.Day.ToString() +
+                        dt.Hour.ToString() + dt.Minute.ToString() + dt.Second.ToString();
+                    mMW.mDemography = new StDemography();
+                    mMW.mDemography.Name = removeQuot(amTBName.Text);
+                    mMW.mDemography.Age = age;
+                    mMW.mDemography.Gender = (String)((ComboBoxItem)amComboGender.SelectedItem).Content;
+                    mMW.mDemography.Health = (String)((ComboBoxItem)amComboHealth.SelectedItem).Content;
+                    mMW.mDemography.Education = (String)((ComboBoxItem)amComboBoxEdu.SelectedItem).Content;
+                    mMW.mDemography.Job = (String)((ComboBoxItem)amComboJob.SelectedItem).Content;
+                    mMW.mDemography.Time = time;
+                    
+                    //SQLite
+                   /* StUserRegisterFeedback fb = mMW.mDB.AddUser(removeQuot(amTBName.Text),
                             removeQuot((String)((ComboBoxItem)amComboGender.SelectedItem).Content),
                             age,
                             removeQuot((String)((ComboBoxItem)amComboHealth.SelectedItem).Content),
@@ -119,13 +140,14 @@ namespace FiveElementsIntTest
                             removeQuot(txtRange.Text));
 
                     mMW.mUserID = fb.id;
-                    mMW.GoToTest(mMW.mTestList[mMW.mTestAt]);
+                    mMW.GoToTest(mMW.mTestList[mMW.mTestAt]);*/
+                    this.DialogResult = true;
                     this.Close();
                 }
                 else
                 {
                     MessageBox.Show(
-                        "须输入整数作为年龄", "信息", 
+                        "须输入整数作为年龄并填写名字", "信息", 
                         MessageBoxButton.OK, MessageBoxImage.Information);
                 }
             }

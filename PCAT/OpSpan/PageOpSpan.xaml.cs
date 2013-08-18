@@ -15,6 +15,7 @@ using System.Collections;
 using PCATData;
 using System.Timers;
 using System.Windows.Threading;
+using LibTabCharter;
 
 namespace FiveElementsIntTest.OpSpan
 {
@@ -38,8 +39,13 @@ namespace FiveElementsIntTest.OpSpan
         public RecorderOpSpan mRecorder;
         public FEITTimer mTimer;
 
-        public static string interFilename = "OpSpanInterRep.csv";
-        public static string orderFilename = "OpSpanOrderRep.csv";
+        public List<long> mRTs;
+        public long mMeanRT;
+
+        public static string interFilename;
+        public static string orderFilename;
+
+        public bool mbFixedItemMode = true;
 
         public enum PageAttr
         {
@@ -50,13 +56,16 @@ namespace FiveElementsIntTest.OpSpan
         {
             InitializeComponent();
             mMainWindow = mainWindow;
-            mGroupArrangement = new int[] { 2, 2, 2, 3, 3, 3, 4, 4, 4, 5, 5, 5, 6, 6, 6 };
-            mGroupArrangementPrac = new int[] { 2, 2, 3, 3 };
+            mGroupArrangement = new int[] { 2, 2, 2, 2, 2, 3, 3, 3, 4, 4, 4, 5, 5, 5, 6, 6, 6, 7, 7, 7, 8, 8, 8 };
+            mGroupArrangementPrac = new int[] { 2, 2, 2 };
 
             mLayoutInstruction = new LayoutInstruction(ref mBaseCanvas);
 
             mRecorder = new RecorderOpSpan(this);
             mTimer = new FEITTimer();
+
+            interFilename = "inter_" + mMainWindow.mDemography.GenString() + ".txt";
+            orderFilename = "order_" + mMainWindow.mDemography.GenString() + ".txt";
         }
 
         public static int getSubGroupID(int numInArray)
@@ -64,20 +73,69 @@ namespace FiveElementsIntTest.OpSpan
             return (numInArray % 3) + 1;
         }
 
+        private void readFixedFromFile(string path,
+            ref List<TrailGroupOS> groups, int[] scheme, int begFromLine)
+        {
+                TabFetcher fet = new TabFetcher(path, "\\t");
+
+                fet.Open();
+
+                for (int k = 0; k < begFromLine; k++ )
+                    fet.GetLineBy();//skip lines
+
+                groups = new List<TrailGroupOS>();
+                //practise
+                for (int i = 0; i < scheme.Length; i++)
+                {
+                    TrailGroupOS group = new TrailGroupOS();
+                    for (int j = 0; j < scheme[i]; j++)
+                    {
+                        List<String> line = fet.GetLineBy();
+                        TrailOS_ST st = new TrailOS_ST();
+                        st.equation = line[1];
+                        st.result = line[2];
+                        if(Int32.Parse(line[3]) == 1)
+                        {
+                            st.correctness = true;
+                        }
+                        else
+                        {
+                            st.correctness = false;
+                        }
+                        st.memTarget = line[4];
+                        group.mTrails.Add(st);
+                    }
+                    groups.Add(group);
+                }
+                fet.Close();
+        }
+
         private void mBaseCanvas_Loaded(object sender, RoutedEventArgs e)
         {
             PageCommon.InitCommonPageElements(ref mBaseCanvas);
             ClearAll();
 
-            //prepare data structures
-            mGroups = GenGroups((new LoaderOpSpan("OPSPAN.csv")).GetTrails(), mGroupArrangement);
+            if (!mbFixedItemMode)
+            {
+                //prepare data structures
+                mGroups = GenGroups((new LoaderOpSpan("OPSPAN.csv")).GetTrails(), mGroupArrangement);
 
-            mGroupsPrac = 
-                GenGroups((new LoaderOpSpan("OPSPANPrac.csv")).GetTrails(), mGroupArrangementPrac);
+                mGroupsPrac =
+                    GenGroups((new LoaderOpSpan("OPSPANPrac.csv")).GetTrails(), mGroupArrangementPrac);
+            }
+            else//fixed mode
+            {
+                readFixedFromFile(FEITStandard.GetExePath() + "OP\\opspan.txt",
+                    ref mGroupsPrac, mGroupArrangementPrac, 1);
+                readFixedFromFile(FEITStandard.GetExePath() + "OP\\opspan.txt",
+                    ref mGroups, mGroupArrangement, 7);
+            }
 
             //replace equations here:
 
             mCurrentStatus = PageAttr.title;
+            //mCurrentStatus = PageAttr.test;
+            //mMeanRT = 2000;
 
             //build BD
             int individualUnitCount = 0;
@@ -210,6 +268,7 @@ namespace FiveElementsIntTest.OpSpan
             OrganizerPractiseEquation ope = new OrganizerPractiseEquation(this);
             mCurrentStatus = PageAttr.instructCompreh;
             ope.mfNext();
+            mRTs = ope.mRTs;
         }
 
         private void loadInstructionPage()
@@ -217,7 +276,7 @@ namespace FiveElementsIntTest.OpSpan
             ClearAll();
 
             mLayoutInstruction.addInstruction(240, 0, 
-                FEITStandard.PAGE_WIDTH - 200, 300, 
+                FEITStandard.PAGE_WIDTH - 170, 300, 
                 "下面是单项练习，点击鼠标继续。", 
                 "KaiTi", 40, Color.FromRgb(255, 255, 255));
 
@@ -227,9 +286,34 @@ namespace FiveElementsIntTest.OpSpan
             new FEITClickableScreen(ref mBaseCanvas, nextStep);
         }
 
+        private long calcMeanRt()
+        {
+            long retval = 0;
+            
+            for (int i = 0; i < mRTs.Count; i++)
+            {
+                retval += mRTs[i];
+            }
+
+            retval /= mRTs.Count;
+            if (retval > 5000)
+            {
+                retval = 5000;
+            }
+            else if (retval < 2000)
+            {
+                retval = 2000;
+            }
+            
+            return retval;
+        }
+
         private void loadInstructionComprehensivePrac()
         {
             ClearAll();
+            
+            mMeanRT = calcMeanRt();
+
             mLayoutInstruction.addInstruction(240, 0,
                 FEITStandard.PAGE_WIDTH - 200, 300,
                 "下面是综合练习，将两项任务（记属相，做心算）结合起来练习。请在做心算题的同时，记住随后出现的属相。点击鼠标开始。",
@@ -237,8 +321,7 @@ namespace FiveElementsIntTest.OpSpan
 
             mCurrentStatus = PageAttr.practise;
 
-            new FEITClickableScreen(ref mBaseCanvas, 
-                blackAfterInstructionComprehensicePrac);
+            new FEITClickableScreen(ref mBaseCanvas, blackAfterInstructionComprehensicePrac);
         }
 
         private delegate void timedele();

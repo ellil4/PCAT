@@ -7,7 +7,7 @@ using PCATData;
 
 namespace FiveElementsIntTest.OpSpan
 {
-    public class RecorderOpSpan //: RecorderBase
+    public class RecorderOpSpan : RecorderBase
     {
         //chart 1
         public List<string> mathExpression;
@@ -29,11 +29,11 @@ namespace FiveElementsIntTest.OpSpan
         public List<string> rightOrder;
         public List<string> userInputOrder;
 
-        private static string[] HEADER_INFO_COLLECTION = {"exp," + "exp on time," + "exp off time," + 
-                                                      "displayed answer," + "choice, correctness," + 
-                                                    "choice Show time," + "choice made time," + "animal," + "group ID"};
+        private static string[] HEADER_INFO_COLLECTION = {"exp", "exp on time", "exp off time",  
+                                                      "displayed answer", "choice", "correctness",
+                                                    "choice Show time", "choice made time", "animal", "group ID"};
 
-        private static string[] HEADER_ORDER = { "order on," + "order off," + "right order," + "user input order"};
+        private static string[] HEADER_ORDER = {"order on", "order off", "right order", "user input order"};
 
         public PageOpSpan mPage;
 
@@ -62,10 +62,10 @@ namespace FiveElementsIntTest.OpSpan
         public void outputReport(string filepathInfoCollection, string filepathOrder)
         {
             //output info collection
-            //abstractOut(makeHeaderInfoCollection, fillInfoCollection, filepathInfoCollection);
+            abstractOut(makeHeaderInfoCollection, fillInfoCollection, filepathInfoCollection);
             //output order collection
-            //abstractOut(makeHeaderOrder, fillOrder, filepathOrder);
-            PCATDataSaveReport();
+            abstractOut(makeHeaderOrder, fillOrder, filepathOrder);
+            //PCATDataSaveReport();
         }
 
         public void PCATDataSaveReport()
@@ -110,7 +110,7 @@ namespace FiveElementsIntTest.OpSpan
 
             for (int i = 0; i < HEADER_INFO_COLLECTION.Length; i++)
             {
-                header += HEADER_INFO_COLLECTION[i];
+                header += HEADER_INFO_COLLECTION[i] + "\t";
             }
                 
             sw.WriteLine(header);
@@ -124,15 +124,15 @@ namespace FiveElementsIntTest.OpSpan
             for (int i = 0; i < len; i++)
             {
                 content = "";
-                content += mathExpression[i] + ",";
-                content += mathOn[i] + ",";
-                content += mathOff[i] + ",";
-                content += displayedAnswer[i] + ",";
-                content += choice[i] + ",";
-                content += correctness[i] + ",";
-                content += choiceShowTime[i] + ",";
-                content += choiceMadeTime[i] + ",";
-                content += animal[i] + ",";
+                content += mathExpression[i] + "\t";
+                content += mathOn[i] + "\t";
+                content += mathOff[i] + "\t";
+                content += displayedAnswer[i] + "\t";
+                content += choice[i] + "\t";
+                content += correctness[i] + "\t";
+                content += choiceShowTime[i] + "\t";
+                content += choiceMadeTime[i] + "\t";
+                content += animal[i] + "\t";
                 //content += groupID[i] + ",";
                 sw.WriteLine(content);
             }
@@ -144,7 +144,7 @@ namespace FiveElementsIntTest.OpSpan
 
             for (int i = 0; i < HEADER_ORDER.Length; i++)
             {
-                header += HEADER_ORDER[i];
+                header += HEADER_ORDER[i] + "\t";
             }
 
             sw.WriteLine(header);
@@ -158,9 +158,9 @@ namespace FiveElementsIntTest.OpSpan
             for (int i = 0; i < len; i++)
             {
                 content = "";
-                content += orderOn[i] + ",";
-                content += orderOff[i] + ",";
-                content += rightOrder[i] + ",";
+                content += orderOn[i] + "\t";
+                content += orderOff[i] + "\t";
+                content += rightOrder[i] + "\t";
                 content += userInputOrder[i];
                 sw.WriteLine(content);
             }

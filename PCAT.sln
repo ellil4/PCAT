@@ -11,9 +11,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Network", "Network\Network.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PCATData", "PCATData\PCATData.csproj", "{AD32DD55-0E46-4369-B78A-E57B79759C1A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QAIF", "..\QAIF\QAIF\QAIF.csproj", "{B50B4F44-15AC-49DB-8086-4B3538CCE37A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QAIF", "..\LibQAIF\QAIF\QAIF.csproj", "{B50B4F44-15AC-49DB-8086-4B3538CCE37A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LibTabCharter", "..\LibTabCharter\LibTabCharter\LibTabCharter.csproj", "{6713CE43-DA29-49CC-AB3A-6ACFC7606EC1}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LibTabCharter", "..\LibCharter\LibTabCharter\LibTabCharter.csproj", "{6713CE43-DA29-49CC-AB3A-6ACFC7606EC1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

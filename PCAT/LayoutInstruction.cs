@@ -51,6 +51,7 @@ namespace FiveElementsIntTest
             rtb.Height = height;
             rtb.Background = new SolidColorBrush(Color.FromRgb(0, 0, 0));
             rtb.Foreground = new SolidColorBrush(color);
+            rtb.HorizontalAlignment = HorizontalAlignment.Center;
 
             rtb.BorderThickness = new Thickness(0);
             rtb.FontSize = size;

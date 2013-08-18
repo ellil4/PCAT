@@ -5,6 +5,7 @@ using System.Text;
 using System.Windows.Media;
 using System.Timers;
 using System.Windows.Threading;
+using LibTabCharter;
 
 namespace FiveElementsIntTest.OpSpan
 {
@@ -19,11 +20,41 @@ namespace FiveElementsIntTest.OpSpan
 
         public OrganizerPractiseChar(PageOpSpan page) : base(page)
         {
+            int[] scheme = { 2, 2, 3, 3 };
+
             mRealOrder = new List<List<int>>();
-            mRealOrder.Add(getNonRepeatArray(2));
-            mRealOrder.Add(getNonRepeatArray(2));
-            mRealOrder.Add(getNonRepeatArray(3));
-            mRealOrder.Add(getNonRepeatArray(3));
+
+            if (!mPage.mbFixedItemMode)
+            {
+                for (int i = 0; i < scheme.Length; i++)
+                {
+                    mRealOrder.Add(getNonRepeatArray(scheme[i]));
+                }
+            }
+            else//fixed mode
+            {
+                TabFetcher fetcher =
+                    new TabFetcher(FEITStandard.GetExePath() + "OP\\opspanword.txt", "\\t");
+
+                fetcher.Open();
+                fetcher.GetLineBy();//skip header
+
+                for (int i = 0; i < scheme.Length; i++)
+                {
+                    List<int> group = new List<int>();
+                    for (int j = 0; j < scheme[i]; j++)
+                    {
+                        List<string> line = fetcher.GetLineBy();
+                        group.Add(UIGroupNumChecksOS.GetIndexByChar(line[2]));
+                    }
+                    mRealOrder.Add(group);
+                }
+
+                fetcher.Close();
+            }
+
+            
+
             mfNext = showInstruction;
         }
 
@@ -69,7 +100,7 @@ namespace FiveElementsIntTest.OpSpan
 
             LayoutInstruction li = new LayoutInstruction(ref mPage.mBaseCanvas);
             //li.addTitle(200, 0, "", "KaiTi", 50, Color.FromRgb(255, 255, 255));
-            li.addInstruction(240, 0, 638, 200, "下面先来练习一下记忆属相，请点击鼠标以开始。", 
+            li.addInstruction(240, 0, 570, 200, "下面先来练习一下记忆属相，请点击鼠标以开始。", 
                 "KaiTi", 40, Color.FromRgb(255, 255, 255));
 
             mfNext = showAnimal;
@@ -136,7 +167,7 @@ namespace FiveElementsIntTest.OpSpan
 
             for (int i = 0; i < mRealOrder[mGrandGroupAtIndex].Count; i++)
             {
-                if(mAnswer[i] == mRealOrder[mGrandGroupAtIndex][i])
+                if(i < mAnswer.Count && mAnswer[i] == mRealOrder[mGrandGroupAtIndex][i])
                     correctCount++;
             }
 

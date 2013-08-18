@@ -12,7 +12,6 @@
         <Label Content="年龄：" Height="28" HorizontalAlignment="Left" Margin="28,88,0,0" Name="label3" VerticalAlignment="Top" />
         <TextBox Background="White" BorderBrush="{StaticResource {x:Static SystemColors.ActiveCaptionBrushKey}}" Height="23" HorizontalAlignment="Left" Margin="68,90,0,0" Name="amTBAge" VerticalAlignment="Top" Width="120" />
         <Label Content="学历：" Height="28" HorizontalAlignment="Left" Margin="28,120,0,0" Name="label4" VerticalAlignment="Top" />
-        <TextBox Background="White" BorderBrush="{StaticResource {x:Static SystemColors.ActiveCaptionBrushKey}}" Height="23" HorizontalAlignment="Left" Margin="68,122,0,0" Name="amTBEduBG" VerticalAlignment="Top" Width="120" />
         <Label Content="性别：" Height="28" HorizontalAlignment="Left" Margin="213,56,0,0" Name="label5" VerticalAlignment="Top" />
         <Label Content="健康状况：" Height="28" HorizontalAlignment="Left" Margin="213,88,0,0" Name="label6" VerticalAlignment="Top" />
         <Label Content="职业：" Height="28" HorizontalAlignment="Left" Margin="213,120,0,0" Name="label7" VerticalAlignment="Top" />
@@ -41,7 +40,17 @@
         </ComboBox>
         <RichTextBox Height="77" HorizontalAlignment="Left" Margin="28,179,0,0" Name="amRichNote" VerticalAlignment="Top" Width="369" />
         <Label Content="备注：" Height="28" HorizontalAlignment="Left" Margin="28,151,0,0" Name="label8" VerticalAlignment="Top" />
-        <Button Content="开始测试" Height="23" HorizontalAlignment="Left" Margin="131,264,0,0" Name="amBtnStart" VerticalAlignment="Top" Width="75" Click="amBtnStart_Click" />
+        <Button Content="开始测试" Height="23" HorizontalAlignment="Left" Margin="131,264,0,0" Name="amBtnStart" VerticalAlignment="Top" Width="75" Click="amBtnStart_Click" IsDefault="True" />
         <Button Content="取消" Height="23" HorizontalAlignment="Left" Margin="226,264,0,0" Name="amBtnCancel" VerticalAlignment="Top" Width="75" Click="amBtnCancel_Click" />
+        <ComboBox Height="23" HorizontalAlignment="Left" Margin="68,122,0,0" Name="amComboBoxEdu" VerticalAlignment="Top" Width="120">
+            <ComboBoxItem Content="无" />
+            <ComboBoxItem Content="小学" />
+            <ComboBoxItem Content="初中" />
+            <ComboBoxItem Content="中专" />
+            <ComboBoxItem Content="高中" />
+            <ComboBoxItem Content="大专" />
+            <ComboBoxItem Content="本科" />
+            <ComboBoxItem Content="研究生及以上" />
+        </ComboBox>
     </Grid>
 </Window>

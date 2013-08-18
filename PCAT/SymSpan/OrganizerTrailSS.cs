@@ -12,7 +12,7 @@ using System.Windows.Threading;
 
 namespace FiveElementsIntTest.SymSpan
 {
-    class OrganizerTrailSS
+    public class OrganizerTrailSS
     {
         private PageSymmSpan mPage;
         public bool mPractise;
@@ -100,7 +100,7 @@ namespace FiveElementsIntTest.SymSpan
             {
                 //keep record
                 if (!mPractise)
-                    mCurAnswer.Order.Add(mOrderPage.mCheckComponent.mOrder[i]);
+                    mCurAnswer.Order.Add(mContent[mGrpAt].Trails[i].Position);
 
                 //correctness
                 if (mOrderPage.mCheckComponent.mOrder.Count > i)
@@ -143,7 +143,14 @@ namespace FiveElementsIntTest.SymSpan
             {
                 //record
                 mRecorder.shownPosition.Add(mCurAnswer.Order);
-                mRecorder.userSelPosition.Add(mOrderPage.mCheckComponent.mOrder);
+
+                List<int> bufferOrder = new List<int>();
+                for(int i = 0 ; i < mOrderPage.mCheckComponent.mOrder.Count; i++)
+                {
+                    bufferOrder.Add(mOrderPage.mCheckComponent.mOrder[i]);
+                }
+                mRecorder.userSelPosition.Add(bufferOrder);
+
                 mRecorder.posCorrectness.Add(!everWrong);
                 //mRecorder.elementInArray.Add(mContent[mGrpAt].Trails.Count);
 
@@ -157,7 +164,10 @@ namespace FiveElementsIntTest.SymSpan
                     mfRoute = showTitlePage;
                 }
 
-                if (mOrderErrorACC > 1)
+                if (mOrderErrorACC > 1 && mGrpAt >= 5)
+                    mfRoute = testEnd;
+
+                if(mOrderErrorACC >2 && mGrpAt < 5)
                     mfRoute = testEnd;
 
                 groupIterate();
@@ -166,9 +176,10 @@ namespace FiveElementsIntTest.SymSpan
 
         public void testEnd()
         {
-            mRecorder.outputReport(FEITStandard.GetRepotOutputPath() + PageSymmSpan.interFilename,
-                    FEITStandard.GetRepotOutputPath() + PageSymmSpan.posFilename);
+            mRecorder.outputReport(FEITStandard.GetRepotOutputPath() + "symm\\" + PageSymmSpan.interFilename,
+                    FEITStandard.GetRepotOutputPath() + "symm\\" + PageSymmSpan.posFilename);
             mfRoute = mPage.finish;
+            mPage.nextStep();
         }
 
         public void groupIterate()
@@ -189,8 +200,32 @@ namespace FiveElementsIntTest.SymSpan
                 mCurSpanAt++;
             }
 
-            if (mGrpAt == mContent.Count)
-                mfRoute = mfRoute = testEnd;
+            //length2 addtional items
+            if (mGrpAt == 3 && !mPractise)
+            {
+                int posErrCount = 0;
+                for (int i = 0; i < mRecorder.posCorrectness.Count; i++)
+                {
+                    if (mRecorder.posCorrectness[i] == false)
+                        posErrCount++;
+                }
+
+                if (posErrCount < 2)
+                {
+                    mGrpAt += 2;
+                    mCurSpanAt = 0;
+                    mOrderErrorACC = 0;
+                }
+            }
+
+            if (mGrpAt == mContent.Count && !mPractise)
+            {
+                mfRoute = testEnd;
+            }
+            else if (mGrpAt == mContent.Count && mPractise)
+            {
+                mfRoute = mPage.nextStep;
+            }
 
             //new answer struct
             if (!mPractise)
@@ -230,7 +265,7 @@ namespace FiveElementsIntTest.SymSpan
 
             //uri resource loading
             Uri uriimage = new Uri(LoaderSymmSpan.GetBaseFolder() + "SYMM\\" +
-                mContent[mGrpAt].Trails[mItemAt].FileName + ".bmp");
+                mContent[mGrpAt].Trails[mItemAt].FileName);
 
             //image 
             BitmapImage img = new BitmapImage(uriimage);
@@ -248,7 +283,7 @@ namespace FiveElementsIntTest.SymSpan
 
             Timer t = new Timer();
             t.Elapsed += new ElapsedEventHandler(t_Elapsed);
-            t.Interval = 3000;
+            t.Interval = mPage.mMeanRT;
             t.AutoReset = false;
             t.Enabled = true;
             new FEITClickableScreen(ref mPage.mBaseCanvas, nextStep, ref t);
@@ -256,6 +291,9 @@ namespace FiveElementsIntTest.SymSpan
             //record
             mRecorder.symmOnTime.Add(mPage.mTimer.GetElapsedTime());
         }
+
+        public void doNothing(CompDualDetermine self)
+        { }
 
         public void showDualDeterPage()
         {
@@ -286,7 +324,7 @@ namespace FiveElementsIntTest.SymSpan
             Canvas.SetLeft(dualPad, FEITStandard.PAGE_BEG_X +
                 (FEITStandard.PAGE_WIDTH - CompDualDetermine.OUTWIDTH) / 2);
 
-            mfRoute = showBlackPage;
+            mfRoute = showBlackPageAndGo2Pos;
 
             //record
             mRecorder.choiceShownTime.Add(mPage.mTimer.GetElapsedTime());
@@ -342,6 +380,8 @@ namespace FiveElementsIntTest.SymSpan
                 t.Interval = 1000;
             }
 
+            self.mConfirmMethod = doNothing;
+            self.mDenyMethod = doNothing;
         }
 
         private void DualdeterDenyMethod(CompDualDetermine self)
@@ -393,6 +433,9 @@ namespace FiveElementsIntTest.SymSpan
                 t.Enabled = true;
                 t.Interval = 1000;
             }
+
+            self.mConfirmMethod = doNothing;
+            self.mDenyMethod = doNothing;
         }
 
         public void showPosistionPage()
@@ -460,7 +503,11 @@ namespace FiveElementsIntTest.SymSpan
 
             groupIterate();
 
-            new FEITClickableScreen(ref mPage.mBaseCanvas, nextStep);
+            Timer t = new Timer();
+            t.Elapsed += new ElapsedEventHandler(t_Elapsed);
+            t.Interval = 3000;
+            t.AutoReset = false;
+            t.Enabled = true;
         }
 
         public void showTitlePage()
@@ -473,8 +520,11 @@ namespace FiveElementsIntTest.SymSpan
 
             mfRoute = showSymmPage;
 
-            //clickable
-            new FEITClickableScreen(ref mPage.mBaseCanvas, nextStep);
+            Timer t = new Timer();
+            t.Elapsed += new ElapsedEventHandler(t_ElapsedBlackPage);
+            t.Interval = 2000;
+            t.AutoReset = false;
+            t.Enabled = true;
         }
 
         public void showWarningPage()
@@ -497,7 +547,18 @@ namespace FiveElementsIntTest.SymSpan
             t.Enabled = true;
         }
 
-        public void showBlackPage()
+        void showBlackPage()
+        {
+            mPage.ClearAll();
+            //delay
+            Timer t = new Timer();
+            t.Elapsed += new ElapsedEventHandler(t_Elapsed);
+            t.Interval = 500;
+            t.AutoReset = false;
+            t.Enabled = true;
+        }
+
+        void showBlackPageAndGo2Pos()
         {
             mPage.ClearAll();
 
@@ -510,10 +571,10 @@ namespace FiveElementsIntTest.SymSpan
             t.Enabled = true;
         }
 
-        /*public void testEnd()
+        void t_ElapsedBlackPage(object sender, ElapsedEventArgs e)
         {
-            mPage.nextStep();
-        }*/
+            mPage.Dispatcher.Invoke(DispatcherPriority.Normal, new timedele(showBlackPage));
+        }
 
         void t_Elapsed(object sender, ElapsedEventArgs e)
         {

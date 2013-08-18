@@ -154,8 +154,16 @@ namespace FiveElementsIntTest.OpSpan
             mOrderCorrectCount = 0;
 
             //cursor
+            if (mGrpAt == 2 && mCurOrderErrCount < 2 && !mPractiseMode)
+            {
+                mGrpAt += 3;
+            }
+            else
+            {
+                mGrpAt++;
+            }
+
             mTraAt = 0;
-            mGrpAt++;
 
             if (mGrpAt < mGroups.Count)
             {
@@ -224,7 +232,11 @@ namespace FiveElementsIntTest.OpSpan
             }
 
             //quit with error
-            if (!mPractiseMode && mCurOrderErrCount > 1)
+            if (!mPractiseMode && mCurOrderErrCount > 1 && mGrpAt > 5)//quit beyond span2
+            {
+                route = quit;
+            }
+            else if (!mPractiseMode && mCurOrderErrCount > 2 && mGrpAt == 4)//quit in span2
             {
                 route = quit;
             }
@@ -289,38 +301,40 @@ namespace FiveElementsIntTest.OpSpan
         {
             mPage.ClearAll();
 
-            if (mPractiseMode)
+            if (!mPage.mbFixedItemMode)//if not fixed gen random
             {
-                mOSEM.GenEquation(ref mEquation, ref mEquationResult, EquationType.NonCarry);
-            }
-            else
-            {
-                if (mGrpAt < 2)//non-carry
+                if (mPractiseMode)
                 {
                     mOSEM.GenEquation(ref mEquation, ref mEquationResult, EquationType.NonCarry);
                 }
-                else//carry
+                else
                 {
-                    mOSEM.GenEquation(ref mEquation, ref mEquationResult, EquationType.Carry);
+                    if (mGrpAt < 2)//non-carry
+                    {
+                        mOSEM.GenEquation(ref mEquation, ref mEquationResult, EquationType.NonCarry);
+                    }
+                    else//carry
+                    {
+                        mOSEM.GenEquation(ref mEquation, ref mEquationResult, EquationType.Carry);
+                    }
                 }
+
+                Random rdm = new Random();
+                if (rdm.Next(0, 2) == 0)//set incorrect to show
+                {
+                    mGroups[mGrpAt].mTrails[mTraAt].result = rdm.Next(0, 200).ToString();
+                    mGroups[mGrpAt].mTrails[mTraAt].correctness = false;
+                }
+                else//set correct to show
+                {
+                    mGroups[mGrpAt].mTrails[mTraAt].result = mEquationResult.ToString();
+                    mGroups[mGrpAt].mTrails[mTraAt].correctness = true;
+                }
+
+                mGroups[mGrpAt].mTrails[mTraAt].equation = mEquation;
             }
 
-            Random rdm = new Random();
-            if (rdm.Next(0, 2) == 0)//set incorrect to show
-            {
-                mGroups[mGrpAt].mTrails[mTraAt].result = rdm.Next(0, 200).ToString();
-                mGroups[mGrpAt].mTrails[mTraAt].correctness = false;
-            }
-            else//set correct to show
-            {
-                mGroups[mGrpAt].mTrails[mTraAt].result = mEquationResult.ToString();
-                mGroups[mGrpAt].mTrails[mTraAt].correctness = true;
-            }
-
-            mEquation += "=?";
-
-            mGroups[mGrpAt].mTrails[mTraAt].equation = mEquation;
-            
+            mGroups[mGrpAt].mTrails[mTraAt].equation += " ?";
 
             CompCentralText ct = new CompCentralText();
             ct.PutTextToCentralScreen(mGroups[mGrpAt].mTrails[mTraAt].equation,
@@ -335,19 +349,12 @@ namespace FiveElementsIntTest.OpSpan
                 mPage.mRecorder.mathExpression.Add(mGroups[mGrpAt].mTrails[mTraAt].equation);
             }
 
-            if (!mPage.mMainWindow.mbEngiMode)
-            {
-                Timer t = new Timer();
-                t.Elapsed += new ElapsedEventHandler(t_Elapsed);
-                t.Interval = 3000;
-                t.AutoReset = false;
-                t.Enabled = true;
-                new FEITClickableScreen(ref mPage.mBaseCanvas, mPage.nextStep, ref t);
-            }
-            else
-            {
-                new FEITClickableScreen(ref mPage.mBaseCanvas, mPage.nextStep);
-            }
+            Timer t = new Timer();
+            t.Elapsed += new ElapsedEventHandler(t_Elapsed);
+            t.Interval = mPage.mMeanRT;
+            t.AutoReset = false;
+            t.Enabled = true;
+            new FEITClickableScreen(ref mPage.mBaseCanvas, mPage.nextStep, ref t);
 
             return true;
         }
@@ -548,8 +555,8 @@ namespace FiveElementsIntTest.OpSpan
             {
                 //record
                 mPage.mTimer.Stop();
-                mPage.mRecorder.outputReport(FEITStandard.GetRepotOutputPath() + PageOpSpan.interFilename,
-                    FEITStandard.GetRepotOutputPath() + PageOpSpan.orderFilename);
+                mPage.mRecorder.outputReport(FEITStandard.GetRepotOutputPath() + "op\\" + PageOpSpan.interFilename,
+                    FEITStandard.GetRepotOutputPath() + "op\\" + PageOpSpan.orderFilename);
 
                 mPage.mCurrentStatus = PageOpSpan.PageAttr.finish;
             }

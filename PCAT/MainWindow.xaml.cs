@@ -19,6 +19,7 @@ using FiveElementsIntTest.SeniorWords;
 using FiveElementsIntTest.GraphicRecog;
 using FiveElementsIntTest.SybSrh;
 using FiveElementsIntTest.CtSpan;
+using FiveElementsIntTest.PairedAsso;
 using PCATData;
 using Network;
 
@@ -35,6 +36,7 @@ namespace FiveElementsIntTest
         public ConnectionInfo mConnInfo;
         public long mUserID = -1;
         public Client mClient;
+        public StDemography mDemography;
 
         public int mTestAt = 0;
         public List<TestType> mTestList;
@@ -78,7 +80,8 @@ namespace FiveElementsIntTest
                 case TestType.VocAsso:
                     if (mVersion == VERSION.CLIENT)
                         mClient.SendTestBeginMessage("词对联想");
-                    ///////////////////////////////////////////////////////////////////////////////
+
+                    NavigationService.Navigate(new PagePairedAsso(this));
                     break;
                 case TestType.GraphAsso:
                     if (mVersion == VERSION.CLIENT)
@@ -214,8 +217,10 @@ namespace FiveElementsIntTest
 
             //Test code in....
             //undefined <demography pane disabled>
-            //new DemographyPane(this).ShowDialog();
-            TestForward();
+            if (new DemographyPane(this).ShowDialog() == true)
+            {
+                TestForward();
+            }
             //Test code out....
         }
 

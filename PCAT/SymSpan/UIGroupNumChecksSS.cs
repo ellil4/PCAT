@@ -6,7 +6,7 @@ using System.Windows.Media;
 
 namespace FiveElementsIntTest.SymSpan
 {
-    class UIGroupNumChecksSS : UIGroupNumChecks
+    public class UIGroupNumChecksSS : UIGroupNumChecks
     {   
         public UIGroupNumChecksSS()
         {

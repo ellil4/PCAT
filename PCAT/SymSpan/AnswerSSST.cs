@@ -6,7 +6,7 @@ using System.Text;
 namespace FiveElementsIntTest.SymSpan
 {
     //one subgroup
-    class AnswerSSST
+    public class AnswerSSST
     {
         public List<bool> TF;//true or false serial
         public List<bool> TFCorrectness;

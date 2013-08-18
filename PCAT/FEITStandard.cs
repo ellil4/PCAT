@@ -39,9 +39,13 @@ namespace FiveElementsIntTest
 
         public static string GetRepotOutputPath()
         {
-            string ret = System.AppDomain.CurrentDomain.SetupInformation.ApplicationBase +
-                "Report\\";
+            string ret = GetExePath() + "Report\\";
             return ret;
+        }
+
+        public static string GetExePath()
+        {
+            return System.AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
         }
 
         public static SYMBOL_TYPE[] SYMBOL_LEFT =

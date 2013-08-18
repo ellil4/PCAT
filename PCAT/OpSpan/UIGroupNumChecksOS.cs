@@ -24,6 +24,17 @@ namespace FiveElementsIntTest.OpSpan
             }
         }
 
+        public static int GetIndexByChar(string chara)
+        {
+            int retval = -1;
+            for(int i = 0; i < LUNAR_ANI.Length; i++)
+            {
+                if (chara == LUNAR_ANI[i])
+                    retval = i;
+            }
+
+            return retval;
+        }
 
     }
 }
