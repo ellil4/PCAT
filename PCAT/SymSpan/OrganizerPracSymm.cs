@@ -58,16 +58,29 @@ namespace FiveElementsIntTest.SymSpan
             {
                 mPage.ClearAll();
 
-                CompCentralText text = new CompCentralText();
-                text.PutTextToCentralScreen(
-                    "点鼠标继续", "KaiTi", 30, ref mPage.mBaseCanvas,
-                    -220, System.Windows.Media.Color.FromRgb(255, 255, 255));
-
                 putPicAtCanvas(mSymmItems[mAt].FileName);
 
-                new FEITClickableScreen(ref mPage.mBaseCanvas, ShowJudge);
+                CompBtnNextPage btn = new CompBtnNextPage("看好了");
+                btn.Add2Page(mPage.mBaseCanvas, FEITStandard.PAGE_BEG_Y + 470);
+                btn.mfOnAction = blankMask200withShowJudge;
             }
+        }
 
+        void blankMask200withShowJudge(object obj)
+        {
+            mPage.ClearAll();
+            Timer tm = new Timer();
+            tm.Interval = 200;
+            tm.AutoReset = false;
+            tm.Elapsed += new ElapsedEventHandler(tm_Elapsed);
+            tm.Enabled = true;
+        }
+
+        delegate void timeDele();
+
+        void tm_Elapsed(object sender, ElapsedEventArgs e)
+        {
+            mPage.Dispatcher.Invoke(DispatcherPriority.Normal, new timeDele(ShowJudge));
         }
 
         public void ShowJudge()
@@ -140,8 +153,9 @@ namespace FiveElementsIntTest.SymSpan
             Timer t = new Timer();
             t.Interval = 2000;
             t.AutoReset = false;
-            t.Enabled = true;
             t.Elapsed += new ElapsedEventHandler(t_Elapsed);
+            t.Enabled = true;
+            
 
             self.mConfirmMethod = doNothing;
             self.mDenyMethod = doNothing;
@@ -151,6 +165,16 @@ namespace FiveElementsIntTest.SymSpan
 
         void t_Elapsed(object sender, ElapsedEventArgs e)
         {
+            mPage.Dispatcher.Invoke(DispatcherPriority.Normal, new timedele(mPage.ClearAll));
+            Timer tmNext = new Timer();
+            tmNext.Interval = 500;
+            tmNext.AutoReset = false;
+            tmNext.Elapsed += new ElapsedEventHandler(tmNext_Elapsed);
+            tmNext.Enabled = true; 
+        }
+
+        void tmNext_Elapsed(object sender, ElapsedEventArgs e)
+        {
             mPage.Dispatcher.Invoke(DispatcherPriority.Normal, new timedele(next));
         }
 
@@ -159,10 +183,29 @@ namespace FiveElementsIntTest.SymSpan
             mPage.ClearAll();
             CompCentralText text = new CompCentralText();
             text.PutTextToCentralScreen(
-                "现在开始综合练习", "KaiTi", 30, ref mPage.mBaseCanvas,
+                "下面练习同时完成这两个任务", "KaiTi", 30, ref mPage.mBaseCanvas,
+                -100, System.Windows.Media.Color.FromRgb(255, 255, 255));
+
+            
+            CompCentralText text2 = new CompCentralText();
+            text2.PutTextToCentralScreen(
+                "请在做对称判断的同时", "KaiTi", 30, ref mPage.mBaseCanvas,
                 0, System.Windows.Media.Color.FromRgb(255, 255, 255));
 
-            new FEITClickableScreen(ref mPage.mBaseCanvas, mPage.nextStep);
+            
+            CompCentralText text3 = new CompCentralText();
+            text3.PutTextToCentralScreen(
+                "记住随后出现的红点的位置", "KaiTi", 30, ref mPage.mBaseCanvas,
+                100, System.Windows.Media.Color.FromRgb(255, 255, 255));
+
+            CompBtnNextPage btn = new CompBtnNextPage("开始练习");
+            btn.Add2Page(mPage.mBaseCanvas, FEITStandard.PAGE_BEG_Y + 470);
+            btn.mfOnAction = go2PageNextStep;
+        }
+
+        private void go2PageNextStep(object obj)
+        {
+            mPage.nextStep();
         }
 
         public void next()

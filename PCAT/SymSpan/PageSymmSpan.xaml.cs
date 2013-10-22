@@ -12,6 +12,8 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using PCATData;
+using System.Timers;
+using System.Windows.Threading;
 
 namespace FiveElementsIntTest.SymSpan
 {
@@ -50,7 +52,7 @@ namespace FiveElementsIntTest.SymSpan
             InitializeComponent();
             mMainWindow = _mainWindow;
             mLayoutInstruction = new LayoutInstruction(ref mBaseCanvas);
-            mTestGroupScheme = new int[] { 2, 2, 2, 2, 2, 3, 3, 3, 4, 4, 4, 5, 5, 5, 6, 6, 6, 7, 7, 7, 8, 8, 8 };
+            mTestGroupScheme = new int[] { 2, 2, 2, 2, 2, 2, 3, 3, 3, 4, 4, 4, 5, 5, 5, 6, 6, 6, 7, 7, 7, 8, 8, 8 };
             mPracGroupScheme = new int[] { 2, 2, 2};
 
             interFilename = "inter_" + mMainWindow.mDemography.GenString() + ".txt";
@@ -150,14 +152,34 @@ namespace FiveElementsIntTest.SymSpan
             mLayoutInstruction.addTitle(70, 0, "对称广度", "SimHei", 52, Color.FromRgb(255, 255, 255));
             mLayoutInstruction.addTitle(133, 105, "Operation Span", "Batang", 32, Color.FromRgb(255, 255, 255));
             mLayoutInstruction.addTitle(240, 5, 
-                "请您判断图形的对称性，并记住随后出现的方块位置。", 
+                "请你判断图形的对称性，并记住随后出现的红点位置。", 
                 "SimHei", 30, Color.FromRgb(255, 255, 255));
             mLayoutInstruction.addTitle(290, 0,
-                "下面先来练习一下记忆方块位置。点击鼠标继续",
+                "下面先来练习一下记忆红点位置",
                 "SimHei", 30, Color.FromRgb(255, 255, 255));
 
             mStatus = StatusSS.singlePos;
-            new FEITClickableScreen(ref mBaseCanvas, nextStep);
+            //new FEITClickableScreen(ref mBaseCanvas, nextStep);
+            CompBtnNextPage btn = new CompBtnNextPage("下一页");
+            btn.Add2Page(mBaseCanvas, FEITStandard.PAGE_BEG_Y + 470);
+            btn.mfOnAction = BlankMask1000Next;
+        }
+
+        private void BlankMask1000Next(object obj)
+        {
+            ClearAll();
+            Timer t = new Timer();
+            t.Interval = 1000;
+            t.AutoReset = false;
+            t.Elapsed += new ElapsedEventHandler(t_Elapsed);
+            t.Enabled = true;
+        }
+
+        public delegate void timedele();
+
+        void t_Elapsed(object sender, ElapsedEventArgs e)
+        {
+            Dispatcher.Invoke(DispatcherPriority.Normal, new timedele(nextStep));
         }
 
         private void loadPractise()
@@ -172,11 +194,11 @@ namespace FiveElementsIntTest.SymSpan
             {
                 mMeanRT /= mRTBaseLine.Count;
 
-                if (mMeanRT > 5000)
+                if (mMeanRT * 2 > 5000)
                 {
                     mMeanRT = 5000;
                 }
-                else if (mMeanRT < 2000)
+                else if (mMeanRT * 2 < 2000)
                 {
                     mMeanRT = 2000;
                 }
@@ -195,7 +217,7 @@ namespace FiveElementsIntTest.SymSpan
         private void loadInstruction2()
         {
             ClearAll();
-            mLayoutInstruction.addTitle(240, 0, "以下是正式测验,按任意键继续", "KaiTi", 30, Color.FromRgb(255, 255, 255));
+            mLayoutInstruction.addTitle(240, 0, "以下是正式测验,按鼠标键继续", "KaiTi", 30, Color.FromRgb(255, 255, 255));
             
             mStatus = StatusSS.test;
             
@@ -249,19 +271,18 @@ namespace FiveElementsIntTest.SymSpan
         {
             PageCommon.InitCommonPageElements(ref mBaseCanvas);
             ClearAll();
-
-            //undifined
+            
             
             loadMainTitle();
-            //loadTest();
 
-            //mRTBaseLine = new List<long>();
-            //loadPractise();
-            //mMeanRT = 2000;
+            //systest disabled
+            /*mMeanRT = 2000;
+            OrganizerTrailSS ots =
+                new OrganizerTrailSS(this, false, mTest, ref mGroupsAnswer);
+            mStatus = StatusSS.finish;
+            ots.nextStep();*/
 
             //loadSinglePos();
-            //loadSingleSymm();
-
         }
     }
 }

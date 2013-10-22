@@ -23,6 +23,11 @@ namespace FiveElementsIntTest.OpSpan
 
         public void t_Elapsed(object sender, ElapsedEventArgs e)
         {
+            invokeNext(); 
+        }
+
+        public void invokeNext()
+        {
             mPage.Dispatcher.Invoke(DispatcherPriority.Normal, new timedele(mfNext)); 
         }
 
@@ -35,6 +40,11 @@ namespace FiveElementsIntTest.OpSpan
             t.Interval = duration;
             t.AutoReset = false;
             t.Enabled = true;
+        }
+
+        public void oneSecBlackScreen(object obj)
+        {
+            oneSecBlackScreen();
         }
 
         public void oneSecBlackScreen()

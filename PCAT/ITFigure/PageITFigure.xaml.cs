@@ -101,7 +101,7 @@ namespace FiveElementsIntTest.ITFigure
                     break;
                 case ITF_STATES.STA_REPORT://report
                     //Console.Out.WriteLine("stage3");
-                    breakScreen("测试结束，您的反应时是" + mItRealTest.GetRT() + "毫秒， 空格键退出");
+                    breakScreen("测试结束，你的反应时是" + mItRealTest.GetRT() + "毫秒， 空格键退出");
                     break;
             }
         }

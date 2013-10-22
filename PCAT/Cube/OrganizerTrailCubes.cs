@@ -16,6 +16,7 @@ namespace FiveElementsIntTest.Cube
         private CompCubeDisplay mOriginGraph;
         private CompCubeDisplay mRotatingGraph;
         private List<CompCubeDisplay> mSelGraphs;
+
         private List<Border> mSelBorders;
 
         private PageCube mPage;

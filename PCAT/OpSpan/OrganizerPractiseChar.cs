@@ -6,6 +6,7 @@ using System.Windows.Media;
 using System.Timers;
 using System.Windows.Threading;
 using LibTabCharter;
+using System.Diagnostics;
 
 namespace FiveElementsIntTest.OpSpan
 {
@@ -13,16 +14,26 @@ namespace FiveElementsIntTest.OpSpan
     {
         //UIGroupNumChecksOS
 
-        List<List<int>> mRealOrder;
+        public List<List<int>> mRealOrder;
+        public List<List<int>> mAnswers;
         public List<int> mAnswer;
+        public List<bool> mCorrectness;
+        public List<long> mRTs;
+
         int mGrandGroupAtIndex = 0;
         int mGroupAtIndex = 0;
+
+        private Stopwatch mSW;
 
         public OrganizerPractiseChar(PageOpSpan page) : base(page)
         {
             int[] scheme = { 2, 2, 3, 3 };
 
             mRealOrder = new List<List<int>>();
+            mAnswers = new List<List<int>>();
+            mCorrectness = new List<bool>();
+            mSW = new Stopwatch();
+            mRTs = new List<long>();
 
             if (!mPage.mbFixedItemMode)
             {
@@ -100,11 +111,14 @@ namespace FiveElementsIntTest.OpSpan
 
             LayoutInstruction li = new LayoutInstruction(ref mPage.mBaseCanvas);
             //li.addTitle(200, 0, "", "KaiTi", 50, Color.FromRgb(255, 255, 255));
-            li.addInstruction(240, 0, 570, 200, "下面先来练习一下记忆属相，请点击鼠标以开始。", 
+            li.addInstruction(240, 0, 570, 200, " 下面先来练习一下记忆属相", 
                 "KaiTi", 40, Color.FromRgb(255, 255, 255));
 
             mfNext = showAnimal;
-            FEITClickableScreen fcs = new FEITClickableScreen(ref mPage.mBaseCanvas, oneSecBlackScreen);
+
+            CompBtnNextPage btn = new CompBtnNextPage("开始练习");
+            btn.Add2Page(mPage.mBaseCanvas, FEITStandard.PAGE_BEG_Y + 470);
+            btn.mfOnAction = oneSecBlackScreen;
         }
 
         private void showAnimal()
@@ -155,10 +169,14 @@ namespace FiveElementsIntTest.OpSpan
             mPage.ClearAll();
             mfNext = showFeedback;
             subPage.Show();
+            mSW.Start();
         }
 
         private void showFeedback()
         {
+            mRTs.Add((mSW.ElapsedMilliseconds - 500));
+            mSW.Stop();
+            mSW.Reset();
             CompCentralText ct = new CompCentralText();
             CompCentralText ct2 = new CompCentralText();
             //bool correctness = false;
@@ -167,30 +185,28 @@ namespace FiveElementsIntTest.OpSpan
 
             for (int i = 0; i < mRealOrder[mGrandGroupAtIndex].Count; i++)
             {
-                if(i < mAnswer.Count && mAnswer[i] == mRealOrder[mGrandGroupAtIndex][i])
+                if (i < mAnswer.Count && mAnswer[i] == mRealOrder[mGrandGroupAtIndex][i])
                     correctCount++;
             }
 
             ct.PutTextToCentralScreen(
-                "这组题（共" + mRealOrder[mGrandGroupAtIndex].Count + "个属相）中，您",
+                "  这组属相(共" + mRealOrder[mGrandGroupAtIndex].Count + "个)中，",
                     "KaiTi", 40, ref mPage.mBaseCanvas, 0, Color.FromRgb(255, 255, 255));
 
             ct2.PutTextToCentralScreen(
-                "记对了" + correctCount + "个属相",
+                "你记对了" + correctCount + "个",
                     "KaiTi", 40, ref mPage.mBaseCanvas, 42, Color.FromRgb(255, 255, 255));
 
-            /*if (correctness)
+            if (mRealOrder[mGrandGroupAtIndex].Count == correctCount)
             {
-                ct.PutTextToCentralScreen(
-                    "正确",
-                    "KaiTi", 55, ref mPage.mBaseCanvas, 0, Color.FromRgb(0, 255, 0));
+                mCorrectness.Add(true);
             }
             else
             {
-                ct.PutTextToCentralScreen(
-                    "错误",
-                    "KaiTi", 55, ref mPage.mBaseCanvas, 0, Color.FromRgb(255, 0, 0));
-            }*/
+                mCorrectness.Add(false);
+            }
+
+            mAnswers.Add(mAnswer);
 
             mGrandGroupAtIndex++;
 
@@ -204,11 +220,9 @@ namespace FiveElementsIntTest.OpSpan
                 mfNext = showAnimal;
             }
 
-            Timer t = new Timer();
-            t.Elapsed += new ElapsedEventHandler(t_Elapsed2ASecond);
-            t.Interval = 2000;
-            t.AutoReset = false;
-            t.Enabled = true;
+            CompBtnNextPage btn = new CompBtnNextPage("下一练习");
+            btn.Add2Page(mPage.mBaseCanvas, FEITStandard.PAGE_BEG_Y + 470);
+            btn.mfOnAction = oneSecBlackScreen;
         }
     }
 }

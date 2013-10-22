@@ -5,6 +5,8 @@ using System.Text;
 using System.Windows.Controls;
 using FiveElementsIntTest;
 using System.Windows.Media;
+using System.Timers;
+using System.Windows.Threading;
 
 namespace FiveElementsIntTest.OpSpan
 {
@@ -13,6 +15,7 @@ namespace FiveElementsIntTest.OpSpan
         
         private PageOpSpan mPage;
         private OrganizerTrailOS mOrg;
+        private bool mConfirmed = false;
 
         public SubPageOrderOS(ref PageOpSpan _page, OrganizerTrailOS org)
         {
@@ -23,13 +26,13 @@ namespace FiveElementsIntTest.OpSpan
 
         public override void TriBtnConfirm()
         {
-            //save result
-            mOrg.mAnswer.Order = mCheckComponent.getAnswer();
-            //call finish
-            mOrg.groupStatistics();
-            //call data iterate
-            if (!mOrg.practiseMode())
+            if (!mConfirmed)
             {
+                //save result
+                mOrg.mAnswer.Order = mCheckComponent.getAnswer();
+                //call finish
+                mOrg.groupStatistics();
+
                 //record
                 mPage.mRecorder.orderOff.Add(mPage.mTimer.GetElapsedTime());
                 string orderStr = "";
@@ -48,14 +51,30 @@ namespace FiveElementsIntTest.OpSpan
                         orderStr += "无";
                     }
                 }
-
                 mPage.mRecorder.userInputOrder.Add(orderStr);
 
-                mOrg.groupIterate();
+                //call data iterate
+                if (!mOrg.practiseMode())
+                {
+                    mOrg.groupIterate();
+                }
+                //
+
+                Timer t = new Timer();
+                t.Interval = 500;
+                t.AutoReset = false;
+                t.Elapsed += new ElapsedEventHandler(t_Elapsed);
+                t.Enabled = true;
+
+                mConfirmed = true;
             }
-            //
-            mPage.nextStep();
-            //Console.WriteLine("Confirm Clickd");
+        }
+
+        private delegate void timeDele();
+
+        void t_Elapsed(object sender, ElapsedEventArgs e)
+        {
+            mPage.Dispatcher.Invoke(DispatcherPriority.Normal, new timeDele(mPage.nextStep));
         }
 
         public override void PutNumCheckToScreen(int xOff, int yOff,

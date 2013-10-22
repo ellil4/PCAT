@@ -24,6 +24,9 @@ namespace FiveElementsIntTest
         public List<int> mSelectedOrder;
         public Page mPage;
 
+        public delegate void ConfirmFunc();
+        public ConfirmFunc mfConfirm;
+
         public CompChinese9Cells(Page page)
         {
             InitializeComponent();
@@ -57,6 +60,11 @@ namespace FiveElementsIntTest
             }
         }
 
+        public void SetQuest(String quest)
+        {
+            amLabelQuest.Content = quest + " - ___________";
+        }
+
         void CompChinese9Cells_MouseUp(object sender, MouseButtonEventArgs e)
         {
             if (mSelectedOrder.Count < mSelectableCount)
@@ -80,6 +88,16 @@ namespace FiveElementsIntTest
             {
                 mCharaLabels[i].BorderBrush = new SolidColorBrush(Color.FromRgb(255, 255, 255));
             }
+        }
+
+        private void amLabelBtnClear_MouseUp(object sender, MouseButtonEventArgs e)
+        {
+            ClearSelection();
+        }
+
+        private void amLabelBtnConfirm_MouseUp(object sender, MouseButtonEventArgs e)
+        {
+            mfConfirm();
         }
     }
 }

@@ -73,13 +73,13 @@ namespace FiveElementsIntTest.SybSrh
 
             m2Minute = new Stopwatch();
 
-            if (mMainWindow.mDB != null)
+           /* if (mMainWindow.mDB != null)
             {
                 if (!mMainWindow.mDB.TableExists(Names.SYMBOL_SEARCH_TABLENAME))
                 {
                     mMainWindow.mDB.CreateSymbolSearchTable(mItems.Count);
                 }
-            }
+            }*/
 
         }
 

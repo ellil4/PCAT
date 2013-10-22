@@ -24,7 +24,7 @@ namespace FiveElementsIntTest
         public static int OUTHEIGHT = 100;
 
         public NumCheckReaction mConfirmMethod;
-        public NumCheckReaction mClearMethod;
+        public NumCheckReactionI mClearMethod;
         public NumCheckReaction mBlankMethod;
 
         public CompTriBtns()
@@ -49,6 +49,7 @@ namespace FiveElementsIntTest
         }
 
         public delegate void NumCheckReaction();
+        public delegate int NumCheckReactionI();
         
     }
 }

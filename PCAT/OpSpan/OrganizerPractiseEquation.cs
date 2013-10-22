@@ -17,9 +17,13 @@ namespace FiveElementsIntTest.OpSpan
         public OpSpanEquationMaker mOSEM;
         private int mPosMark = 0;
         private Random mRDM;
-        private List<StEquation> mEquations;
+
+        public List<StEquation> mEquations;
         public List<long> mRTs;
+        public List<bool> mAnswers;
+
         private Stopwatch mWatch;
+
 
         public OrganizerPractiseEquation(PageOpSpan page) : base(page)
         {
@@ -29,6 +33,7 @@ namespace FiveElementsIntTest.OpSpan
             mfNext = showInstruction;
             mRTs = new List<long>();
             mWatch = new Stopwatch();
+            mAnswers = new List<bool>();
             
             if (mPage.mbFixedItemMode)
             {
@@ -67,13 +72,23 @@ namespace FiveElementsIntTest.OpSpan
 
             LayoutInstruction li = new LayoutInstruction(ref mPage.mBaseCanvas);
             //li.addTitle(200, 0, "算式练习", "KaiTi", 50, Color.FromRgb(255, 255, 255));
-            li.addInstruction(240, 0, 638, 200, 
-                "下面再来练习一下心算，在完成每一心算题后，请尽快单击鼠标左键。然后判断给出的心算答案是否正确。请点击鼠标以开始。",
+            li.addInstruction(200, 0, 638, 400,
+                "下面再来练习一下心算\r\n在完成每一心算题后请尽快单击         \r\n然后判断给出的心算答案是否正确",
                 "KaiTi", 40, Color.FromRgb(255, 255, 255));
 
+            CompBtnNextPage btn = new CompBtnNextPage("算好了");
+            btn.Add2Page(mPage.mBaseCanvas, FEITStandard.PAGE_BEG_Y + 290, 330);
+            btn.mfOnAction = doNothing;
+
             mfNext = showEquation;
-            FEITClickableScreen fcs = new FEITClickableScreen(ref mPage.mBaseCanvas, oneSecBlackScreen);
+
+            CompBtnNextPage btnGO = new CompBtnNextPage("开始练习");
+            btnGO.Add2Page(mPage.mBaseCanvas, FEITStandard.PAGE_BEG_Y + 490);
+            btnGO.mfOnAction = oneSecBlackScreen;
         }
+
+        private void doNothing(object obj)
+        { }
 
         private void equationClicked()
         {
@@ -83,9 +98,13 @@ namespace FiveElementsIntTest.OpSpan
             quaterSecBlackScreen(); 
         }
 
+        private void equationClicked(object obj)
+        {
+            equationClicked();
+        }
+
         private void doNothing(CompDualDetermine cdd)
         {
- 
         }
 
         private void positiveChoiceMadeReaction(CompDualDetermine cdd)
@@ -93,10 +112,12 @@ namespace FiveElementsIntTest.OpSpan
             if (mShowAnswerzCorrectness == false)
             {
                 cdd.setCorrectness(false);
+                mAnswers.Add(false);
             }
             else
             {
                 cdd.setCorrectness(true);
+                mAnswers.Add(true);
             }
 
             cdd.mConfirmMethod = doNothing;
@@ -125,10 +146,12 @@ namespace FiveElementsIntTest.OpSpan
             if (mShowAnswerzCorrectness == false)
             {
                 cdd.setCorrectness(true);
+                mAnswers.Add(true);
             }
             else
             {
                 cdd.setCorrectness(false);
+                mAnswers.Add(false);
             }
 
             cdd.mConfirmMethod = doNothing;
@@ -187,8 +210,12 @@ namespace FiveElementsIntTest.OpSpan
             t.AutoReset = false;
             t.Enabled = true;*/
 
-            new FEITClickableScreen(ref mPage.mBaseCanvas, equationClicked);
+            //new FEITClickableScreen(ref mPage.mBaseCanvas, equationClicked);
 
+            CompBtnNextPage btn = new CompBtnNextPage("算好了");
+            btn.Add2Page(mPage.mBaseCanvas, FEITStandard.PAGE_BEG_Y + 490);
+            btn.mfOnAction = equationClicked;
+            
             mfNext = showAnswer;
         }
 

@@ -24,7 +24,7 @@ namespace FiveElementsIntTest
             mOrder = new List<int>();
         }
 
-        public void onAction(int actionCompIndex)
+        public virtual void onAction(int actionCompIndex)
         {
             if (mNowTill < mClickLimit/*10*/ && mTouchActivated)
             {
@@ -39,7 +39,7 @@ namespace FiveElementsIntTest
             }
         }
 
-        public void reset()
+        public virtual void reset()
         {
             mNowTill = 1;
             for (int i = 0; i < mElemCount; i++)
@@ -50,8 +50,9 @@ namespace FiveElementsIntTest
             }
         }
 
-        public void backErase()
+        public virtual int backErase()
         {
+            int retval = -1;
             if (mNowTill > 1)
             {
                 for (int i = 0; i < mElemCount; i++)
@@ -63,6 +64,7 @@ namespace FiveElementsIntTest
                         component.amDigiLabel.Content = "";
                         component.setUnClicked();
                         mOrder.RemoveAt(mOrder.Count - 1);
+                        retval = i;
                         break;
                     }
 
@@ -76,6 +78,8 @@ namespace FiveElementsIntTest
                     mNowTill--;
                 }
             }
+
+            return retval;
         }
 
         public void jumpOver()

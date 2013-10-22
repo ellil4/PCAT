@@ -17,13 +17,13 @@ using System.Windows;
 [assembly: AssemblyCulture("")]
 
 // 將 ComVisible 設定為 false 會使得這個組件中的型別
-// 對 COM 元件而言為不可見。如果您需要從 COM 存取這個組件中
+// 對 COM 元件而言為不可見。如果你需要從 COM 存取這個組件中
 // 的型別，請在該型別上將 ComVisible 屬性設定為 true。
 [assembly: ComVisible(false)]
 
 //為了建置可當地語系化的應用程式，請設定 
 //.csproj 檔案中的 <UICulture>CultureYouAreCodingWith</UICulture
-//<PropertyGroup> 內部。舉例來說，如果您使用的是 US English
+//<PropertyGroup> 內部。舉例來說，如果你使用的是 US English
 //將原始程式檔中的 <UICulture> 設定成 en-US。然後取消註解
 //底下的 NeutralResourceLanguage 屬性。更新 "en-US"
 //下面一行符合專案檔中的 UICulture 設定。
@@ -48,7 +48,7 @@ using System.Windows;
 //      組建編號
 //      修訂編號
 //
-// 您可以指定所有的值，也可以依照以下的方式，使用 '*' 將組建和修訂編號
+// 你可以指定所有的值，也可以依照以下的方式，使用 '*' 將組建和修訂編號
 // 指定為預設值:
 // [assembly: AssemblyVersion("1.0.*")]
 [assembly: AssemblyVersion("1.0.0.0")]

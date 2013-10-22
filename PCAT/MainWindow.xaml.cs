@@ -30,7 +30,7 @@ namespace FiveElementsIntTest
     /// </summary>
     public partial class MainWindow : NavigationWindow
     {
-        public bool mbEngiMode = true;
+        public bool mbEngiMode = false;
         public PCATTableRoutine mDB;
         public String mServerIPA = "";
         public ConnectionInfo mConnInfo;

@@ -19,7 +19,7 @@ namespace FiveElementsIntTest.OpSpan
 
             for (int i = 0; i < mElemCount; i++)
             {
-                CompNumCheck comp = new CompNumCheck(LUNAR_ANI[i], this, i);
+                CompNumCheckOS comp = new CompNumCheckOS(LUNAR_ANI[i], this, i);
                 mCheckComps.Add(comp);
             }
         }

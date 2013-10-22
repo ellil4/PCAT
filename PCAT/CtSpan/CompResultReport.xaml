@@ -6,7 +6,7 @@
              mc:Ignorable="d" 
              d:DesignHeight="600" d:DesignWidth="800">
     <Grid Width="800" Height="600" Background="Black">
-        <TextBlock Height="57" HorizontalAlignment="Left" Margin="191,231,0,0" Name="amTextBlock1" Text="这组题（共X道）中，您" VerticalAlignment="Top" Width="423" Foreground="White" FontSize="40" FontFamily="KaiTi" />
+        <TextBlock Height="57" HorizontalAlignment="Left" Margin="191,231,0,0" Name="amTextBlock1" Text="这组题（共X道）中，你" VerticalAlignment="Top" Width="423" Foreground="White" FontSize="40" FontFamily="KaiTi" />
         <TextBlock FontFamily="KaiTi" FontSize="40" Foreground="White" Height="57" HorizontalAlignment="Left" Margin="191,294,0,0" Name="amTextBlock2" Text="记对了Y道" VerticalAlignment="Top" Width="423" TextAlignment="Center" />
     </Grid>
 </UserControl>

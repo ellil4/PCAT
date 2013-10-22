@@ -8,7 +8,7 @@
     <Grid>
         <TextBlock Height="61" HorizontalAlignment="Left" Margin="297,66,0,0" Name="textBlock1" Text="计数广度" VerticalAlignment="Top" Width="213" FontSize="50" IsHitTestVisible="False" />
         <TextBlock Height="35" HorizontalAlignment="Left" Margin="300,125,0,0" Name="textBlock2" Text="Counting Span" VerticalAlignment="Top" Width="199" FontFamily="宋体" FontSize="30" IsHitTestVisible="False" />
-        <TextBlock FontSize="32" Height="43" HorizontalAlignment="Left" Margin="98,217,0,0" Name="textBlock3" Text="请您记住图片中深蓝色圆圈的总数，然后根据提" VerticalAlignment="Top" Width="671" IsHitTestVisible="False" FontFamily="KaiTi" />
+        <TextBlock FontSize="32" Height="43" HorizontalAlignment="Left" Margin="98,217,0,0" Name="textBlock3" Text="请你记住图片中深蓝色圆圈的总数，然后根据提" VerticalAlignment="Top" Width="671" IsHitTestVisible="False" FontFamily="KaiTi" />
         <TextBlock FontSize="32" Height="45" HorizontalAlignment="Left" Margin="40,257,0,0" Name="textBlock4" Text="示进行回忆。 " VerticalAlignment="Top" Width="671" IsHitTestVisible="False" FontFamily="KaiTi" />
         <TextBlock FontSize="32" Height="43" HorizontalAlignment="Left" Margin="98,339,0,0" Name="textBlock5" Text="在呈现的每张图片中，包括有深蓝色圆圈    " VerticalAlignment="Top" Width="671" IsHitTestVisible="False" FontFamily="KaiTi" />
         <TextBlock FontSize="32" Height="43" HorizontalAlignment="Left" Margin="40,379,0,0" Name="textBlock6" Text="（3-9个），深蓝色三角形   和浅蓝色圆圈   三类。

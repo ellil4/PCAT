@@ -19,10 +19,11 @@ namespace FiveElementsIntTest
             mTriBtns.mBlankMethod = TriBtnBlank;
         }
 
-        public void TriBtnClear()
+        public int TriBtnClear()
         {
             mCheckComponent.backErase();
             //Console.WriteLine("Clear Clickd");
+            return 0;
         }
 
         public void TriBtnBlank()

@@ -140,7 +140,7 @@ namespace FiveElementsIntTest.GraphicRecog
             LayoutInstruction li = new LayoutInstruction(ref mPage.amCanvas);
             li.addTitle(40, 0, "图形联想记忆", "KaiTi", 50, System.Windows.Media.Color.FromRgb(255, 255, 255));
             li.addInstruction(200, 0, 800, 300, 
-                "    待会儿您会看见一些图形对，左边图形是一个小动物 (十二生肖)，右边是一个无意义图形。您需要把两个图形联系起来进行记忆，" + 
+                "    待会儿你会看见一些图形对，左边图形是一个小动物 (十二生肖)，右边是一个无意义图形。你需要把两个图形联系起来进行记忆，" + 
                 "在学习完这些图形对后我们将进行记忆测验。准备好了吗？点击鼠标继续。", "KaiTi", 40, 
                 System.Windows.Media.Color.FromRgb(255, 255, 255));
 

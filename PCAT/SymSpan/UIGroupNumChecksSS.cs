@@ -28,13 +28,15 @@ namespace FiveElementsIntTest.SymSpan
             {
                 if (i == index)
                 {
-                    mCheckComps[i].amDigiLabel.Background =
-                        new SolidColorBrush(Color.FromRgb(255, 255, 255));
+                    mCheckComps[i].amEllipse.Visibility = System.Windows.Visibility.Visible;
+                    /*mCheckComps[i].amDigiLabel.Background =
+                        new SolidColorBrush(Color.FromRgb(255, 255, 255));*/
                 }
                 else 
                 {
-                    mCheckComps[i].amDigiLabel.Background =
-                        new SolidColorBrush(Color.FromRgb(0, 0, 0));
+                    mCheckComps[i].amEllipse.Visibility = System.Windows.Visibility.Hidden;
+                    /*mCheckComps[i].amDigiLabel.Background =
+                        new SolidColorBrush(Color.FromRgb(0, 0, 0));*/
                 }
             }
         }
@@ -57,6 +59,29 @@ namespace FiveElementsIntTest.SymSpan
                         CompNumCheckSS.DEF_MARGIN_THICKNESS;
                 }
             }
+        }
+
+        public override void onAction(int actionCompIndex)
+        {
+            base.onAction(actionCompIndex);
+            mCheckComps[actionCompIndex].amEllipse.Visibility = System.Windows.Visibility.Visible;
+        }
+
+        public override void reset()
+        {
+            base.reset();
+            for (int i = 0; i < mElemCount; i++)
+            {
+                mCheckComps[i].amEllipse.Visibility = System.Windows.Visibility.Hidden;
+            }
+        }
+
+        public override int backErase()
+        {
+            int retval = -1;
+            retval = base.backErase();
+            mCheckComps[retval].amEllipse.Visibility = System.Windows.Visibility.Hidden;
+            return retval;
         }
     }
 }

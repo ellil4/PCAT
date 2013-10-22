@@ -35,6 +35,20 @@ namespace FiveElementsIntTest.OpSpan
 
         private static string[] HEADER_ORDER = {"order on", "order off", "right order", "user input order"};
 
+        private static string[] HEADER_PRACMATH = { "Equation", "ShownResult", "RT", "TrueAnswer", "UserAnswer" };
+        private static string[] HEADER_PRACORDER = 
+            {"RT", "RealOrder", "UserAnswer", "Corectness"};
+
+        //chart 3 practise math
+        public List<StEquation> mMathPracEquations;
+        public List<long> mMathPracRTs;
+        public List<bool> mMathPracAnswers;
+        //chart 4 practise order
+        public List<List<int>> mPracOrderRealOrder;
+        public List<List<int>> mPracOrderAnswers;
+        public List<bool> mPracOrderCorrectness;
+        public List<long> mPracOrderRTs;
+
         public PageOpSpan mPage;
 
         public RecorderOpSpan(PageOpSpan page)
@@ -59,12 +73,17 @@ namespace FiveElementsIntTest.OpSpan
             userInputOrder = new List<string>();
         }
 
-        public void outputReport(string filepathInfoCollection, string filepathOrder)
+        public void outputReport(string filepathInfoCollection, string filepathOrder, 
+            string filepathPracMath, string filepathPracOrder)
         {
             //output info collection
             abstractOut(makeHeaderInfoCollection, fillInfoCollection, filepathInfoCollection);
             //output order collection
             abstractOut(makeHeaderOrder, fillOrder, filepathOrder);
+            //output prac math info
+            abstractOut(makeHeaderPracMath, writePracMathContent, filepathPracMath);
+            //output prac order info
+            abstractOut(makeHeaderPracOrder, writePracOrderContent, filepathPracOrder);
             //PCATDataSaveReport();
         }
 
@@ -102,6 +121,82 @@ namespace FiveElementsIntTest.OpSpan
             //DB work
             mPage.mMainWindow.mDB.AddOpSpanExpressionRecord(rec, mPage.mMainWindow.mUserID);
             mPage.mMainWindow.mDB.AddOPSpanOrderRecord(rec, mPage.mMainWindow.mUserID);
+        }
+
+        private void makeHeaderPracMath(ref StreamWriter sw)
+        {
+            string header = "";
+            for (int i = 0; i < HEADER_PRACMATH.Length; i++)
+            {
+                header += HEADER_PRACMATH[i] + "\t";
+            }
+
+            sw.WriteLine(header);
+        }
+
+        private void writePracMathContent(ref StreamWriter sw)
+        {
+            int len = 0;
+            if (mMathPracEquations != null)
+            {
+                len = mMathPracEquations.Count;
+            }
+
+            string content = "";
+            for (int i = 0; i < len; i++)
+            {
+                content = "";
+                content += mMathPracEquations[i].Equation + "\t";
+                content += mMathPracEquations[i].Result + "\t";
+                content += mMathPracRTs[i] + "\t";
+                content += mMathPracEquations[i].Answer + "\t";
+                content += mMathPracAnswers[i] + "\t";
+                sw.WriteLine(content);
+            }
+        }
+
+        private void makeHeaderPracOrder(ref StreamWriter sw)
+        {
+            string header = "";
+            for (int i = 0; i < HEADER_PRACORDER.Length; i++)
+            {
+                header += HEADER_PRACORDER[i] + "\t";
+            }
+            sw.WriteLine(header);
+        }
+
+        //"RealOrder", "UserAnswer", "Corectness"
+        private void writePracOrderContent(ref StreamWriter sw)
+        {
+            int len = 0;
+            if (mPracOrderRealOrder != null)
+            {
+                len = mPracOrderRealOrder.Count;
+            }
+            string content = "";
+            for (int i = 0; i < len; i++)
+            {
+                content = "";
+                content += mPracOrderRTs[i] + "\t";
+
+                for(int j = 0; j < mPracOrderRealOrder[i].Count; j++)
+                {
+                    content += mPracOrderRealOrder[i][j].ToString() + ",";
+                }
+
+                content += "\t";
+
+                for (int k = 0; k < mPracOrderAnswers[i].Count; k++)
+                {
+                    content += mPracOrderAnswers[i][k].ToString() + ",";
+                }
+
+                content += "\t";
+
+                content += mPracOrderCorrectness[i] + "\t";
+
+                sw.WriteLine(content);
+            }
         }
 
         private void makeHeaderInfoCollection(ref StreamWriter sw)

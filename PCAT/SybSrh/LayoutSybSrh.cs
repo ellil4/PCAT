@@ -103,13 +103,13 @@ namespace FiveElementsIntTest.SybSrh
             if (RT != -1)
             {
                 instruction.addInstruction(250, 0, 800, 300,
-                    "    您的平均反应时是：" + RT.ToString() + "毫秒;您的正确率是：" +
+                    "    你的平均反应时是：" + RT.ToString() + "毫秒;你的正确率是：" +
                     (CorrectRate * 100).ToString("0.0") + "%,按空格键继续。",
                     "KaiTi", 38, System.Windows.Media.Color.FromRgb(255, 255, 255));
             }
             else
             {
-                instruction.addTitle(175, 0, "您没有输入,按空格键继续下一组", "KaiTi", 38,
+                instruction.addTitle(175, 0, "你没有输入,按空格键继续下一组", "KaiTi", 38,
                     System.Windows.Media.Color.FromRgb(255, 255, 255), false);
             }
         }

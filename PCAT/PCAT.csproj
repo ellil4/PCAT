@@ -68,6 +68,9 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="BitmapSourceFactory.cs" />
+    <Compile Include="CompBtnNextPage.xaml.cs">
+      <DependentUpon>CompBtnNextPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="CompChinese9Cells.xaml.cs">
       <DependentUpon>CompChinese9Cells.xaml</DependentUpon>
     </Compile>
@@ -156,14 +159,21 @@
     <Compile Include="OpSpan\OrganizerPractiseEquation.cs" />
     <Compile Include="OpSpan\StEquation.cs" />
     <Compile Include="OpSpan\SubPageOrderOSPrac.cs" />
+    <Compile Include="PairedAsso\CompPAWarning.xaml.cs">
+      <DependentUpon>CompPAWarning.xaml</DependentUpon>
+    </Compile>
     <Compile Include="PairedAsso\OrganizerLearning.cs" />
     <Compile Include="PairedAsso\OrganizerTest.cs" />
     <Compile Include="PairedAsso\PagePairedAsso.xaml.cs">
       <DependentUpon>PagePairedAsso.xaml</DependentUpon>
     </Compile>
+    <Compile Include="PairedAsso\PARecorder.cs" />
     <Compile Include="PairedAsso\ReaderPairedAsso.cs" />
     <Compile Include="PairedAsso\StPair.cs" />
     <Compile Include="PairedAsso\StTest.cs" />
+    <Compile Include="PairedAsso\Title.xaml.cs">
+      <DependentUpon>Title.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ServerConfigDialog.xaml.cs">
       <DependentUpon>ServerConfigDialog.xaml</DependentUpon>
     </Compile>
@@ -236,6 +246,10 @@
     <Compile Include="ControlPane.xaml.cs">
       <DependentUpon>ControlPane.xaml</DependentUpon>
     </Compile>
+    <Page Include="CompBtnNextPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="CompChinese9Cells.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -361,7 +375,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="PairedAsso\CompPAWarning.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="PairedAsso\PagePairedAsso.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="PairedAsso\Title.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

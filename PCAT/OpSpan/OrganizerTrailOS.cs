@@ -33,8 +33,10 @@ namespace FiveElementsIntTest.OpSpan
         private int mMathCorrectCount = 0;
         private double mMathCorrectRate = 0.0;
 
-        private int mMathTotalCorrectCount = 0;
-        private double mMathTotalCorrectRate = 0.0;
+        private double mMathSpanCorrectRateSum = 0.0;
+
+        //private int mMathTotalCorrectCount = 0;
+        //private double mMathTotalCorrectRate = 0.0;
 
         private int mCurTrailsCount = 0;
 
@@ -60,8 +62,7 @@ namespace FiveElementsIntTest.OpSpan
 
             mOSEM = new OpSpanEquationMaker();
 
-            if(!practise)
-                mPage.mTimer.Start();
+            mPage.mTimer.Start();
         }
 
         public delegate bool OrgRoute();
@@ -70,6 +71,11 @@ namespace FiveElementsIntTest.OpSpan
         public bool nextStep()
         {
             return route();
+        }
+
+        public void nextStep(object obj)
+        {
+            nextStep();
         }
 
         private int getCountOfType(int len)
@@ -90,8 +96,8 @@ namespace FiveElementsIntTest.OpSpan
             mPage.ClearAll();
 
             CompCentralText ct = new CompCentralText();
-            ct.PutTextToCentralScreen("***" + mCurTrailsCount + "题第" + mCurTypeAt + "组" + "***",
-                "KaiTi", 50, ref mPage.mBaseCanvas, 0, Color.FromRgb(255, 255, 255));
+            ct.PutTextToCentralScreen("做心算，记属相",
+                "KaiTi", 50, ref mPage.mBaseCanvas, 0, Color.FromRgb(0, 255, 0));
 
             route = showLongBlackPage2Equation;
 
@@ -99,7 +105,7 @@ namespace FiveElementsIntTest.OpSpan
             //new FEITClickableScreen(ref mPage.mBaseCanvas, mPage.nextStep);
 
             //delay
-            delayAndNext(3000);
+            delayAndNext(2000);
 
             return true;
         }
@@ -154,9 +160,9 @@ namespace FiveElementsIntTest.OpSpan
             mOrderCorrectCount = 0;
 
             //cursor
-            if (mGrpAt == 2 && mCurOrderErrCount < 2 && !mPractiseMode)
+            if (mGrpAt == 2 && mCurOrderErrCount < 2 && mMathSpanCorrectRateSum > 0.67 && !mPractiseMode)
             {
-                mGrpAt += 3;
+                mGrpAt += 4;
             }
             else
             {
@@ -176,6 +182,7 @@ namespace FiveElementsIntTest.OpSpan
                     mCurTypeMax = getCountOfType(mCurTrailsCount);
                     mCurTypeAt = 1;
                     mCurOrderErrCount = 0;
+                    mMathSpanCorrectRateSum = 0.0;
                 }
                 else
                 {
@@ -209,10 +216,17 @@ namespace FiveElementsIntTest.OpSpan
             mMathCorrectRate = 
                 ((double)mMathCorrectCount / (double)mCurTrailsCount);
             
-            mMathTotalCorrectCount += mMathCorrectCount;
-            mMathTotalCorrectRate = ((double)mMathTotalCorrectCount / (double)mathDoneCount());
+            //mMathTotalCorrectCount += mMathCorrectCount;
+            //mMathTotalCorrectRate = ((double)mMathTotalCorrectCount / (double)mathDoneCount());
 
-            if (mMathTotalCorrectRate < 0.85)
+            //get span correct rate
+            if(mGrpAt < mGroups.Count - 1)
+            {
+                int newTrailCount = mGroups[mGrpAt + 1].mTrails.Count;
+                mMathSpanCorrectRateSum += mMathCorrectRate;
+            }
+
+            if (mMathCorrectRate < 0.85)
             {
                 mValid = false;
             }
@@ -232,11 +246,16 @@ namespace FiveElementsIntTest.OpSpan
             }
 
             //quit with error
-            if (!mPractiseMode && mCurOrderErrCount > 1 && mGrpAt > 5)//quit beyond span2
+            if (!mPractiseMode &&
+                (mCurOrderErrCount > 1 || mMathSpanCorrectRateSum < 0.67 * mCurTypeMax) && 
+                mGrpAt > 5 &&
+                mCurTypeAt == mCurTypeMax)//quit beyond span2
             {
                 route = quit;
             }
-            else if (!mPractiseMode && mCurOrderErrCount > 2 && mGrpAt == 4)//quit in span2
+            else if (!mPractiseMode && 
+                (mCurOrderErrCount > 2 || mMathSpanCorrectRateSum < 0.67 * mCurTypeMax) && 
+                mGrpAt == 5)//quit in span2
             {
                 route = quit;
             }
@@ -247,20 +266,17 @@ namespace FiveElementsIntTest.OpSpan
             SubPageOrderOS subPage = new SubPageOrderOS(ref mPage, this);
             mPage.ClearAll();
             
-            //recorder
-            if (!mPractiseMode)
+        //recorder
+            //on time
+            mPage.mRecorder.orderOn.Add(mPage.mTimer.GetElapsedTime());
+            //the right order
+            string rightOrderStr = "";
+            int len = mGroups[mGrpAt].mTrails.Count;
+            for(int i = 0; i < len; i++)
             {
-                //on time
-                mPage.mRecorder.orderOn.Add(mPage.mTimer.GetElapsedTime());
-                //the right order
-                string rightOrderStr = "";
-                int len = mGroups[mGrpAt].mTrails.Count;
-                for(int i = 0; i < len; i++)
-                {
-                    rightOrderStr += mGroups[mGrpAt].mTrails[i].memTarget;   
-                }
-                mPage.mRecorder.rightOrder.Add(rightOrderStr);
+                rightOrderStr += mGroups[mGrpAt].mTrails[i].memTarget;   
             }
+            mPage.mRecorder.rightOrder.Add(rightOrderStr);
 
             subPage.Show();
 
@@ -279,17 +295,15 @@ namespace FiveElementsIntTest.OpSpan
 
         public bool showDeterminePage()
         {
-            if (!mPractiseMode)
-            {
-                mPage.mRecorder.mathOff.Add(mPage.mTimer.GetElapsedTime());
-                mPage.mRecorder.displayedAnswer.Add(Int32.Parse(mGroups[mGrpAt].mTrails[mTraAt].result));
-            }
 
+            mPage.mRecorder.mathOff.Add(mPage.mTimer.GetElapsedTime());
+            mPage.mRecorder.displayedAnswer.Add(Int32.Parse(mGroups[mGrpAt].mTrails[mTraAt].result));
 
             SubPageDetermine subPage = new SubPageDetermine(ref mPage, this);
             mPage.ClearAll();
             subPage.setResult(mGroups[mGrpAt].mTrails[mTraAt].result);
             subPage.hideCorrectness(true);
+
             subPage.Show();
 
             route = showBlackPage2Animal;
@@ -343,18 +357,24 @@ namespace FiveElementsIntTest.OpSpan
             route = showBlackPage2Determine;
 
             //record
+            Timer t = null;
+            //save rec
+            mPage.mRecorder.mathOn.Add(mPage.mTimer.GetElapsedTime());
+            mPage.mRecorder.mathExpression.Add(mGroups[mGrpAt].mTrails[mTraAt].equation);
+
             if (!mPractiseMode)
             {
-                mPage.mRecorder.mathOn.Add(mPage.mTimer.GetElapsedTime());
-                mPage.mRecorder.mathExpression.Add(mGroups[mGrpAt].mTrails[mTraAt].equation);
+                t = new Timer();
+                t.Elapsed += new ElapsedEventHandler(t_Elapsed);
+                t.Interval = mPage.mMeanRT * 2;
+                t.AutoReset = false;
+                t.Enabled = true;
             }
 
-            Timer t = new Timer();
-            t.Elapsed += new ElapsedEventHandler(t_Elapsed);
-            t.Interval = mPage.mMeanRT;
-            t.AutoReset = false;
-            t.Enabled = true;
-            new FEITClickableScreen(ref mPage.mBaseCanvas, mPage.nextStep, ref t);
+            //new FEITClickableScreen(ref mPage.mBaseCanvas, mPage.nextStep, ref t);
+            CompBtnNextPage btn = new CompBtnNextPage("算好了", t);
+            btn.Add2Page(mPage.mBaseCanvas, FEITStandard.PAGE_BEG_Y + 470);
+            btn.mfOnAction = mPage.nextStep;
 
             return true;
         }
@@ -422,7 +442,7 @@ namespace FiveElementsIntTest.OpSpan
 
             route = showEquationPage;
             //delay
-            delayAndNext(1000);
+            delayAndNext(500);
 
             return true;
         }
@@ -455,12 +475,9 @@ namespace FiveElementsIntTest.OpSpan
             ct.PutTextToCentralScreen(target,
                 "Microsoft YaHei", 55, ref mPage.mBaseCanvas, 0, Color.FromRgb(255, 255, 255));
 
-            if (!mPractiseMode)
-            {
-                mPage.mRecorder.animal.Add(target);
-                //mPage.mRecorder.groupID.Add(mCurTrailsCount);
-                //mPage.mRecorder.subgroupID.Add(mCurTypeAt);
-            }
+            mPage.mRecorder.animal.Add(target);
+            //mPage.mRecorder.groupID.Add(mCurTrailsCount);
+            //mPage.mRecorder.subgroupID.Add(mCurTypeAt);
 
             if (mTraAt == mCurTrailsCount - 1)
             {
@@ -487,26 +504,12 @@ namespace FiveElementsIntTest.OpSpan
             CompCentralText ct2 = new CompCentralText();
             CompCentralText ct3 = new CompCentralText();
 
-            ct.PutTextToCentralScreen("这组题（共" + mCurTrailsCount + "个）中，您",
+            ct.PutTextToCentralScreen("这组题（共" + mCurTrailsCount + "个）中，你",
                 "KaiTi", 32, ref mPage.mBaseCanvas, -30, Color.FromRgb(255, 255, 255));
             ct2.PutTextToCentralScreen("记对了" + mOrderCorrectCount + "个属相",
                 "KaiTi", 32, ref mPage.mBaseCanvas, 4, Color.FromRgb(255, 255, 255));
             ct3.PutTextToCentralScreen("做对了" + mMathCorrectCount + "个心算",
                 "KaiTi", 32, ref mPage.mBaseCanvas, 36, Color.FromRgb(255, 255, 255));
-            LayoutInstruction li = new LayoutInstruction(ref mPage.mBaseCanvas);
-
-            Color color;
-            if(mMathCorrectRate > 0.8)
-            {
-                color = Color.FromRgb(15, 255, 15);
-            }
-            else
-            {
-                color = Color.FromRgb(255, 15, 15);
-            }
-
-            li.addTitle(FEITStandard.PAGE_BEG_Y, FEITStandard.PAGE_WIDTH / 2 - 65, 
-                (mMathCorrectRate * 100).ToString("0") + "%", "Batang", 34, color); 
 
             if (mGrpAt == mGroups.Count - 1)
             {
@@ -516,12 +519,15 @@ namespace FiveElementsIntTest.OpSpan
             else
             {
                 groupIterate();
-
                 route = showLongBlackPage2Equation;
             }
 
             //new FEITClickableScreen(ref mPage.mBaseCanvas, mPage.nextStep);
-            delayAndNext(2000);
+            //delayAndNext(2000);
+
+            CompBtnNextPage btn = new CompBtnNextPage("继续");
+            btn.Add2Page(mPage.mBaseCanvas, FEITStandard.PAGE_BEG_Y + 470);
+            btn.mfOnAction = mPage.nextStep;
 
             return true;
         }
@@ -532,7 +538,7 @@ namespace FiveElementsIntTest.OpSpan
 
             CompCentralText cct = new CompCentralText();
             CompCentralText cct2 = new CompCentralText();
-            cct.PutTextToCentralScreen("请您注意", "KaiTi", 48, 
+            cct.PutTextToCentralScreen("请你注意", "KaiTi", 48, 
                 ref mPage.mBaseCanvas, -30, Color.FromRgb(255, 255, 255));
             cct2.PutTextToCentralScreen("保持心算的正确率！", "KaiTi", 48, 
                 ref mPage.mBaseCanvas, 30, Color.FromRgb(255, 255, 255));
@@ -555,8 +561,10 @@ namespace FiveElementsIntTest.OpSpan
             {
                 //record
                 mPage.mTimer.Stop();
-                mPage.mRecorder.outputReport(FEITStandard.GetRepotOutputPath() + "op\\" + PageOpSpan.interFilename,
-                    FEITStandard.GetRepotOutputPath() + "op\\" + PageOpSpan.orderFilename);
+                mPage.mRecorder.outputReport(FEITStandard.GetRepotOutputPath() + "op\\" + mPage.interFilename,
+                    FEITStandard.GetRepotOutputPath() + "op\\" + mPage.orderFilename, 
+                    FEITStandard.GetRepotOutputPath() + "op\\" + mPage.pracMathFilename,
+                    FEITStandard.GetRepotOutputPath() + "op\\" + mPage.pracOrderFilename);
 
                 mPage.mCurrentStatus = PageOpSpan.PageAttr.finish;
             }

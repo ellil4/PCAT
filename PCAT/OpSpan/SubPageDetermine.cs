@@ -32,10 +32,7 @@ namespace FiveElementsIntTest.OpSpan
             Canvas.SetLeft(mDualDeter, FEITStandard.PAGE_BEG_X + 
                 (FEITStandard.PAGE_WIDTH - CompDualDetermine.OUTWIDTH) / 2);
 
-            if (!mOrg.practiseMode())
-            {
-                mPage.mRecorder.choiceShowTime.Add(mPage.mTimer.GetElapsedTime());
-            }
+            mPage.mRecorder.choiceShowTime.Add(mPage.mTimer.GetElapsedTime());
         }
 
         public void setResult(string num)
@@ -56,7 +53,7 @@ namespace FiveElementsIntTest.OpSpan
         public void confirmReaction(CompDualDetermine self)
         {
 
-            mDualDeter.HideCorrecteness(!mOrg.practiseMode());
+            //mDualDeter.HideCorrecteness(!mOrg.practiseMode());
             bool choicezCorrectness = false;
 
             if (mOrg.currentCorrectness() == true)
@@ -72,18 +69,7 @@ namespace FiveElementsIntTest.OpSpan
 
             record(true);
 
-            if (mOrg.practiseMode())
-            {
-                Timer t = new Timer();
-                t.Elapsed += new ElapsedEventHandler(t_Elapsed);
-                t.AutoReset = false;
-                t.Enabled = true;
-                t.Interval = 1000;
-            }
-            else
-            {
-                mPage.nextStep();
-            }
+            mPage.nextStep();
 
             recordAfterUserzPress(true, choicezCorrectness);
         }
@@ -91,18 +77,14 @@ namespace FiveElementsIntTest.OpSpan
         //record
         private void recordAfterUserzPress(bool choice, bool correctness)
         {
-            if (!mOrg.practiseMode())
-            {
-                mPage.mRecorder.choiceMadeTime.Add(mPage.mTimer.GetElapsedTime());
-                mPage.mRecorder.choice.Add(choice);
-                mPage.mRecorder.correctness.Add(correctness);
-
-            }
+            mPage.mRecorder.choiceMadeTime.Add(mPage.mTimer.GetElapsedTime());
+            mPage.mRecorder.choice.Add(choice);
+            mPage.mRecorder.correctness.Add(correctness);
         }
 
         public void denyReaction(CompDualDetermine self)
         {
-            mDualDeter.HideCorrecteness(!mOrg.practiseMode());
+            //mDualDeter.HideCorrecteness(!mOrg.practiseMode());
             bool choiceCorrectness = false;
 
             if (mOrg.currentCorrectness() == true)
@@ -118,18 +100,7 @@ namespace FiveElementsIntTest.OpSpan
 
             record(false);
 
-            if (mOrg.practiseMode())
-            {
-                Timer t = new Timer();
-                t.Elapsed += new ElapsedEventHandler(t_Elapsed);
-                t.AutoReset = false;
-                t.Enabled = true;
-                t.Interval = 1000;
-            }
-            else
-            {
-                mPage.nextStep();
-            }
+            mPage.nextStep();
 
             recordAfterUserzPress(false, choiceCorrectness);
         }

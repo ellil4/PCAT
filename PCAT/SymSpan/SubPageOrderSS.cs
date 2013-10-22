@@ -5,6 +5,8 @@ using System.Text;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Timers;
+using System.Windows.Threading;
 
 namespace FiveElementsIntTest.SymSpan
 {
@@ -21,10 +23,33 @@ namespace FiveElementsIntTest.SymSpan
             mCheckComponent = new UIGroupNumChecksSS();
         }
 
+        private void doNothing()
+        { }
+
+        private int doNothingi()
+        {
+            return -1;
+        }
+
         public override void TriBtnConfirm()
         {
             mOrg.groupStatistics();
-            mOrg.nextStep();
+            Timer tm = new Timer();
+            tm.Interval = 500;
+            tm.AutoReset = false;
+            tm.Elapsed += new ElapsedEventHandler(tm_Elapsed);
+            tm.Enabled = true;
+
+            mTriBtns.mConfirmMethod = doNothing;
+            mTriBtns.mClearMethod = doNothingi;
+            mTriBtns.mBlankMethod = doNothing;
+        }
+
+        private delegate void timeDele();
+
+        void tm_Elapsed(object sender, ElapsedEventArgs e)
+        {
+            mPage.Dispatcher.Invoke(DispatcherPriority.Normal, new timeDele(mOrg.nextStep));
         }
         
         public override void PutTriBtnToScreen(int xOff, int yOff)

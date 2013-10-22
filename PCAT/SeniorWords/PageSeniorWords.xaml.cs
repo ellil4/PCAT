@@ -40,7 +40,7 @@ namespace FiveElementsIntTest.SeniorWords
         public static String BASE_FOLDER = 
             System.AppDomain.CurrentDomain.BaseDirectory;
 
-        public static String OUT_FOLDER = "output\\";
+        public static String OUT_FOLDER = "Report\\VocabTest\\";
         public static String INPUT_FILE = "FEITSWsource.txt";
 
         private int mContinuousZero = 0;

@@ -14,18 +14,21 @@ namespace FiveElementsIntTest.PairedAsso
         {
             List<List<StPair>> retval = new List<List<StPair>>();
             String BasePath = FEITStandard.GetExePath() + "PAIREDASSO\\";
-            int groupLen = 18;
+            int groupLen = PagePairedAsso.mGroupLen;
+            int groupCount = 3;
 
             TabFetcher fet = new TabFetcher(BasePath + "Learn.txt", "\\t");
             fet.Open();
             fet.GetLineBy();
 
             List<String> line = null;
-            while ((line = fet.GetLineBy()).Count != 0)
+
+            for (int j = 0; j < groupCount; j++)
             {
                 List<StPair> group = new List<StPair>();
                 for (int i = 0; i < groupLen; i++)
                 {
+                    line = fet.GetLineBy();
                     StPair pair = new StPair();
                     pair.First = line[1];
                     pair.Second = line[2];
@@ -44,18 +47,20 @@ namespace FiveElementsIntTest.PairedAsso
             List<List<StTest>> retval = new List<List<StTest>>();
 
             String BasePath = FEITStandard.GetExePath() + "PAIREDASSO\\";
-            int groupLen = 18;
+            int groupLen = PagePairedAsso.mGroupLen;
+            int groupCount = 3;
 
             TabFetcher fet = new TabFetcher(BasePath + "Test.txt", "\\t");
             fet.Open();
             fet.GetLineBy();
 
             List<String> line = null;
-            while ((line = fet.GetLineBy()).Count != 0)
+            for (int k = 0; k < groupCount; k++)
             {
                 List<StTest> group = new List<StTest>();
                 for (int i = 0; i < groupLen; i++)
                 {
+                    line = fet.GetLineBy();
                     StTest test = new StTest();
                     test.Pair.First = line[1];
                     test.Pair.Second = line[2];

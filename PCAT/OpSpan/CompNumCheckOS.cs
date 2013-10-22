@@ -13,6 +13,7 @@ namespace FiveElementsIntTest.OpSpan
         public CompNumCheckOS(String txt, UIGroupNumChecks parent, int id) : base(txt, parent, id)
         {
             //nothing need to be done
+            amBorder.BorderThickness = new System.Windows.Thickness(2);
         }
     }
 }

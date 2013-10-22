@@ -40,23 +40,25 @@ namespace FiveElementsIntTest.OpSpan
         public FEITTimer mTimer;
 
         public List<long> mRTs;
-        public long mMeanRT;
+        public long mMeanRT = 2000;//default value, used for test
 
-        public static string interFilename;
-        public static string orderFilename;
+        public string interFilename;
+        public string orderFilename;
+        public string pracMathFilename;
+        public string pracOrderFilename;
 
         public bool mbFixedItemMode = true;
 
         public enum PageAttr
         {
-            title, instruction, instructCompreh, practise, practiseChar, practiseEquation, instruction2, test, finish
+            title, instructCompreh, practise, practiseChar, practiseEquation, instruction2, test, finish
         };
 
         public PageOpSpan(MainWindow mainWindow)
         {
             InitializeComponent();
             mMainWindow = mainWindow;
-            mGroupArrangement = new int[] { 2, 2, 2, 2, 2, 3, 3, 3, 4, 4, 4, 5, 5, 5, 6, 6, 6, 7, 7, 7, 8, 8, 8 };
+            mGroupArrangement = new int[] { 2, 2, 2, 2, 2, 2, 3, 3, 3, 4, 4, 4, 5, 5, 5, 6, 6, 6, 7, 7, 7, 8, 8, 8 };
             mGroupArrangementPrac = new int[] { 2, 2, 2 };
 
             mLayoutInstruction = new LayoutInstruction(ref mBaseCanvas);
@@ -66,6 +68,8 @@ namespace FiveElementsIntTest.OpSpan
 
             interFilename = "inter_" + mMainWindow.mDemography.GenString() + ".txt";
             orderFilename = "order_" + mMainWindow.mDemography.GenString() + ".txt";
+            pracMathFilename = "pracMath_" + mMainWindow.mDemography.GenString() + ".txt";
+            pracOrderFilename = "pracOrder_" + mMainWindow.mDemography.GenString() + ".txt";
         }
 
         public static int getSubGroupID(int numInArray)
@@ -134,8 +138,9 @@ namespace FiveElementsIntTest.OpSpan
             //replace equations here:
 
             mCurrentStatus = PageAttr.title;
+
+            //systest
             //mCurrentStatus = PageAttr.test;
-            //mMeanRT = 2000;
 
             //build BD
             int individualUnitCount = 0;
@@ -201,18 +206,21 @@ namespace FiveElementsIntTest.OpSpan
             ClearAll();
             mLayoutInstruction.addTitle(70, 0, "操作广度", "KaiTi", 52, Color.FromRgb(255, 255, 255));
             mLayoutInstruction.addTitle(133, 105, "Operation Span", "Batang", 32, Color.FromRgb(255, 255, 255));
-            mLayoutInstruction.addInstruction(240, 0, 798, 200, 
-                "    请在做心算题的同时，记住随后出现的属相（十二生肖）。", 
+            mLayoutInstruction.addInstruction(240, 0, 600, 200, 
+                "请在做心算题的同时,记住随后出现的属相(十二生肖)", 
                 "KaiTi",
-                38, Color.FromRgb(255, 255, 255));
+                42, Color.FromRgb(255, 255, 255));
 
-            mCurrentStatus = PageAttr.instruction;
+            mCurrentStatus = PageAttr.practiseChar;
 
             //test////////////////////////////////////////////////////for stage control
             //mCurrentStatus = PageAttr.instructCompreh;
             //test above//////////////////////////////////////////////
 
-            new FEITClickableScreen(ref mBaseCanvas, nextStep);
+            //new FEITClickableScreen(ref mBaseCanvas, nextStep);
+            CompBtnNextPage btn = new CompBtnNextPage("下一页");
+            btn.Add2Page(mBaseCanvas, FEITStandard.PAGE_BEG_Y + 470);
+            btn.mfOnAction = nextStep;
         }
 
         private void loadPractisePage()
@@ -237,13 +245,16 @@ namespace FiveElementsIntTest.OpSpan
             cct2.PutTextToCentralScreen("请稍作休息进行其他测验", "KaiTi",
                 50, ref mBaseCanvas, -35, Color.FromRgb(255, 255, 255));
 
-            cct3.PutTextToCentralScreen("点击鼠标继续", "KaiTi",
+            cct3.PutTextToCentralScreen("点击按钮继续", "KaiTi",
                 50, ref mBaseCanvas, 30, Color.FromRgb(255, 255, 255));
 
-            new FEITClickableScreen(ref mBaseCanvas, exitOpSpan);
+            //new FEITClickableScreen(ref mBaseCanvas, exitOpSpan);
+            CompBtnNextPage btnGO = new CompBtnNextPage("测验结束");
+            btnGO.Add2Page(mBaseCanvas, FEITStandard.PAGE_BEG_Y + 490);
+            btnGO.mfOnAction = exitOpSpan;
         }
 
-        private void exitOpSpan()
+        private void exitOpSpan(object obj)
         {
             mMainWindow.TestForward();
         }
@@ -261,6 +272,11 @@ namespace FiveElementsIntTest.OpSpan
             OrganizerPractiseChar opc = new OrganizerPractiseChar(this);
             mCurrentStatus = PageAttr.practiseEquation;
             opc.mfNext();
+
+            mRecorder.mPracOrderAnswers = opc.mAnswers;
+            mRecorder.mPracOrderCorrectness = opc.mCorrectness;
+            mRecorder.mPracOrderRealOrder = opc.mRealOrder;
+            mRecorder.mPracOrderRTs = opc.mRTs;
         }
 
         private void loadPractiseEquation()
@@ -269,40 +285,24 @@ namespace FiveElementsIntTest.OpSpan
             mCurrentStatus = PageAttr.instructCompreh;
             ope.mfNext();
             mRTs = ope.mRTs;
-        }
 
-        private void loadInstructionPage()
-        {
-            ClearAll();
-
-            mLayoutInstruction.addInstruction(240, 0, 
-                FEITStandard.PAGE_WIDTH - 170, 300, 
-                "下面是单项练习，点击鼠标继续。", 
-                "KaiTi", 40, Color.FromRgb(255, 255, 255));
-
-            //CompCentralText cct
-
-            mCurrentStatus = PageAttr.practiseChar;
-            new FEITClickableScreen(ref mBaseCanvas, nextStep);
+            mRecorder.mMathPracAnswers = ope.mAnswers;
+            mRecorder.mMathPracEquations = ope.mEquations;
+            mRecorder.mMathPracRTs = ope.mRTs;
         }
 
         private long calcMeanRt()
         {
-            long retval = 0;
-            
-            for (int i = 0; i < mRTs.Count; i++)
-            {
-                retval += mRTs[i];
-            }
+            long retval = 2000;
 
-            retval /= mRTs.Count;
-            if (retval > 5000)
+            if (mRTs != null)
             {
-                retval = 5000;
-            }
-            else if (retval < 2000)
-            {
-                retval = 2000;
+                for (int i = 0; i < mRTs.Count; i++)
+                {
+                    retval += mRTs[i];
+                }
+
+                retval /= mRTs.Count;
             }
             
             return retval;
@@ -314,14 +314,17 @@ namespace FiveElementsIntTest.OpSpan
             
             mMeanRT = calcMeanRt();
 
-            mLayoutInstruction.addInstruction(240, 0,
-                FEITStandard.PAGE_WIDTH - 200, 300,
-                "下面是综合练习，将两项任务（记属相，做心算）结合起来练习。请在做心算题的同时，记住随后出现的属相。点击鼠标开始。",
-                "KaiTi", 40, Color.FromRgb(255, 225, 255));
+            mLayoutInstruction.addInstruction(150, 100,
+                FEITStandard.PAGE_WIDTH, 400,
+                "下面练习一下同时完成这两项任务\r\n      请在做心算题的同时\r\n      记住随后出现的属相",
+                "KaiTi", 40, Color.FromRgb(255, 255, 255));
 
             mCurrentStatus = PageAttr.practise;
 
-            new FEITClickableScreen(ref mBaseCanvas, blackAfterInstructionComprehensicePrac);
+            //new FEITClickableScreen(ref mBaseCanvas, blank1000WithNextStep);
+            CompBtnNextPage btnGO = new CompBtnNextPage("开始练习");
+            btnGO.Add2Page(mBaseCanvas, FEITStandard.PAGE_BEG_Y + 590);
+            btnGO.mfOnAction = blank1000WithNextStep;
         }
 
         private delegate void timedele();
@@ -331,7 +334,7 @@ namespace FiveElementsIntTest.OpSpan
             Dispatcher.Invoke(DispatcherPriority.Normal, new timedele(nextStep));
         }
 
-        private void blackAfterInstructionComprehensicePrac()
+        private void blank1000WithNextStep()
         {
             ClearAll();
 
@@ -342,16 +345,27 @@ namespace FiveElementsIntTest.OpSpan
             t.Enabled = true;
         }
 
+        private void blank1000WithNextStep(object obj)
+        {
+            blank1000WithNextStep();
+        }
+
         private void loadInstructionPage2()
         {
             ClearAll();
 
             CompCentralText cct = new CompCentralText();
-            cct.PutTextToCentralScreen("下面是正式测验，点击鼠标开始。", "KaiTi", 
-                50, ref mBaseCanvas, 0, Color.FromRgb(255, 255, 255));
+            cct.PutTextToCentralScreen("下面是正式测验", "KaiTi", 
+                38, ref mBaseCanvas, -50, Color.FromRgb(255, 255, 255));
+            CompCentralText cct2 = new CompCentralText();
+            cct2.PutTextToCentralScreen("请在做心算题的同时\r\n记住随后出现的属相", "KaiTi",
+                38, ref mBaseCanvas, 50, Color.FromRgb(255, 255, 255));
 
             mCurrentStatus = PageAttr.test;
-            new FEITClickableScreen(ref mBaseCanvas, nextStep);
+            //new FEITClickableScreen(ref mBaseCanvas, nextStep);
+            CompBtnNextPage btnGO = new CompBtnNextPage("开始测验");
+            btnGO.Add2Page(mBaseCanvas, FEITStandard.PAGE_BEG_Y + 550);
+            btnGO.mfOnAction = nextStep;
         }
 
         public void nextStep()
@@ -360,10 +374,6 @@ namespace FiveElementsIntTest.OpSpan
             if (mCurrentStatus == PageAttr.title)////////////////////////////////////////////////////////////////////////////////////////////////
             {
                 loadTitlePage();
-            }
-            else if (mCurrentStatus == PageAttr.instruction)
-            {
-                loadInstructionPage();
             }
             else if (mCurrentStatus == PageAttr.practiseChar)
             {
@@ -408,6 +418,11 @@ namespace FiveElementsIntTest.OpSpan
             {
                 loadFinishPage();
             }
+        }
+
+        public void nextStep(object obj)
+        {
+            nextStep();
         }
     }
 }
