@@ -31,8 +31,10 @@ namespace FiveElementsIntTest.SeniorWords
 
         public List<StSWItem> mItems;
         public List<StSWResult> mResults;
+        private int mCurTillIndex = 2;//begin with the third one
+        private bool mbReturned = false;
+        private int mReturnedAt = -1;
 
-        private int mCurTillIndex = 0;
         private FEITTimer mTimer;
 
         public int SHEET_LENGTH = 40;
@@ -44,6 +46,8 @@ namespace FiveElementsIntTest.SeniorWords
         public static String INPUT_FILE = "FEITSWsource.txt";
 
         private int mContinuousZero = 0;
+
+        private CompOvertimeWarning mWarning;
 
         public PageSeniorWords(MainWindow _mainWindow)
         {
@@ -61,6 +65,8 @@ namespace FiveElementsIntTest.SeniorWords
             {
                 mMainWindow.mDB.CreateVocabTable(SHEET_LENGTH);
             }*/
+
+            mWarning = new CompOvertimeWarning(this);
         }
 
         public int SelectedIdx()
@@ -130,7 +136,7 @@ namespace FiveElementsIntTest.SeniorWords
             if (selIndex != -1 && mItems[mCurTillIndex - 1].Weights[selIndex] == 0)
             {
                 mContinuousZero++;
-                if (mContinuousZero == 5)
+                if (mContinuousZero == 3)
                 {
                     retval = true;
                     testEnd();
@@ -156,8 +162,29 @@ namespace FiveElementsIntTest.SeniorWords
                 result.RT = mTimer.GetElapsedTime();
                 mResults.Add(result);
                 mTimer.Reset();
-                //5 errors
-                if (!continuousZeroQuit(selectedIndex))
+
+                //return process
+                bool continuousErrQuit = continuousZeroQuit(selectedIndex);
+                int thisScore = mItems[mCurTillIndex - 1].Weights[result.SelectedItemIndex];
+
+                if (mCurTillIndex < 5 && mbReturned == false)
+                {
+                    if (thisScore == 0)
+                    {
+                        mReturnedAt = mCurTillIndex;
+                        mCurTillIndex = 0;
+                        mbReturned = true;
+                    }
+                }
+
+                if (mCurTillIndex == 1)//return process finished
+                {
+                    mCurTillIndex = mReturnedAt;
+                }
+
+
+                //3 errors
+                if (!continuousErrQuit)
                 {
                     if (selectedIndex != -1)
                     {
@@ -178,7 +205,7 @@ namespace FiveElementsIntTest.SeniorWords
 
         private string getOutputPath()
         {
-            return BASE_FOLDER + OUT_FOLDER + FEITStandard.GetStamp() + ".csv";
+            return BASE_FOLDER + OUT_FOLDER + FEITStandard.GetStamp() + ".txt";
         }
 
         public void PCATDataSaveReport()
@@ -206,8 +233,8 @@ namespace FiveElementsIntTest.SeniorWords
 
         private void testEnd()
         {
-            PCATDataSaveReport();
-            //new SWReportWriter(getOutputPath(), mResults, mItems);
+            //PCATDataSaveReport();
+            new SWReportWriter(getOutputPath(), mResults, mItems);
 
             mOrganizer.EndPage();
 
@@ -226,9 +253,12 @@ namespace FiveElementsIntTest.SeniorWords
             nextPage();
         }
 
+        public delegate void timeDele();
+
         void t_Elapsed(object sender, ElapsedEventArgs e)
         {
-            mMainWindow.TestForward();
+            mMainWindow.Dispatcher.Invoke(new timeDele(mMainWindow.TestForward), 
+                System.Windows.Threading.DispatcherPriority.Normal);
         }
 
         private void deselectAll()
@@ -278,11 +308,34 @@ namespace FiveElementsIntTest.SeniorWords
             mOrganizer.StartPage();
         }
 
+        private Timer mtWarn;
+
         public void nextPage()
         {
             fillPage(mCurTillIndex);
             mCurTillIndex++;
             mTimer.Start();
+
+            amCanvas.Children.Remove(mWarning);
+
+            mtWarn = new Timer();
+            mtWarn.Interval = 10000;
+            mtWarn.Elapsed += new ElapsedEventHandler(tWarn_Elapsed);
+            mtWarn.AutoReset = false;
+            mtWarn.Enabled = true;
+        }
+
+        void tWarn_Elapsed(object sender, ElapsedEventArgs e)
+        {
+            Dispatcher.Invoke(new timeDele(showWarning), 
+                System.Windows.Threading.DispatcherPriority.Normal);
+        }
+
+        void showWarning()
+        {
+            amCanvas.Children.Add(mWarning);
+            Canvas.SetTop(mWarning, FEITStandard.PAGE_BEG_Y + 600);
+            Canvas.SetLeft(mWarning, FEITStandard.PAGE_BEG_X + (FEITStandard.PAGE_WIDTH - 300) / 2);
         }
 
         private void fillPage(int index)

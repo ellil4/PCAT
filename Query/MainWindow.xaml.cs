@@ -100,7 +100,6 @@ namespace Query
 
         private void loadDBRecPage()
         {
-            
             List<QRecUser> users = mTableManager.AcquireUserRecords();
 
             for (int i = 0; i < users.Count; i++)

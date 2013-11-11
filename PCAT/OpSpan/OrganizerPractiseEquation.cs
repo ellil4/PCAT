@@ -22,6 +22,8 @@ namespace FiveElementsIntTest.OpSpan
         public List<long> mRTs;
         public List<bool> mAnswers;
 
+        private int mActualTestLen = 12;
+
         private Stopwatch mWatch;
 
 
@@ -124,7 +126,7 @@ namespace FiveElementsIntTest.OpSpan
             cdd.mDenyMethod = doNothing;
             mPosMark++;
 
-            if (mPosMark < 16)
+            if (mPosMark < mActualTestLen)
             {
                 mfNext = showEquation;
             }

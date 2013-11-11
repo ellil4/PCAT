@@ -24,6 +24,9 @@ namespace FiveElementsIntTest
         public List<int> mSelectedOrder;
         public Page mPage;
 
+        private string mQuest = "";
+        private string mCharSelected = "";
+
         public delegate void ConfirmFunc();
         public ConfirmFunc mfConfirm;
 
@@ -60,9 +63,27 @@ namespace FiveElementsIntTest
             }
         }
 
+        private void refreshText()
+        {
+            mCharSelected = "";
+
+            for (int j = 0; j < mSelectedOrder.Count; j++)
+            {
+                mCharSelected += mCharaLabels[mSelectedOrder[j]].Content;
+            }
+
+            amLabelQuest.Content = mQuest + " - " + mCharSelected;
+        }
+
         public void SetQuest(String quest)
         {
-            amLabelQuest.Content = quest + " - ___________";
+            mQuest = quest;
+            refreshText();
+        }
+
+        public void SetAnswerText(String text)
+        {
+            mCharSelected = text;
         }
 
         void CompChinese9Cells_MouseUp(object sender, MouseButtonEventArgs e)
@@ -78,6 +99,8 @@ namespace FiveElementsIntTest
                         break;
                     }
                 }
+
+                refreshText();
             }
         }
 
@@ -93,6 +116,7 @@ namespace FiveElementsIntTest
         private void amLabelBtnClear_MouseUp(object sender, MouseButtonEventArgs e)
         {
             ClearSelection();
+            refreshText();
         }
 
         private void amLabelBtnConfirm_MouseUp(object sender, MouseButtonEventArgs e)

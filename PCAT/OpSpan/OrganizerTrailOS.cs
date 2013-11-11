@@ -24,19 +24,15 @@ namespace FiveElementsIntTest.OpSpan
 
         //about result
         private bool mValid = true;
-        private int mCurOrderErrCount = 0;
+        private int mSpanOrderErrCount = 0;
 
         private List<AnswerOpSpan> mAnswerGrp;
         public AnswerOpSpan mAnswer;
         private int mOrderCorrectCount = 0;
-
         private int mMathCorrectCount = 0;
-        private double mMathCorrectRate = 0.0;
+        private int mMathErrACC2 = 0;
 
-        private double mMathSpanCorrectRateSum = 0.0;
 
-        //private int mMathTotalCorrectCount = 0;
-        //private double mMathTotalCorrectRate = 0.0;
 
         private int mCurTrailsCount = 0;
 
@@ -135,6 +131,30 @@ namespace FiveElementsIntTest.OpSpan
             return ret;
         }
 
+        private double getTotalMathCorrectRate()
+        {
+            double retval = -1;
+            int totalCorrect = 0;
+            int totalCount = 0;
+            for (int i = 0; i < mAnswerGrp.Count; i++)
+            {
+                for (int j = 0; j < mAnswerGrp[i].Confirm.Count; j++)
+                {
+                    if (mGroups[i].mTrails[j].correctness ==
+                        mAnswerGrp[i].Confirm[j])
+                    {
+                        totalCorrect++;
+                    }
+                    totalCount++;
+                }
+ 
+            }
+
+            retval = ((double)totalCorrect / (double)totalCount);
+
+            return retval;
+        }
+
         private int getMathCorrectCount()
         {
             int ret = 0;
@@ -156,13 +176,12 @@ namespace FiveElementsIntTest.OpSpan
             mAnswer = new AnswerOpSpan();
             
             //statistics
-            mMathCorrectCount = 0;
             mOrderCorrectCount = 0;
 
             //cursor
-            if (mGrpAt == 2 && mCurOrderErrCount < 2 && mMathSpanCorrectRateSum > 0.67 && !mPractiseMode)
+            if (mGrpAt == 1 && mSpanOrderErrCount < 2 && !mPractiseMode)
             {
-                mGrpAt += 4;
+                mGrpAt += 3;
             }
             else
             {
@@ -181,8 +200,7 @@ namespace FiveElementsIntTest.OpSpan
                     mCurTrailsCount = newTrailCount;
                     mCurTypeMax = getCountOfType(mCurTrailsCount);
                     mCurTypeAt = 1;
-                    mCurOrderErrCount = 0;
-                    mMathSpanCorrectRateSum = 0.0;
+                    mSpanOrderErrCount = 0;
                 }
                 else
                 {
@@ -211,24 +229,19 @@ namespace FiveElementsIntTest.OpSpan
         public void groupStatistics()
         {
             mOrderCorrectCount = getOrderCorrectCount();
-            
             mMathCorrectCount = getMathCorrectCount();
-            mMathCorrectRate = 
-                ((double)mMathCorrectCount / (double)mCurTrailsCount);
-            
-            //mMathTotalCorrectCount += mMathCorrectCount;
-            //mMathTotalCorrectRate = ((double)mMathTotalCorrectCount / (double)mathDoneCount());
+            mMathErrACC2 += mCurTrailsCount - mMathCorrectCount;
 
             //get span correct rate
             if(mGrpAt < mGroups.Count - 1)
             {
                 int newTrailCount = mGroups[mGrpAt + 1].mTrails.Count;
-                mMathSpanCorrectRateSum += mMathCorrectRate;
             }
 
-            if (mMathCorrectRate < 0.85)
+            if (mMathErrACC2 >= 2)
             {
                 mValid = false;
+                mMathErrACC2 = 0;
             }
             else
             {
@@ -237,7 +250,7 @@ namespace FiveElementsIntTest.OpSpan
 
             if (mOrderCorrectCount != mCurTrailsCount)
             {
-                mCurOrderErrCount++;
+                mSpanOrderErrCount++;
             }
 
             if (!mValid && mCurTypeAt == mCurTypeMax && !mPractiseMode)
@@ -247,15 +260,15 @@ namespace FiveElementsIntTest.OpSpan
 
             //quit with error
             if (!mPractiseMode &&
-                (mCurOrderErrCount > 1 || mMathSpanCorrectRateSum < 0.67 * mCurTypeMax) && 
-                mGrpAt > 5 &&
+                (mSpanOrderErrCount == 2 || getTotalMathCorrectRate() < 0.8) && 
+                mGrpAt > 3 &&
                 mCurTypeAt == mCurTypeMax)//quit beyond span2
             {
                 route = quit;
             }
-            else if (!mPractiseMode && 
-                (mCurOrderErrCount > 2 || mMathSpanCorrectRateSum < 0.67 * mCurTypeMax) && 
-                mGrpAt == 5)//quit in span2
+            else if (!mPractiseMode &&
+                (mSpanOrderErrCount == 2) && 
+                mGrpAt == 3)//quit in span2
             {
                 route = quit;
             }
@@ -364,8 +377,9 @@ namespace FiveElementsIntTest.OpSpan
 
             if (!mPractiseMode)
             {
+                //overtime!
                 t = new Timer();
-                t.Elapsed += new ElapsedEventHandler(t_Elapsed);
+                t.Elapsed += new ElapsedEventHandler(t_Overtime);
                 t.Interval = mPage.mMeanRT * 2;
                 t.AutoReset = false;
                 t.Enabled = true;
@@ -389,6 +403,11 @@ namespace FiveElementsIntTest.OpSpan
             return mPractiseMode;
         }
 
+        void t_Overtime(object sender, ElapsedEventArgs e)
+        {
+            showBlackPage2Overtime();
+        }
+
         void t_Elapsed(object sender, ElapsedEventArgs e)
         {
             mPage.Dispatcher.Invoke(DispatcherPriority.Normal, new timedele(nextStep));
@@ -401,6 +420,13 @@ namespace FiveElementsIntTest.OpSpan
             t.Interval = duration;
             t.AutoReset = false;
             t.Enabled = true;
+        }
+
+        public void showBlackPage2Overtime()
+        {
+            mPage.ClearAll();
+            route = showOvertimePage;
+            delayAndNext(250);
         }
 
         public bool showBlackPage2Order()
@@ -463,6 +489,20 @@ namespace FiveElementsIntTest.OpSpan
             mPage.ClearAll();
             route = showTitlePage;
             delayAndNext(1000);
+
+            return true;
+        }
+
+        public bool showOvertimePage()
+        {
+            route = showBlackPage2Animal;
+
+            mPage.ClearAll();
+            CompCentralText ct = new CompCentralText();
+            ct.PutTextToCentralScreen("心算超时",
+                "Microsoft YaHei", 55, ref mPage.mBaseCanvas, 0, Color.FromRgb(255, 0, 0));
+
+            delayAndNext(1500);
 
             return true;
         }

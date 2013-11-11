@@ -216,6 +216,24 @@ namespace FiveElementsIntTest.SymSpan
             }
             else
             {
+                //remove 2 more than 10 sec rec
+                int over10sCount = 0;
+                mRTs = mRTs.OrderByDescending(rt => rt).ToList<long>();
+                List<long> newRTs = new List<long>();
+
+                for(int i = 0; i < mRTs.Count; i++)
+                {
+                    if(over10sCount < 2 && mRTs[i] > 10)
+                    {
+                        over10sCount++;
+                    }
+                    else
+                    {
+                        newRTs.Add(mRTs[i]);
+                    }
+                }
+                mRTs = newRTs;
+
                 showInstructionPage(); 
             }
         }

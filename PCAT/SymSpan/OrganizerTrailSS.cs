@@ -92,7 +92,14 @@ namespace FiveElementsIntTest.SymSpan
             //record
             mRecorder.posOffTime.Add(mPage.mTimer.GetElapsedTime());
             //symm answers` statistics
-            mSymmErrorACC += mContent[mGrpAt].Trails.Count - mSymmCorrectCount;
+            int symErrCompare = mSymmErrorACC;
+            if(mGrpAt != 2 && mGrpAt != 3)//addtional trails not count in
+                mSymmErrorACC += mContent[mGrpAt].Trails.Count - mSymmCorrectCount;
+
+            if (mSymmErrorACC - symErrCompare > 2)
+            {
+                mShowWarning = true;
+            }
             
             //sudden death
             bool everWrong = false;
@@ -201,17 +208,18 @@ namespace FiveElementsIntTest.SymSpan
             {
                 if (!mPractise)
                 {
-                    if (mOrderErrorACC > 1 && mGrpAt - 1 >= 6)
+                    if (mOrderErrorACC > 1 && mGrpAt - 1 >= 4)
                     {
                         mbDead = true;
                     }
-                    else if (mOrderErrorACC > 3 && mGrpAt - 1 < 6)
+                    else if (mOrderErrorACC > 3 && mGrpAt - 1 < 4)
                     {
                         mbDead = true;
                     }
 
-                    if (((float)mSymmErrorACC /
-                        (float)(mCurSpanGroupsCount * mPage.mTestGroupScheme[mGrpAt - 1])) > 0.6)
+                    if ((((float)mSymmErrorACC /
+                        (float)(mCurSpanGroupsCount * mPage.mTestGroupScheme[mGrpAt - 1])) > 0.2) &&
+                        mGrpAt >= 4)
                     {
                         mbDead = true;
                     }
@@ -219,7 +227,7 @@ namespace FiveElementsIntTest.SymSpan
 
                 mCurSpanGroupsCount = getCurSpanGroupsCount();
                 mOrderErrorACC = 0;
-                mSymmErrorACC = 0;
+                //mSymmErrorACC = 0;
                 mCurSpanAt = 0;
             }
             else
@@ -229,8 +237,8 @@ namespace FiveElementsIntTest.SymSpan
 
 
 
-            //length2 addtional 3 items
-            if (mGrpAt == 3 && !mPractise)
+            //length2 addtional 2 items
+            if (mGrpAt == 2 && !mPractise)
             {
                 int posErrCount = 0;
                 for (int i = 0; i < mRecorder.posCorrectness.Count; i++)
@@ -239,16 +247,16 @@ namespace FiveElementsIntTest.SymSpan
                         posErrCount++;
                 }
 
-                int symmErrCount = 0;
+                /*int symmErrCount = 0;
                 for (int j = 0; j < mRecorder.symmJudgeCorrectness.Count; j++)
                 {
                     if (mRecorder.symmJudgeCorrectness[j] == false)
                         symmErrCount++;
-                }
+                }*/
 
-                if (posErrCount < 2 && symmErrCount < 4)
+                if (posErrCount < 2)
                 {
-                    mGrpAt += 3;
+                    mGrpAt += 2;
                     mCurSpanGroupsCount = getCurSpanGroupsCount();
                     mCurSpanAt = 0;
                     mOrderErrorACC = 0;
@@ -299,7 +307,7 @@ namespace FiveElementsIntTest.SymSpan
         }
 
         Timer mSymmPageFlipper;
-        Timer mIKnowBtnShower;
+        //Timer mIKnowBtnShower;
 
         public void showSymmPage()
         {
@@ -356,11 +364,12 @@ namespace FiveElementsIntTest.SymSpan
             mSymmPageFlipper.AutoReset = false;
             mSymmPageFlipper.Enabled = true;
 
-            mIKnowBtnShower = new Timer();
+            /*mIKnowBtnShower = new Timer();
             mIKnowBtnShower.Interval = 2000;
             mIKnowBtnShower.AutoReset = false;
             mIKnowBtnShower.Elapsed += new ElapsedEventHandler(btnShower_Elapsed);
-            mIKnowBtnShower.Enabled = true;
+            mIKnowBtnShower.Enabled = true;*/
+            showIKnowBtn();
         }
 
         void showIKnowBtn()
@@ -372,16 +381,32 @@ namespace FiveElementsIntTest.SymSpan
 
         void symmPage_autoFlipped(object sender, ElapsedEventArgs e)
         {
-            if (mIKnowBtnShower.Enabled)
-                mIKnowBtnShower.Enabled = false;
-            
+            /*if (mIKnowBtnShower.Enabled)
+                mIKnowBtnShower.Enabled = false;*/
+
+            mfRoute = showOvertimePage;
             t_Elapsed(sender, e);
         }
 
-        void btnShower_Elapsed(object sender, ElapsedEventArgs e)
+        void showOvertimePage()
+        {
+            mfRoute = showBlackPageAndGo2Pos;
+
+            CompCentralText ct0 = new CompCentralText();
+            ct0.PutTextToCentralScreen("心算超时",
+                "KaiTI", 48, ref mPage.mBaseCanvas, 0, Color.FromRgb(255, 0, 0));
+
+            Timer t = new Timer();
+            t.Elapsed += new ElapsedEventHandler(t_Elapsed);
+            t.Interval = 1500;
+            t.AutoReset = false;
+            t.Enabled = true;
+        }
+
+        /*void btnShower_Elapsed(object sender, ElapsedEventArgs e)
         {
             mPage.Dispatcher.Invoke(DispatcherPriority.Normal, new timedele(showIKnowBtn));
-        }
+        }*/
 
         void onIKnowBtn(object obj)
         {

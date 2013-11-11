@@ -52,8 +52,8 @@ namespace FiveElementsIntTest.SymSpan
             InitializeComponent();
             mMainWindow = _mainWindow;
             mLayoutInstruction = new LayoutInstruction(ref mBaseCanvas);
-            mTestGroupScheme = new int[] { 2, 2, 2, 2, 2, 2, 3, 3, 3, 4, 4, 4, 5, 5, 5, 6, 6, 6, 7, 7, 7, 8, 8, 8 };
-            mPracGroupScheme = new int[] { 2, 2, 2};
+            mTestGroupScheme = new int[] { 2, 2, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 7, 8, 8 };
+            mPracGroupScheme = new int[] { 2, 2 };
 
             interFilename = "inter_" + mMainWindow.mDemography.GenString() + ".txt";
             posFilename = "pos_" + mMainWindow.mDemography.GenString() + ".txt";
@@ -94,10 +94,13 @@ namespace FiveElementsIntTest.SymSpan
             }*/
         }
 
-
+        //what is this?
+        //input: posisiton in total groups` array
+        //output: posisiton in span
+        //use: UI maybe
         public static int getSubGroupID(int numInArray)
         {
-            return (numInArray % 3) + 1;
+            return (numInArray % 2) + 1;
         }
 
         public void nextStep()
@@ -182,31 +185,49 @@ namespace FiveElementsIntTest.SymSpan
             Dispatcher.Invoke(DispatcherPriority.Normal, new timedele(nextStep));
         }
 
-        private void loadPractise()
+        //delete 2 more-than-10-sec records
+        //return twice length of the rest`s meanRT
+        private long getMeanRT()
         {
-            mMeanRT = 0;
+            long retval = -1;
+            int ignoreCount = 0;
+
             for (int i = 0; i < mRTBaseLine.Count; i++)
             {
-                mMeanRT += mRTBaseLine[i];
+                if (ignoreCount < 2)
+                {
+                    if (mRTBaseLine[i] > 10)
+                    {
+                        ignoreCount++;
+                    }
+                    else
+                    {
+                        retval += mRTBaseLine[i];
+                    }
+                }
+                else
+                {
+                    retval += mRTBaseLine[i];
+                }
+                
             }
 
             if (mRTBaseLine.Count != 0)
             {
-                mMeanRT /= mRTBaseLine.Count;
-
-                if (mMeanRT * 2 > 5000)
-                {
-                    mMeanRT = 5000;
-                }
-                else if (mMeanRT * 2 < 2000)
-                {
-                    mMeanRT = 2000;
-                }
+                retval /= mRTBaseLine.Count;
             }
             else
             {
-                mMeanRT = 5000;
+                retval = 5000;
             }
+
+            return retval;
+        }
+
+        private void loadPractise()
+        {
+            mMeanRT = getMeanRT();
+
 
             OrganizerTrailSS ots = 
                 new OrganizerTrailSS(this, true, mPrac, ref mGroupsAnswer);

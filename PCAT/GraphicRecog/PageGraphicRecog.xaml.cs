@@ -51,6 +51,8 @@ namespace FiveElementsIntTest.GraphicRecog
 
         public STATE mCurState = STATE.LEARN;
 
+        private IntPtr mIntPtr = IntPtr.Zero;
+
         public PageGraphicRecog(MainWindow _mainWindow)
         {
             InitializeComponent();
@@ -78,12 +80,18 @@ namespace FiveElementsIntTest.GraphicRecog
             mDoubleArrow.Width = 90;
             mDoubleArrow.Height = 31;
             System.Drawing.Bitmap bmp = FiveElementsIntTest.Properties.Resources.DOUBLE_ARROW;
-            mDoubleArrow.Source = BitmapSourceFactory.GetBitmapSource(bmp);
+            mDoubleArrow.Source = BitmapSourceFactory.GetBitmapSource(bmp, out mIntPtr);
 
             if (!mMainWindow.mDB.TableExists(Names.GRAPH_ASSO_TABLENAME))
             {
                 mMainWindow.mDB.CreateGraphAssoTable(GRFormReader.TOTAL_ITEM);
             }
+        }
+
+        ~PageGraphicRecog()
+        {
+            if (mIntPtr != IntPtr.Zero)
+                BitmapSourceFactory.DeleteObject(mIntPtr);
         }
 
         public void TestStart()

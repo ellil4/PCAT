@@ -159,8 +159,8 @@
     <Compile Include="OpSpan\OrganizerPractiseEquation.cs" />
     <Compile Include="OpSpan\StEquation.cs" />
     <Compile Include="OpSpan\SubPageOrderOSPrac.cs" />
-    <Compile Include="PairedAsso\CompPAWarning.xaml.cs">
-      <DependentUpon>CompPAWarning.xaml</DependentUpon>
+    <Compile Include="CompOvertimeWarning.xaml.cs">
+      <DependentUpon>CompOvertimeWarning.xaml</DependentUpon>
     </Compile>
     <Compile Include="PairedAsso\OrganizerLearning.cs" />
     <Compile Include="PairedAsso\OrganizerTest.cs" />
@@ -191,6 +191,7 @@
     <Compile Include="SybSrh\PageTitle3.xaml.cs">
       <DependentUpon>PageTitle3.xaml</DependentUpon>
     </Compile>
+    <Compile Include="SybSrh\SybSrhFixedReader.cs" />
     <Compile Include="SymSpan\OrganizerPracLocation.cs" />
     <Compile Include="SymSpan\OrganizerPracSymm.cs" />
     <Compile Include="UIImageGroup.cs" />
@@ -375,7 +376,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="PairedAsso\CompPAWarning.xaml">
+    <Page Include="CompOvertimeWarning.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

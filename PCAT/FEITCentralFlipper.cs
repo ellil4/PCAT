@@ -24,6 +24,8 @@ namespace FiveElementsIntTest
         private List<long> mStepInterval;
         private int mStepNum = 0;
 
+        private IntPtr mIntPtr = IntPtr.Zero;
+
         public FEITCentralFlipper(ref Canvas _canvas, PageITFigure _page)
         {
             mCanvas = _canvas;
@@ -84,7 +86,10 @@ namespace FiveElementsIntTest
         {
             if (mStepNum < mStepBmp.Count)
             {
-                CentralShow(BitmapSourceFactory.GetBitmapSource(mStepBmp[mStepNum]), 0);
+                if (mIntPtr != IntPtr.Zero)
+                    BitmapSourceFactory.DeleteObject(mIntPtr);
+
+                CentralShow(BitmapSourceFactory.GetBitmapSource(mStepBmp[mStepNum], out mIntPtr), 0);
                 Timer t = new Timer();
                 t.Interval = mStepInterval[mStepNum];
                 t.AutoReset = false;
@@ -96,6 +101,12 @@ namespace FiveElementsIntTest
             {
                 mFinFunc();
             }
+        }
+
+        ~FEITCentralFlipper()
+        {
+            if (mIntPtr != IntPtr.Zero)
+                BitmapSourceFactory.DeleteObject(mIntPtr);
         }
     }
 }

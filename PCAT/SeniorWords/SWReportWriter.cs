@@ -17,8 +17,8 @@ namespace FiveElementsIntTest.SeniorWords
 
             for (int i = 0; i < len; i++)
             {
-                String line = results[i].RT + "," + 
-                    results[i].SelectedItemIndex + "," + 
+                String line = results[i].RT + "\t" + 
+                    results[i].SelectedItemIndex + "\t" + 
                     items[i].Weights[results[i].SelectedItemIndex];
                 sw.WriteLine(line);
             }

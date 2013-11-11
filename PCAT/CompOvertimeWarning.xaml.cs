@@ -14,16 +14,16 @@ using System.Windows.Shapes;
 using System.Timers;
 using System.Windows.Threading;
 
-namespace FiveElementsIntTest.PairedAsso
+namespace FiveElementsIntTest
 {
     /// <summary>
     /// CompPAWarning.xaml 的互動邏輯
     /// </summary>
-    public partial class CompPAWarning : UserControl
+    public partial class CompOvertimeWarning : UserControl
     {
         Timer mTm;
-        PagePairedAsso mPage;
-        public CompPAWarning(PagePairedAsso page)
+        Page mPage;
+        public CompOvertimeWarning(Page page)
         {
             InitializeComponent();
             mPage = page;

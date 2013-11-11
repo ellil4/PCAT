@@ -30,8 +30,8 @@ namespace FiveElementsIntTest.SymSpan
 
         public List<List<int>> GetFixedLocationExe()
         {
-            //scheme 2,2,3,3
-            int[] scheme = {2, 2, 3, 3};
+            //scheme 2, 3
+            int[] scheme = {2, 3};
             List<List<int>> retval = new List<List<int>>();
 
             TabFetcher fet = new TabFetcher(mFixedLocationExeADDR, "\\t");

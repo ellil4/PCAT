@@ -8,9 +8,17 @@ namespace FiveElementsIntTest.ITFigure
     class ITFInstruction
     {
         private PageITFigure mPage;
+        private IntPtr mIntPtr = IntPtr.Zero;
+
         public ITFInstruction(PageITFigure page)
         {
             mPage = page;
+        }
+
+        ~ITFInstruction()
+        {
+            if (mIntPtr != IntPtr.Zero)
+                BitmapSourceFactory.DeleteObject(mIntPtr);
         }
 
         public void Show()
@@ -24,8 +32,12 @@ namespace FiveElementsIntTest.ITFigure
             int lineGap = 0;
             int lineOff = 60;
 
+            if (mIntPtr != IntPtr.Zero)
+                BitmapSourceFactory.DeleteObject(mIntPtr);
+
             mPage.mFlipper.CentralShow(
-                BitmapSourceFactory.GetBitmapSource(FiveElementsIntTest.Properties.Resources.ITF_EXAMPLE), 50);
+                BitmapSourceFactory.GetBitmapSource(
+                FiveElementsIntTest.Properties.Resources.ITF_EXAMPLE, out mIntPtr), 50);
 
             cct.PutTextToCentralScreen("      请对屏幕中央闪现的左右两条竖线进行辨别，",
                 "Microsoft YaHei", 36, ref mPage.amBaseCanvas,

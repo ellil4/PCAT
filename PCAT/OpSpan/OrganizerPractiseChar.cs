@@ -27,7 +27,7 @@ namespace FiveElementsIntTest.OpSpan
 
         public OrganizerPractiseChar(PageOpSpan page) : base(page)
         {
-            int[] scheme = { 2, 2, 3, 3 };
+            int[] scheme = { 2, 3};
 
             mRealOrder = new List<List<int>>();
             mAnswers = new List<List<int>>();

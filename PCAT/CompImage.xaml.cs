@@ -24,6 +24,8 @@ namespace FiveElementsIntTest
         public static int SIZE = 166;
         public int mId = -1;
 
+        private IntPtr mIntPtr = IntPtr.Zero;
+
         public CompImage(int id)
         {
             InitializeComponent();
@@ -45,7 +47,16 @@ namespace FiveElementsIntTest
 
         public void SetGraph(Bitmap src)
         {
-            amImage.Source = BitmapSourceFactory.GetBitmapSource(src);
+            if (mIntPtr != IntPtr.Zero)
+                BitmapSourceFactory.DeleteObject(mIntPtr);
+
+            amImage.Source = BitmapSourceFactory.GetBitmapSource(src, out mIntPtr);
+        }
+
+        ~CompImage()
+        {
+            if (mIntPtr != IntPtr.Zero)
+                BitmapSourceFactory.DeleteObject(mIntPtr);
         }
     }
 }

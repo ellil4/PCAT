@@ -58,8 +58,8 @@ namespace FiveElementsIntTest.OpSpan
         {
             InitializeComponent();
             mMainWindow = mainWindow;
-            mGroupArrangement = new int[] { 2, 2, 2, 2, 2, 2, 3, 3, 3, 4, 4, 4, 5, 5, 5, 6, 6, 6, 7, 7, 7, 8, 8, 8 };
-            mGroupArrangementPrac = new int[] { 2, 2, 2 };
+            mGroupArrangement = new int[] { 2, 2, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 7, 8, 8 };
+            mGroupArrangementPrac = new int[] { 2, 2 };
 
             mLayoutInstruction = new LayoutInstruction(ref mBaseCanvas);
 

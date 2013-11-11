@@ -17,7 +17,7 @@ namespace FiveElementsIntTest.PairedAsso
         public int mCurAt = 0;
         public String mCharNum;
         private Stopwatch mWatch;
-        private CompPAWarning mWarning;
+        private CompOvertimeWarning mWarning;
         private Timer mtWarn;
         private Timer mtFlipper;
         
@@ -28,7 +28,7 @@ namespace FiveElementsIntTest.PairedAsso
             mSource = source;
             mCharNum = charNum;
             mWatch = new Stopwatch();
-            mWarning = new CompPAWarning(mPage);
+            mWarning = new CompOvertimeWarning(mPage);
         }
 
         private void showCallingAttentionPage()
@@ -52,7 +52,7 @@ namespace FiveElementsIntTest.PairedAsso
 
         void goBlack_Elapsed(object sender, ElapsedEventArgs e)
         {
-            mPage.Dispatcher.Invoke(DispatcherPriority.Normal, new timedele(showBlackPage));
+            mPage.Dispatcher.Invoke(new timedele(showBlackPage), DispatcherPriority.Normal);
         }
 
         private void showBlackPage(object obj)
@@ -124,8 +124,6 @@ namespace FiveElementsIntTest.PairedAsso
             mWatch.Start();
 
             mtWarn = new Timer();
-            //systest disabled
-            //mtWarn.Interval = 1;
             mtWarn.Interval = 10000;
             mtWarn.Elapsed += new ElapsedEventHandler(tWarn_Elapsed);
             mtWarn.AutoReset = false;

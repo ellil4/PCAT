@@ -37,7 +37,11 @@ namespace FiveElementsIntTest.SybSrh
         public int SPAN_LEN = 12;
         public List<CompImage> mImages;
         public LayoutSybSrh mLayout;
+        
         public List<SybSrhItem> mItems;
+        public List<SybSrhItem> mAllFixedItems;
+        private int mRoundCount = 0;
+
         public static String RESPATH = AppDomain.CurrentDomain.BaseDirectory + "SybSrh\\";
         public static String DSTPATH = AppDomain.CurrentDomain.BaseDirectory + "SybSrh\\output\\";
         public List<SybSrhResult> mResult;
@@ -48,10 +52,14 @@ namespace FiveElementsIntTest.SybSrh
         public STATUS mStatus = STATUS.INSTRUCTION;
         public int mCurTillIdx = 0;
         public SybSrhItemGenerator mGen;
+        public SybSrhFixedReader mFixedReader;
 
         public FEITTimer mTimer;
         public Stopwatch m2Minute;
         private int mDidCount = 0;
+        IntPtr[] mWasteIPtrs;
+
+        bool mbFixedMode = true;
 
         public enum STATUS
         {
@@ -65,8 +73,18 @@ namespace FiveElementsIntTest.SybSrh
             mImages = new List<CompImage>();
             mResult = new List<SybSrhResult>();
             //mSpanResult = new List<SybSrhResult>();
-            mGen = new SybSrhItemGenerator();
+            if (!mbFixedMode)
+            {
+                mGen = new SybSrhItemGenerator();
+            }
+            else
+            {
+                mFixedReader = new SybSrhFixedReader();
+
+            }
+
             mTimer = new FEITTimer();
+            mWasteIPtrs = null;
 
             if (DEV_MODE)
                 MAXTRAILCOUNT = 12;
@@ -81,6 +99,43 @@ namespace FiveElementsIntTest.SybSrh
                 }
             }*/
 
+        }
+
+        private void getFixedDataReady()
+        {
+            mAllFixedItems =
+                mFixedReader.GetContext(RESPATH + "test.txt");
+
+            SybSrhSourceFetcher fetcher = 
+                new SybSrhSourceFetcher(PageSybSrh.RESPATH);
+
+            for (int i = 0; i < mAllFixedItems.Count; i++)
+            {
+                for(int tarI = 0; tarI < 2; tarI++)
+                {
+                    mAllFixedItems[i].Target[tarI].BMP =
+                        fetcher.GetPic(mAllFixedItems[i].Target[tarI].Type,
+                        mAllFixedItems[i].Target[tarI].Index);
+                }
+
+                for (int selI = 0; selI < 5; selI++)
+                {
+                    mAllFixedItems[i].Selection[selI].BMP =
+                        fetcher.GetPic(mAllFixedItems[i].Selection[selI].Type,
+                        mAllFixedItems[i].Selection[selI].Index);
+                }
+            }
+        }
+
+        private List<SybSrhItem> getNext12FixedItems()
+        {
+            List<SybSrhItem> retval = new List<SybSrhItem>();
+            for(int i = 0; i < 12; i++)
+            {
+                retval.Add(mAllFixedItems[mRoundCount * SPAN_LEN + i]);
+            }
+            mRoundCount++;
+            return retval;
         }
 
         public void clearAll()
@@ -144,19 +199,29 @@ namespace FiveElementsIntTest.SybSrh
 
         public void UpdateSelPageData(int index)
         {
+            if (mWasteIPtrs != null)
+            {
+                for(int i = 0; i < mWasteIPtrs.Length; i++)
+                {
+                    BitmapSourceFactory.DeleteObject(mWasteIPtrs[i]);
+                }
+
+                mWasteIPtrs = new IntPtr[mImages.Count];
+            }
+
             for (int i = 0; i < mImages.Count; i++)
             {
                 if (i < 2)
                 {
                     mImages[i].amImage.Source =
                         BitmapSourceFactory.GetBitmapSource(
-                        mItems[mCurTillIdx].Target[i].BMP);
+                        mItems[mCurTillIdx].Target[i].BMP, out mWasteIPtrs[i]);
                 }
                 else
                 {
                     mImages[i].amImage.Source =
                         BitmapSourceFactory.GetBitmapSource(
-                        mItems[mCurTillIdx].Selection[i - 2].BMP);
+                        mItems[mCurTillIdx].Selection[i - 2].BMP, out mWasteIPtrs[i]);
                 }
             }
 
@@ -225,7 +290,14 @@ namespace FiveElementsIntTest.SybSrh
             else
             {
                 mCurTillIdx = 0;
-                mItems = mGen.Get12Items();
+                if (!mbFixedMode)
+                {
+                    mItems = mGen.Get12Items();
+                }
+                else
+                {
+                    mItems = getNext12FixedItems();
+                }
                 UpdateSelPageData(mCurTillIdx);
                 mCurTillIdx++;
             }
@@ -236,7 +308,14 @@ namespace FiveElementsIntTest.SybSrh
             mStatus = nextStage;
             mLayout.SetSelectionLayout();
             mCurTillIdx = 0;
-            mItems = mGen.Get12Items();
+            if (!mbFixedMode)
+            {
+                mItems = mGen.Get12Items();
+            }
+            else
+            {
+                mItems = getNext12FixedItems();
+            }
             UpdateSelPageData(mCurTillIdx);
             mCurTillIdx++;
             m2Minute.Start();
@@ -336,6 +415,11 @@ namespace FiveElementsIntTest.SybSrh
         {
             mLayout.SetEndPage();
 
+            for (int i = 0; i < mWasteIPtrs.Length; i++)
+            {
+                BitmapSourceFactory.DeleteObject(mWasteIPtrs[i]);
+            }
+
             Timer t = new Timer();
             t.Elapsed += new ElapsedEventHandler(t_Elapsed);
             t.Interval = 3000;
@@ -428,11 +512,11 @@ namespace FiveElementsIntTest.SybSrh
 
         private void Page_KeyUp(object sender, KeyEventArgs e)
         {
-            if (e.Key == Key.Enter)
+            /*if (e.Key == Key.Enter)
             {
                 mGen.Get12Items();
                 //Console.WriteLine("good");
-            }
+            }*/
 
             if (mStatus == STATUS.INSTRUCTION || 
                 mStatus == STATUS.INSTRUCTION2 || 
