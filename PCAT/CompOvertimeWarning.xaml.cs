@@ -28,7 +28,13 @@ namespace FiveElementsIntTest
             InitializeComponent();
             mPage = page;
             mTm = new Timer();
-            Flashing();
+            mTm.Elapsed += new ElapsedEventHandler(mTm_Elapsed);
+        }
+
+        public void Out()
+        {
+            mTm.Enabled = false;
+            label1.Visibility = System.Windows.Visibility.Hidden;
         }
 
         public void Flashing()
@@ -36,7 +42,6 @@ namespace FiveElementsIntTest
             mTm.AutoReset = true;
             mTm.Interval = 760;
             mTm.Enabled = true;
-            mTm.Elapsed += new ElapsedEventHandler(mTm_Elapsed);
         }
 
         void switchVisibility()

@@ -7,14 +7,14 @@ using System.IO;
 using System.Text.RegularExpressions;
 
 
-namespace FiveElementsIntTest.SeniorWords
+namespace FiveElementsIntTest.VocabCommon
 {
-    public class SWItemReader
+    public class VCtemReader
     {        
 
-        public List<StSWItem> ReadSheet(String path)
+        public List<StVCItem> ReadSheet(String path)
         {
-            List<StSWItem> retval = new List<StSWItem>();
+            List<StVCItem> retval = new List<StVCItem>();
 
             StreamReader rd = null;
 
@@ -29,7 +29,7 @@ namespace FiveElementsIntTest.SeniorWords
                 while ((lineContent = rd.ReadLine()) != null)
                 {
                     MatchCollection mc = rex.Matches(lineContent);
-                    StSWItem item = new StSWItem();
+                    StVCItem item = new StVCItem();
 
                     for (int i = 1; i < mc.Count; i++)
                     {

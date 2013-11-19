@@ -122,7 +122,7 @@ namespace FiveElementsIntTest.PairedAsso
         {
             PARecorder rec = new PARecorder(this);
             rec.outputReport(FEITStandard.GetExePath() + "Report\\pa\\" + 
-                mMainWindow.mDemography.GenString() + ".txt");
+                mMainWindow.mDemography.GenBriefString() + ".txt");
             clearAll();
             CompCentralText ct = new CompCentralText();
             ct.PutTextToCentralScreen("本测验结束",

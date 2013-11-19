@@ -28,7 +28,11 @@ namespace FiveElementsIntTest.PairedAsso
             mSource = source;
             mCharNum = charNum;
             mWatch = new Stopwatch();
+
             mWarning = new CompOvertimeWarning(mPage);
+            mPage.amBaseCanvas.Children.Add(mWarning);
+            Canvas.SetTop(mWarning, FEITStandard.PAGE_BEG_Y + 500);
+            Canvas.SetLeft(mWarning, FEITStandard.PAGE_BEG_X + (FEITStandard.PAGE_WIDTH - 300) / 2);
         }
 
         private void showCallingAttentionPage()
@@ -93,10 +97,11 @@ namespace FiveElementsIntTest.PairedAsso
             if (mtWarn != null && mtWarn.Enabled)
                 mtWarn.Enabled = false;
 
+            mWarning.Out();
+
             if (mtFlipper != null && mtFlipper.Enabled)
                 mtFlipper.Enabled = false;
 
-            mPage.amBaseCanvas.Children.Remove(mWarning);
 
             if (mCurAt == mSource.Count)
             {
@@ -148,9 +153,7 @@ namespace FiveElementsIntTest.PairedAsso
 
         void showWarning()
         {
-            mPage.amBaseCanvas.Children.Add(mWarning);
-            Canvas.SetTop(mWarning, FEITStandard.PAGE_BEG_Y + 500);
-            Canvas.SetLeft(mWarning, FEITStandard.PAGE_BEG_X + (FEITStandard.PAGE_WIDTH - 300) / 2);
+            mWarning.Flashing();
         }
     }
 }

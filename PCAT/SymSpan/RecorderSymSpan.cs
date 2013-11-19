@@ -22,11 +22,28 @@ namespace FiveElementsIntTest.SymSpan
         public List<long> posOffTime;
         public List<bool> posCorrectness;
 
+        //prac part
+        //symm
+        public List<string> pracSymmPicName;
+        public List<bool> pracSymmIsSymm;
+        public List<long> pracSymmRTs;
+        public List<bool> pracSymmCorrect;
+        //position
+        public List<string> pracPosPos;
+        public List<string> pracPosUserSel;
+        public List<long> pracPosRTs;
+        public List<bool> pracPosCorrect;
+
+
         private static string[] interHeader = {"symm pic name", "is symm", "position", "symm on time",
             "symm off time", "choice correctness", "choice shown time", "choice made time", "segment ID"};
 
         private static string[] positionHeader = {"shown positions", "user selected",
             "position on time", "position off time", "correctness", "elements in array"};
+
+        private static string[] pracSymmHeader = { "symm pic name", "is symm", "RT", "choice correctness"};
+
+        private static string[] pracPositionHeader = {"shown positions", "user selected", "RT", "correctness"};
 
         public PageSymmSpan mPage;
 
@@ -46,6 +63,16 @@ namespace FiveElementsIntTest.SymSpan
             posOnTime = new List<long>();
             posOffTime = new List<long>();
             posCorrectness = new List<bool>();
+
+            pracSymmPicName = new List<string>();
+            pracSymmRTs = new List<long>();
+            pracSymmIsSymm = new List<bool>();
+            pracSymmCorrect = new List<bool>();
+
+            pracPosPos = new List<string>();
+            pracPosRTs = new List<long>();
+            pracPosUserSel = new List<string>();
+            pracPosCorrect = new List<bool>();
         }
 
         public void PCATDataSaveReport()
@@ -81,11 +108,13 @@ namespace FiveElementsIntTest.SymSpan
             mPage.mMainWindow.mDB.AddSymSpanSymmRecord(rec, mPage.mMainWindow.mUserID);
         }
 
-        public void outputReport(string filepathInter, string filepathPos)
+        public void outputReport(string filepathInter, string filepathPos, 
+            string filepathPracSymm, string filepathPracPos)
         {
             abstractOut(makeHeaderInter, fillInterChart, filepathInter);
             abstractOut(makeHeaderPos, fillPosChart, filepathPos);
-
+            abstractOut(makeHeaderPracSymm, fillPracSymmChart, filepathPracSymm);
+            abstractOut(makeHeaderPracPos, fillPracPos, filepathPracPos);
             //PCATDataSaveReport();
         }
 
@@ -109,6 +138,26 @@ namespace FiveElementsIntTest.SymSpan
             sw.WriteLine(header);
         }
 
+        private void makeHeaderPracPos(ref StreamWriter sw)
+        {
+            string header = "";
+            for (int i = 0; i < pracPositionHeader.Length; i++)
+            {
+                header += pracPositionHeader[i] + "\t";
+            }
+            sw.WriteLine(header);
+        }
+
+        private void makeHeaderPracSymm(ref StreamWriter sw)
+        {
+            string header = "";
+            for (int i = 0; i < pracSymmHeader.Length; i++)
+            {
+                header += pracSymmHeader[i] + "\t";
+            }
+            sw.WriteLine(header);
+        }
+
         private void fillInterChart(ref StreamWriter sw)
         {
             string content = "";
@@ -125,6 +174,39 @@ namespace FiveElementsIntTest.SymSpan
                 content += symmJudgeCorrectness[i].ToString() + "\t";
                 content += choiceShownTime[i].ToString() + "\t";
                 content += choiceMadeTime[i].ToString() + "\t";
+
+                sw.WriteLine(content);
+            }
+        }
+
+        private void fillPracSymmChart(ref StreamWriter sw)
+        {
+            //"symm pic name", "is symm", "RT", "choice correctness"
+            
+            for (int i = 0; i < pracSymmPicName.Count; i++)
+            {
+                string content = "";
+
+                content += pracSymmPicName[i] + "\t";
+                content += pracSymmIsSymm[i] + "\t";
+                content += pracSymmRTs[i] + "\t";
+                content += pracSymmCorrect[i] + "\t";
+
+                sw.WriteLine(content);
+            }
+        }
+
+        private void fillPracPos(ref StreamWriter sw)
+        {
+            //"shown positions", "user selected", "RT", "correctness"
+            
+            for (int i = 0; i < pracPosPos.Count; i++)
+            {
+                string content = "";
+                content += pracPosPos[i] + "\t";
+                content += pracPosUserSel[i] + "\t";
+                content += pracPosRTs[i] + "\t";
+                content += pracPosCorrect[i] + "\t";
 
                 sw.WriteLine(content);
             }

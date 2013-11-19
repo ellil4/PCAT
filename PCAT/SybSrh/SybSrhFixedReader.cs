@@ -59,8 +59,6 @@ namespace FiveElementsIntTest.SybSrh
             temp.RemoveAt(temp.Count - 1);
 
               loadContent(temp);
-            
-    
         }
 
         private void loadContent(List<List<String>> tm) 

@@ -8,8 +8,8 @@ namespace FiveElementsIntTest
 {
     class OutputDigitSymbol
     {
-        public static string[] HEADER = {"correctness,", "user input left,", "answer left,", "time left,",
-                                        "user input right,", "answer right,", "time right"};
+        public static string[] HEADER = {"correctness\t", "user input left\t", "answer left\t", "time left\t",
+                                        "user input right\t", "answer right\t", "time right"};
 
         public OutputDigitSymbol()
         {
@@ -36,7 +36,7 @@ namespace FiveElementsIntTest
 
         private void createHeader(ref StreamWriter sWriter)
         {
-            string content = ",";
+            string content = "\t";
             for (int i = 0; i < HEADER.Length; i++)
             {
                 content += HEADER[i];
@@ -52,16 +52,16 @@ namespace FiveElementsIntTest
             for (int i = 0; i < len; i++)
             {
                 content = "";
-                content += "block" + (i + 1).ToString() + ",";
+                content += "block" + (i + 1).ToString() + "\t";
 
-                content += valuator.mTF[i].ToString() + ",";
+                content += valuator.mTF[i].ToString() + "\t";
 
-                content += valuator.mLeftInput[i].ToString() + ",";
-                content += valuator.mLeftAnswer[i].ToString() + ",";
-                content += timer.mTracker[i * 2].ToString() + ",";
+                content += valuator.mLeftInput[i].ToString() + "\t";
+                content += valuator.mLeftAnswer[i].ToString() + "\t";
+                content += timer.mTracker[i * 2].ToString() + "\t";
 
-                content += valuator.mRightInput[i].ToString() + ",";
-                content += valuator.mRightAnswer[i].ToString() + ",";
+                content += valuator.mRightInput[i].ToString() + "\t";
+                content += valuator.mRightAnswer[i].ToString() + "\t";
                 content += timer.mTracker[i * 2 + 1].ToString();
 
                 sWriter.WriteLine(content);

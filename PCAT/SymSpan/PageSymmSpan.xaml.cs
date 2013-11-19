@@ -39,8 +39,11 @@ namespace FiveElementsIntTest.SymSpan
 
         private List<AnswerSSST> mGroupsAnswer;//one element for each group
 
-        public static string interFilename = "";
-        public static string posFilename = "";
+        public string interFilename = "";
+        public string posFilename = "";
+        public string pracPosFilename = "";
+        public string pracSymmFilename = "";
+        public RecorderSymSpan mRecorder;
 
         public enum StatusSS
         {
@@ -55,8 +58,10 @@ namespace FiveElementsIntTest.SymSpan
             mTestGroupScheme = new int[] { 2, 2, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 7, 8, 8 };
             mPracGroupScheme = new int[] { 2, 2 };
 
-            interFilename = "inter_" + mMainWindow.mDemography.GenString() + ".txt";
-            posFilename = "pos_" + mMainWindow.mDemography.GenString() + ".txt";
+            interFilename = "inter_" + mMainWindow.mDemography.GenBriefString() + ".txt";
+            posFilename = "pos_" + mMainWindow.mDemography.GenBriefString() + ".txt";
+            pracPosFilename = "prac_pos_" + mMainWindow.mDemography.GenBriefString() + ".txt";
+            pracSymmFilename = "prac_symm_" + mMainWindow.mDemography.GenBriefString() + ".txt";
 
             LoaderSymmSpan loader = new LoaderSymmSpan("SYMM\\sourceIndex.txt", "SYMM\\fixedItems.txt", "SYMM\\locationExe.txt", "SYMM\\fixedSymmExeBaseline.txt");
             List<TrailSS_ST> rList = loader.GetResourceList();
@@ -82,6 +87,9 @@ namespace FiveElementsIntTest.SymSpan
             mStatus = StatusSS.main_title;//test could be from here
 
             mTimer = new FEITTimer();
+            mTimer.Start();
+
+            mRecorder = new RecorderSymSpan(this);
 
             /*if (!mMainWindow.mDB.TableExists(Names.SYMSPAN_POS_TABLENAME))
             {
@@ -133,7 +141,7 @@ namespace FiveElementsIntTest.SymSpan
 
         private void loadSinglePos()
         {
-            OrganizerPracLocation org = new OrganizerPracLocation(this, mPracLocation);
+            OrganizerPracLocation org = new OrganizerPracLocation(this, mPracLocation, mRecorder);
             org.next();
             mStatus = StatusSS.singleSymm;
         }
@@ -142,7 +150,7 @@ namespace FiveElementsIntTest.SymSpan
 
         private void loadSingleSymm()
         {
-            OrganizerPracSymm org = new OrganizerPracSymm(this, mPractiseSymm);
+            OrganizerPracSymm org = new OrganizerPracSymm(this, mPractiseSymm, mRecorder);
             org.next();
             mStatus = StatusSS.practise;
 
@@ -190,26 +198,10 @@ namespace FiveElementsIntTest.SymSpan
         private long getMeanRT()
         {
             long retval = -1;
-            int ignoreCount = 0;
 
             for (int i = 0; i < mRTBaseLine.Count; i++)
             {
-                if (ignoreCount < 2)
-                {
-                    if (mRTBaseLine[i] > 10)
-                    {
-                        ignoreCount++;
-                    }
-                    else
-                    {
-                        retval += mRTBaseLine[i];
-                    }
-                }
-                else
-                {
-                    retval += mRTBaseLine[i];
-                }
-                
+                retval += mRTBaseLine[i];
             }
 
             if (mRTBaseLine.Count != 0)
@@ -252,7 +244,6 @@ namespace FiveElementsIntTest.SymSpan
             
             mStatus = StatusSS.finish;
 
-            mTimer.Start();
             ots.nextStep();
         }
 
@@ -297,13 +288,13 @@ namespace FiveElementsIntTest.SymSpan
             loadMainTitle();
 
             //systest disabled
-            /*mMeanRT = 2000;
-            OrganizerTrailSS ots =
+            //mMeanRT = 2000;
+            /*OrganizerTrailSS ots =
                 new OrganizerTrailSS(this, false, mTest, ref mGroupsAnswer);
             mStatus = StatusSS.finish;
             ots.nextStep();*/
 
-            //loadSinglePos();
+            //loadTest();
         }
     }
 }

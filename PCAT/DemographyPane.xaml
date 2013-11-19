@@ -7,7 +7,7 @@
         <Label Content="测验日期：" Height="28" HorizontalAlignment="Left" Margin="136,0,0,0" Name="amLabelTestDateTime" VerticalAlignment="Top" />
         <Separator Height="11" HorizontalAlignment="Left" Margin="8,21,0,0" Name="separator1" VerticalAlignment="Top" Width="407" />
         <Label Content="请填写：" Height="28" HorizontalAlignment="Left" Margin="0,30,0,0" Name="label1" VerticalAlignment="Top" />
-        <Label Content="姓名：" Height="28" HorizontalAlignment="Left" Margin="28,56,0,0" Name="label2" VerticalAlignment="Top" />
+        <Label Content="代码：" Height="28" HorizontalAlignment="Left" Margin="28,56,0,0" Name="label2" VerticalAlignment="Top" />
         <TextBox Height="23" HorizontalAlignment="Left" Margin="68,58,0,0" Name="amTBName" VerticalAlignment="Top" Width="120" Background="White" BorderBrush="{StaticResource {x:Static SystemColors.ActiveCaptionBrushKey}}" />
         <Label Content="年龄：" Height="28" HorizontalAlignment="Left" Margin="28,88,0,0" Name="label3" VerticalAlignment="Top" />
         <TextBox Background="White" BorderBrush="{StaticResource {x:Static SystemColors.ActiveCaptionBrushKey}}" Height="23" HorizontalAlignment="Left" Margin="68,90,0,0" Name="amTBAge" VerticalAlignment="Top" Width="120" />

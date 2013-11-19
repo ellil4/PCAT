@@ -215,14 +215,14 @@
     <Compile Include="OpSpan\SubPageDetermine.cs" />
     <Compile Include="OpSpan\SubPageOrderOS.cs" />
     <Compile Include="RecorderBase.cs" />
-    <Compile Include="SeniorWords\OrganizerSeniorWords.cs" />
-    <Compile Include="SeniorWords\PageSeniorWords.xaml.cs">
-      <DependentUpon>PageSeniorWords.xaml</DependentUpon>
+    <Compile Include="VocabCommon\OrganizerVocabCommon.cs" />
+    <Compile Include="VocabCommon\PageVocabCommon.xaml.cs">
+      <DependentUpon>PageVocabCommon.xaml</DependentUpon>
     </Compile>
-    <Compile Include="SeniorWords\StSWResult.cs" />
-    <Compile Include="SeniorWords\StSWItem.cs" />
-    <Compile Include="SeniorWords\SWItemReader.cs" />
-    <Compile Include="SeniorWords\SWReportWriter.cs" />
+    <Compile Include="VocabCommon\StVCResult.cs" />
+    <Compile Include="VocabCommon\StVCItem.cs" />
+    <Compile Include="VocabCommon\VCtemReader.cs" />
+    <Compile Include="VocabCommon\VCReportWriter.cs" />
     <Compile Include="SubPageOrder.cs" />
     <Compile Include="SybSrh\LayoutSybSrh.cs" />
     <Compile Include="SybSrh\PageSybSrh.xaml.cs">
@@ -388,7 +388,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="SeniorWords\PageSeniorWords.xaml">
+    <Page Include="VocabCommon\PageVocabCommon.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

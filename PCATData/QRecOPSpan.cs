@@ -16,7 +16,7 @@ namespace PCATData
         public List<String> AnimalStim;
         public List<String> ExpressionStim;
         public List<String> AnswerStim;
-        public List<bool> Confirm;
+        public List<string> Confirm;
         public List<long> ConfirmRT;
         public List<bool> ConfirmCorrectness;
         public List<long> ExposureTime;
@@ -30,7 +30,7 @@ namespace PCATData
             AnimalStim = new List<string>();
             ExpressionStim = new List<String>();
             AnswerStim = new List<string>();
-            Confirm = new List<bool>();
+            Confirm = new List<string>();
             ConfirmRT = new List<long>();
             ConfirmCorrectness = new List<bool>();
             ExposureTime = new List<long>();

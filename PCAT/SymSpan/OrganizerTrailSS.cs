@@ -9,6 +9,7 @@ using System.Windows.Media;
 using System.Windows;
 using System.Timers;
 using System.Windows.Threading;
+using System.Windows.Input;
 
 namespace FiveElementsIntTest.SymSpan
 {
@@ -40,8 +41,6 @@ namespace FiveElementsIntTest.SymSpan
         private AnswerSSST mCurAnswer;
         private SubPageOrderSS mOrderPage;
 
-        public RecorderSymSpan mRecorder;
-
         private bool mbDead = false;
 
         public OrganizerTrailSS(PageSymmSpan _page, bool isPractise, 
@@ -59,14 +58,13 @@ namespace FiveElementsIntTest.SymSpan
             else
             {
                 mfRoute = showTitlePage;
-                mAnswer = answer;
             }
+
+            mAnswer = answer;
 
             mOrderPage = new SubPageOrderSS(ref mPage, this);
 
             mCurSpanGroupsCount = getCurSpanGroupsCount();
-
-            mRecorder = new RecorderSymSpan(mPage);
         }
 
         private int getCurSpanGroupsCount()
@@ -90,13 +88,13 @@ namespace FiveElementsIntTest.SymSpan
         public void groupStatistics()
         {
             //record
-            mRecorder.posOffTime.Add(mPage.mTimer.GetElapsedTime());
+            mPage.mRecorder.posOffTime.Add(mPage.mTimer.GetElapsedTime());
             //symm answers` statistics
             int symErrCompare = mSymmErrorACC;
             if(mGrpAt != 2 && mGrpAt != 3)//addtional trails not count in
                 mSymmErrorACC += mContent[mGrpAt].Trails.Count - mSymmCorrectCount;
 
-            if (mSymmErrorACC - symErrCompare > 2)
+            if (mSymmErrorACC - symErrCompare > 1)
             {
                 mShowWarning = true;
             }
@@ -153,6 +151,17 @@ namespace FiveElementsIntTest.SymSpan
                 mSymmCorrectWarningMark = 0;
             }
 
+            //record
+            mPage.mRecorder.shownPosition.Add(mCurAnswer.Order);
+            List<int> bufferOrder = new List<int>();
+            for (int i = 0; i < mOrderPage.mCheckComponent.mOrder.Count; i++)
+            {
+                bufferOrder.Add(mOrderPage.mCheckComponent.mOrder[i]);
+            }
+            mPage.mRecorder.userSelPosition.Add(bufferOrder);
+            mPage.mRecorder.posCorrectness.Add(!everWrong);
+
+            //routing
             if (mPractise)
             {
                 //route
@@ -160,17 +169,6 @@ namespace FiveElementsIntTest.SymSpan
             }
             else//not practise
             {
-                //record
-                mRecorder.shownPosition.Add(mCurAnswer.Order);
-
-                List<int> bufferOrder = new List<int>();
-                for(int i = 0 ; i < mOrderPage.mCheckComponent.mOrder.Count; i++)
-                {
-                    bufferOrder.Add(mOrderPage.mCheckComponent.mOrder[i]);
-                }
-                mRecorder.userSelPosition.Add(bufferOrder);
-
-                mRecorder.posCorrectness.Add(!everWrong);
                 //mRecorder.elementInArray.Add(mContent[mGrpAt].Trails.Count);
 
                 //routing
@@ -190,8 +188,10 @@ namespace FiveElementsIntTest.SymSpan
 
         public void testEnd()
         {
-            mRecorder.outputReport(FEITStandard.GetRepotOutputPath() + "symm\\" + PageSymmSpan.interFilename,
-                    FEITStandard.GetRepotOutputPath() + "symm\\" + PageSymmSpan.posFilename);
+            mPage.mRecorder.outputReport(FEITStandard.GetRepotOutputPath() + "symm\\" + mPage.interFilename,
+                    FEITStandard.GetRepotOutputPath() + "symm\\" + mPage.posFilename,
+                    FEITStandard.GetRepotOutputPath() + "symm\\" + mPage.pracSymmFilename,
+                    FEITStandard.GetRepotOutputPath() + "symm\\" + mPage.pracPosFilename);
             mfRoute = mPage.finish;
             mPage.nextStep();
         }
@@ -241,9 +241,9 @@ namespace FiveElementsIntTest.SymSpan
             if (mGrpAt == 2 && !mPractise)
             {
                 int posErrCount = 0;
-                for (int i = 0; i < mRecorder.posCorrectness.Count; i++)
+                for (int i = 0; i < mPage.mRecorder.posCorrectness.Count; i++)
                 {
-                    if (mRecorder.posCorrectness[i] == false)
+                    if (mPage.mRecorder.posCorrectness[i] == false)
                         posErrCount++;
                 }
 
@@ -277,11 +277,8 @@ namespace FiveElementsIntTest.SymSpan
                 mfRoute = testEnd;
 
             //new answer struct
-            if (!mPractise)
-            {
-                mAnswer.Add(mCurAnswer);
-                mCurAnswer = new AnswerSSST();
-            }
+            mAnswer.Add(mCurAnswer);
+            mCurAnswer = new AnswerSSST();
 
             mOrderPage.mCheckComponent.reset();
         }
@@ -298,10 +295,11 @@ namespace FiveElementsIntTest.SymSpan
         
         public void showOrderPage()
         {
+            Mouse.OverrideCursor = Cursors.Hand;
             mPage.ClearAll();
             mOrderPage = new SubPageOrderSS(ref mPage, this);
             mOrderPage.Show();
-            mRecorder.posOnTime.Add(mPage.mTimer.GetElapsedTime());
+            mPage.mRecorder.posOnTime.Add(mPage.mTimer.GetElapsedTime());
 
             //wait for order`s signal
         }
@@ -311,6 +309,7 @@ namespace FiveElementsIntTest.SymSpan
 
         public void showSymmPage()
         {
+            Mouse.OverrideCursor = Cursors.Hand;
             mPage.ClearAll();
 
             //control component
@@ -353,7 +352,7 @@ namespace FiveElementsIntTest.SymSpan
             }
 
             //record
-            mRecorder.symmOnTime.Add(mPage.mTimer.GetElapsedTime());
+            mPage.mRecorder.symmOnTime.Add(mPage.mTimer.GetElapsedTime());
         }
 
         void arrangeAutoIKnowAndAutoFlipperInSymmPage()
@@ -393,8 +392,13 @@ namespace FiveElementsIntTest.SymSpan
             mfRoute = showBlackPageAndGo2Pos;
 
             CompCentralText ct0 = new CompCentralText();
-            ct0.PutTextToCentralScreen("心算超时",
+            ct0.PutTextToCentralScreen("观察超时",
                 "KaiTI", 48, ref mPage.mBaseCanvas, 0, Color.FromRgb(255, 0, 0));
+
+            mPage.mRecorder.symmOffTime.Add(mPage.mTimer.GetElapsedTime());
+            mPage.mRecorder.choiceShownTime.Add(-1);
+            mPage.mRecorder.choiceMadeTime.Add(-1);
+            mPage.mRecorder.symmJudgeCorrectness.Add(false);
 
             Timer t = new Timer();
             t.Elapsed += new ElapsedEventHandler(t_Elapsed);
@@ -421,8 +425,9 @@ namespace FiveElementsIntTest.SymSpan
 
         public void showDualDeterPage()
         {
+            Mouse.OverrideCursor = Cursors.Hand;
             //record
-            mRecorder.symmOffTime.Add(mPage.mTimer.GetElapsedTime());
+            mPage.mRecorder.symmOffTime.Add(mPage.mTimer.GetElapsedTime());
 
             mPage.ClearAll();
             CompDualDetermine dualPad = new CompDualDetermine();
@@ -451,7 +456,7 @@ namespace FiveElementsIntTest.SymSpan
             mfRoute = showBlackPageAndGo2Pos;
 
             //record
-            mRecorder.choiceShownTime.Add(mPage.mTimer.GetElapsedTime());
+            mPage.mRecorder.choiceShownTime.Add(mPage.mTimer.GetElapsedTime());
         }
 
         private void pressedGoNext()
@@ -466,22 +471,19 @@ namespace FiveElementsIntTest.SymSpan
 
         private void DualDeterConfirmMethod(CompDualDetermine self)
         {
-            if (!mPractise)
-            {
-                mCurAnswer.TF.Add(true);
-                mRecorder.choiceMadeTime.Add(mPage.mTimer.GetElapsedTime());
-            }
+
+            mCurAnswer.TF.Add(true);
+            mPage.mRecorder.choiceMadeTime.Add(mPage.mTimer.GetElapsedTime());
 
             self.HideCorrecteness(false);
 
             if (mContent[mGrpAt].Trails[mItemAt].IsSymm)
             {
-                if (!mPractise)
-                {
-                    mCurAnswer.TFCorrectness.Add(true);
-                    mRecorder.symmJudgeCorrectness.Add(true);
-                }
-                else
+
+                mCurAnswer.TFCorrectness.Add(true);
+                mPage.mRecorder.symmJudgeCorrectness.Add(true);
+                
+                if(mPractise)
                 {
                     self.setCorrectness(true);
                 }
@@ -490,12 +492,10 @@ namespace FiveElementsIntTest.SymSpan
             }
             else
             {
-                if (!mPractise)
-                {
-                    mCurAnswer.TFCorrectness.Add(false);
-                    mRecorder.symmJudgeCorrectness.Add(false);
-                }
-                else
+                mCurAnswer.TFCorrectness.Add(false);
+                mPage.mRecorder.symmJudgeCorrectness.Add(false);
+                
+                if(mPractise)
                 {
                     self.setCorrectness(false);
                 }
@@ -522,22 +522,19 @@ namespace FiveElementsIntTest.SymSpan
 
         private void DualdeterDenyMethod(CompDualDetermine self)
         {
-            if (!mPractise)
-            {
-                mCurAnswer.TF.Add(false);
-                mRecorder.choiceMadeTime.Add(mPage.mTimer.GetElapsedTime());
-            }
+
+            mCurAnswer.TF.Add(false);
+            mPage.mRecorder.choiceMadeTime.Add(mPage.mTimer.GetElapsedTime());
 
             self.HideCorrecteness(false);
 
             if (mContent[mGrpAt].Trails[mItemAt].IsSymm)
             {
-                if (!mPractise)
-                {
-                    mCurAnswer.TFCorrectness.Add(false);
-                    mRecorder.symmJudgeCorrectness.Add(false);
-                }
-                else
+
+                mCurAnswer.TFCorrectness.Add(false);
+                mPage.mRecorder.symmJudgeCorrectness.Add(false);
+                
+                if(mPractise)
                 {
                     self.setCorrectness(false);
                 }
@@ -546,12 +543,10 @@ namespace FiveElementsIntTest.SymSpan
             }
             else 
             {
-                if (!mPractise)
-                {
-                    mCurAnswer.TFCorrectness.Add(true);
-                    mRecorder.symmJudgeCorrectness.Add(true);
-                }
-                else
+                mCurAnswer.TFCorrectness.Add(true);
+                mPage.mRecorder.symmJudgeCorrectness.Add(true);
+                
+                if(mPractise)
                 {
                     self.setCorrectness(true);
                 }
@@ -578,12 +573,10 @@ namespace FiveElementsIntTest.SymSpan
 
         public void showPosistionPage()
         {
+            Mouse.OverrideCursor = Cursors.None;
             //record
-            if (!mPractise)
-            {
-                mRecorder.inters.Add(mContent[mGrpAt].Trails[mItemAt]);
-                //mRecorder.segmentID.Add(mCurSpanAt + 1);
-            }
+            mPage.mRecorder.inters.Add(mContent[mGrpAt].Trails[mItemAt]);
+            //mRecorder.segmentID.Add(mCurSpanAt + 1);
 
             SubPageOrderSS sp_pos = new SubPageOrderSS(ref mPage, this);
             sp_pos.mCheckComponent.mTouchActivated = false;
@@ -685,9 +678,22 @@ namespace FiveElementsIntTest.SymSpan
                 DispatcherPriority.Normal, new timedele(showBlackPage));
         }
 
+        void putEmptyCellOn()
+        {
+            SubPageOrderSS sp_pos = new SubPageOrderSS(ref mPage, this);
+            sp_pos.mCheckComponent.mTouchActivated = false;
+            sp_pos.PutNumCheckToScreen(271, 160, 4, 4, 600, 240);
+            ((UIGroupNumChecksSS)sp_pos.mCheckComponent).setPositionMode(true);
+        }
+
         void showBlackPage()
         {
             mPage.ClearAll();
+            
+            if (mfRoute == showOrderPage)
+            {
+                putEmptyCellOn();
+            }
             //delay
             Timer t = new Timer();
             t.Elapsed += new ElapsedEventHandler(t_Elapsed);
@@ -727,6 +733,12 @@ namespace FiveElementsIntTest.SymSpan
         void t_Elapsed(object sender, ElapsedEventArgs e)
         {
             mPage.Dispatcher.Invoke(DispatcherPriority.Normal, new timedele(mPage.ClearAll));
+            
+            if (mfRoute == showOrderPage)
+            {
+                mPage.Dispatcher.Invoke(DispatcherPriority.Normal, new timedele(putEmptyCellOn));
+            }
+
             Timer tt = new Timer();
             tt.Interval = 250;
             tt.AutoReset = false;

@@ -7,6 +7,8 @@ using System.Timers;
 using System.Windows.Threading;
 using System.Windows.Media.Imaging;
 using System.Windows.Media;
+using System.Diagnostics;
+using System.Windows.Input;
 
 namespace FiveElementsIntTest.SymSpan
 {
@@ -20,12 +22,16 @@ namespace FiveElementsIntTest.SymSpan
         public int mGrpAt = 0;
         private static int EDGE_ELEM = CompNumCheckSS.OUTWIDTH - 2;
         private Timer mTimer;
+        public Stopwatch mWatch;
+        public RecorderSymSpan mRecorder;
 
-        public OrganizerPracLocation(PageSymmSpan page, List<List<int>> locations)
+        public OrganizerPracLocation(PageSymmSpan page, List<List<int>> locations, RecorderSymSpan rec)
         {
             mPage = page;
             mLocations = locations;
             mTriBtns = new CompTriBtns();
+            mWatch = new Stopwatch();
+            mRecorder = rec;
         }
 
         private void putNumCheckToScreen(int xOff, int yOff,
@@ -208,6 +214,10 @@ namespace FiveElementsIntTest.SymSpan
 
         public void ShowInform()
         {
+            mRecorder.pracPosRTs.Add(mWatch.ElapsedMilliseconds);
+            mWatch.Stop();
+            mWatch.Reset();
+
             mPage.ClearAll();
 
             CompCentralText text = new CompCentralText();
@@ -217,6 +227,25 @@ namespace FiveElementsIntTest.SymSpan
 
             //correct count
             int correctCount = 0;
+            string pospos = "";
+            string userpos = "";
+
+            for (int x = 0; x < mComp.mOrder.Count; x++)
+            {
+                userpos += mComp.mOrder[x].ToString();
+                if (x != mComp.mOrder.Count - 1)
+                    userpos += ",";
+            }
+            mRecorder.pracPosUserSel.Add(userpos);
+
+            for (int y = 0; y < mLocations[mGrpAt - 1].Count; y++)
+            {
+                pospos += mLocations[mGrpAt - 1][y].ToString();
+                if (y != mLocations[mGrpAt - 1].Count - 1)
+                    pospos += ",";
+            }
+            mRecorder.pracPosPos.Add(pospos);
+
             if (mComp.mOrder.Count == mLocations[mGrpAt - 1].Count)
             {
                 for (int i = 0; i < mLocations[mGrpAt - 1].Count; i++)
@@ -232,6 +261,15 @@ namespace FiveElementsIntTest.SymSpan
             text2.PutTextToCentralScreen(
                 "你记对了" + correctCount + "个", "KaiTi", 30, ref mPage.mBaseCanvas,
                 25, System.Windows.Media.Color.FromRgb(255, 255, 255));
+
+            if (correctCount == mLocations[mGrpAt - 1].Count)
+            {
+                mRecorder.pracPosCorrect.Add(true);
+            }
+            else
+            {
+                mRecorder.pracPosCorrect.Add(false);
+            }
 
             mTimer = new Timer();
             mTimer.Elapsed += new ElapsedEventHandler(resultBlankMask1000);
@@ -259,6 +297,7 @@ namespace FiveElementsIntTest.SymSpan
 
         public void ShowOrder()
         {
+            Mouse.OverrideCursor = Cursors.Hand;
             mComp = new UIGroupNumChecksSS();
             mPage.ClearAll();
 
@@ -276,12 +315,17 @@ namespace FiveElementsIntTest.SymSpan
             mTriBtns.mBlankMethod = mComp.jumpOver;
             mTriBtns.mClearMethod = mComp.backErase;
             mTriBtns.mConfirmMethod = ShowInform;
+
+            mWatch.Start();
         }
 
         public void ShowPos(int pos)
         {
-            mComp = new UIGroupNumChecksSS();
+            Mouse.OverrideCursor = Cursors.None;
             mPage.ClearAll();
+
+            mComp = new UIGroupNumChecksSS();
+            mComp.mTouchActivated = false;
             mComp.setPositionMode(true);
             mComp.setMarked(pos);
             putNumCheckToScreen(280, 160, 4, 4, 600, 240);
@@ -301,6 +345,12 @@ namespace FiveElementsIntTest.SymSpan
         void clickBlankMask500()
         {
             mPage.ClearAll();
+
+            mComp = new UIGroupNumChecksSS();
+            mComp.mTouchActivated = false;
+            mComp.setPositionMode(true);
+            putNumCheckToScreen(280, 160, 4, 4, 600, 240);
+
             Timer t = new Timer();
             t.Interval = 500;
             t.AutoReset = false;

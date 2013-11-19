@@ -224,13 +224,15 @@ namespace FiveElementsIntTest
 
         private void exitDigitSynbol()
         {
-            //OutputDigitSymbol ods = new OutputDigitSymbol();
-            //if (!Directory.Exists(FEITStandard.GetRepotOutputPath()))
-            //    Directory.CreateDirectory(FEITStandard.GetRepotOutputPath());
+            OutputDigitSymbol ods = new OutputDigitSymbol();
+            if (!Directory.Exists(FEITStandard.GetRepotOutputPath()))
+                Directory.CreateDirectory(FEITStandard.GetRepotOutputPath());
 
-            //ods.Output(FEITStandard.GetRepotOutputPath() + "DigitSymbolReport.csv", ref mListener.mEvalue, ref mTimer);
+            ods.Output(FEITStandard.GetRepotOutputPath() + 
+                mMainWindow.mDemography.GenBriefString() + ".txt", 
+                ref mListener.mEvalue, ref mTimer);
 
-            PCATDataSaveReport();
+            //PCATDataSaveReport();
             mMainWindow.TestForward();
         }
 

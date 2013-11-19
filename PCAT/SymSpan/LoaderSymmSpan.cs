@@ -109,7 +109,7 @@ namespace FiveElementsIntTest.SymSpan
                         st.IsSymm = true;
                     }
 
-                    st.Position = Int32.Parse(line[4]) - 1;
+                    st.Position = Int32.Parse(line[3]) - 1;
                     ss.Trails.Add(st);
                 }
 
@@ -127,7 +127,7 @@ namespace FiveElementsIntTest.SymSpan
             fetcher.Open();
 
             //jump over exe
-            for(int a = 0; a < 7; a++)//7 = 2 + 2 + 2 + 1(header)
+            for(int a = 0; a < 5; a++)//5 = 2 + 2  + 1(header)
                 fetcher.GetLineBy();
 
             for (int i = 0; i < scheme.Length; i++)
@@ -147,7 +147,7 @@ namespace FiveElementsIntTest.SymSpan
                     {
                         st.IsSymm = true;
                     }
-                    st.Position = Int32.Parse(line[4]) - 1;
+                    st.Position = Int32.Parse(line[3]) - 1;
                     ss.Trails.Add(st);
                 }
 

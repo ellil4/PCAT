@@ -16,9 +16,14 @@ namespace FiveElementsIntTest
         public String Note;
         public String Time;
 
-        public String GenString()
+        public String GenFullString()
         {
             return Name + "_" + Gender + "_" + Age + "_" + Health + "_" + Education + "_" + Job + "_" + Time;
+        }
+
+        public String GenBriefString()
+        {
+            return Name + "_" + Time;
         }
     }
 }

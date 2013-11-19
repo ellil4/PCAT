@@ -19,13 +19,15 @@ namespace FiveElementsIntTest.SymSpan
         public Stopwatch mWatch;
         public List<long> mRTs;
         public long mCurRT = 0;
+        public RecorderSymSpan mRecorder;
 
-        public OrganizerPracSymm(PageSymmSpan page, List<TrailSS_ST> symms)
+        public OrganizerPracSymm(PageSymmSpan page, List<TrailSS_ST> symms, RecorderSymSpan rec)
         {
             mPage = page;
             mSymmItems = symms;
             mWatch = new Stopwatch();
             mRTs = new List<long>();
+            mRecorder = rec;
         }
 
         private void putPicAtCanvas(string picname)
@@ -59,6 +61,7 @@ namespace FiveElementsIntTest.SymSpan
                 mPage.ClearAll();
 
                 putPicAtCanvas(mSymmItems[mAt].FileName);
+                mRecorder.pracSymmPicName.Add(mSymmItems[mAt].FileName);
 
                 CompBtnNextPage btn = new CompBtnNextPage("看好了");
                 btn.Add2Page(mPage.mBaseCanvas, FEITStandard.PAGE_BEG_Y + 470);
@@ -87,6 +90,7 @@ namespace FiveElementsIntTest.SymSpan
         {
             mCurRT = mWatch.ElapsedMilliseconds;
             mRTs.Add(mCurRT);
+            mRecorder.pracSymmRTs.Add(mCurRT);
             mPage.ClearAll();
             CompDualDetermine dualPad = new CompDualDetermine();
 
@@ -118,11 +122,15 @@ namespace FiveElementsIntTest.SymSpan
             if (mSymmItems[mAt].IsSymm)
             {
                 self.setCorrectness(true);
+                mRecorder.pracSymmCorrect.Add(true);
             }
             else
             {
                 self.setCorrectness(false);
+                mRecorder.pracSymmCorrect.Add(false);
             }
+
+            mRecorder.pracSymmIsSymm.Add(mSymmItems[mAt].IsSymm);
 
             mAt++;
 
@@ -142,11 +150,15 @@ namespace FiveElementsIntTest.SymSpan
             if (mSymmItems[mAt].IsSymm)
             {
                 self.setCorrectness(false);
+                mRecorder.pracSymmCorrect.Add(false);
             }
             else
             {
                 self.setCorrectness(true);
+                mRecorder.pracSymmCorrect.Add(true);
             }
+
+            mRecorder.pracSymmIsSymm.Add(mSymmItems[mAt].IsSymm);
 
             mAt++;
 

@@ -4,16 +4,16 @@ using System.Linq;
 using System.Text;
 using System.IO;
 
-namespace FiveElementsIntTest.SeniorWords
+namespace FiveElementsIntTest.VocabCommon
 {
-    public class SWReportWriter
+    public class VCReportWriter
     {
-        public SWReportWriter(String path, List<StSWResult> results, List<StSWItem> items)
+        public VCReportWriter(String path, List<StVCResult> results, List<StVCItem> items)
         {
 
             StreamWriter sw = File.CreateText(path);
             int len = results.Count;
-            sw.WriteLine("RT, Selected, Score");
+            sw.WriteLine("RT\tSelected\tScore");
 
             for (int i = 0; i < len; i++)
             {

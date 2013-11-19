@@ -15,7 +15,7 @@ using FiveElementsIntTest.OpSpan;
 using FiveElementsIntTest.SymSpan;
 using FiveElementsIntTest.ITFigure;
 using FiveElementsIntTest.Cube;
-using FiveElementsIntTest.SeniorWords;
+using FiveElementsIntTest.VocabCommon;
 using FiveElementsIntTest.GraphicRecog;
 using FiveElementsIntTest.SybSrh;
 using FiveElementsIntTest.CtSpan;
@@ -104,12 +104,13 @@ namespace FiveElementsIntTest
                     if (mVersion == VERSION.CLIENT)
                         mClient.SendTestBeginMessage("词汇测验");
 
-                    NavigationService.Navigate(new PageSeniorWords(this));
+                    NavigationService.Navigate(new PageVocabCommon(this, TestType.Vocabulary));
                     break;
                 case TestType.Similarity:
                     if (mVersion == VERSION.CLIENT)
                         mClient.SendTestBeginMessage("类同测验");
-                    /////////////////////////////////////////////////////////////////////////////
+
+                    NavigationService.Navigate(new PageVocabCommon(this, TestType.Similarity));
                     break;
             }
 

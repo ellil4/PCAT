@@ -80,7 +80,7 @@ namespace FiveElementsIntTest.SybSrh
             else
             {
                 mFixedReader = new SybSrhFixedReader();
-
+                getFixedDataReady();
             }
 
             mTimer = new FEITTimer();
@@ -368,7 +368,9 @@ namespace FiveElementsIntTest.SybSrh
             PCATDataSaveReport();
             SybSrhWriter writer = new SybSrhWriter();
             String stamp = FEITStandard.GetStamp();
-            writer.WriteResults(DSTPATH + stamp + ".txt", mResult);
+            
+            writer.WriteResults(
+                mMainWindow.mDemography.GenBriefString() + ".txt", mResult);
 
             if (DEV_MODE)
             {

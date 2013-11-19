@@ -71,11 +71,11 @@ namespace FiveElementsIntTest.OpSpan
 
             mPage.nextStep();
 
-            recordAfterUserzPress(true, choicezCorrectness);
+            recordAfterUserzPress(true.ToString(), choicezCorrectness);
         }
 
         //record
-        private void recordAfterUserzPress(bool choice, bool correctness)
+        private void recordAfterUserzPress(string choice, bool correctness)
         {
             mPage.mRecorder.choiceMadeTime.Add(mPage.mTimer.GetElapsedTime());
             mPage.mRecorder.choice.Add(choice);
@@ -102,7 +102,7 @@ namespace FiveElementsIntTest.OpSpan
 
             mPage.nextStep();
 
-            recordAfterUserzPress(false, choiceCorrectness);
+            recordAfterUserzPress(false.ToString(), choiceCorrectness);
         }
 
         private void record(bool choice)

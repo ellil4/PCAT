@@ -15,22 +15,22 @@ using System.Timers;
 using System.IO;
 using PCATData;
 
-namespace FiveElementsIntTest.SeniorWords
+namespace FiveElementsIntTest.VocabCommon
 {
     /// <summary>
     /// PageSeniorWords.xaml 的互動邏輯
     /// </summary>
-    public partial class PageSeniorWords : Page
+    public partial class PageVocabCommon : Page
     {
         public MainWindow mMainWindow;
 
         public List<CompSeniorWords> mSelections;
         public TextBox mMainLabel;
-        OrganizerSeniorWords mOrganizer;
+        OrganizerVocabCommon mOrganizer;
         public Label mNextBtn;
 
-        public List<StSWItem> mItems;
-        public List<StSWResult> mResults;
+        public List<StVCItem> mItems;
+        public List<StVCResult> mResults;
         private int mCurTillIndex = 2;//begin with the third one
         private bool mbReturned = false;
         private int mReturnedAt = -1;
@@ -42,23 +42,27 @@ namespace FiveElementsIntTest.SeniorWords
         public static String BASE_FOLDER = 
             System.AppDomain.CurrentDomain.BaseDirectory;
 
-        public static String OUT_FOLDER = "Report\\VocabTest\\";
-        public static String INPUT_FILE = "FEITSWsource.txt";
+        public static String OUT_FOLDER_VOC = "Report\\VocabTest\\";
+        public static String OUT_FOLDER_COMM = "Report\\CommonAbstraction\\";
+        public static String INPUT_FILE_VOC = "FEITSWsource.txt";
+        public static String INPUT_FILE_COMM = "FEITCOMMsource.txt";
 
         private int mContinuousZero = 0;
 
-        private CompOvertimeWarning mWarning;
+        public CompOvertimeWarning mWarning;
+        private TestType mTestType;
 
-        public PageSeniorWords(MainWindow _mainWindow)
+        public PageVocabCommon(MainWindow _mainWindow, TestType type)
         {
             InitializeComponent();
             mMainWindow = _mainWindow;
+            mTestType = type;
 
             checkOutputFolder();
 
             mSelections = new List<CompSeniorWords>();
 
-            mResults = new List<StSWResult>();
+            mResults = new List<StVCResult>();
             mTimer = new FEITTimer();
 
             /*if (!mMainWindow.mDB.TableExists(Names.VOCAB_TABLENAME))
@@ -67,6 +71,7 @@ namespace FiveElementsIntTest.SeniorWords
             }*/
 
             mWarning = new CompOvertimeWarning(this);
+            mtWarn = new Timer();
         }
 
         public int SelectedIdx()
@@ -86,9 +91,19 @@ namespace FiveElementsIntTest.SeniorWords
 
         private void checkOutputFolder()
         {
-            if(!Directory.Exists(BASE_FOLDER + OUT_FOLDER))
+            if (mTestType == TestType.Vocabulary)
             {
-                Directory.CreateDirectory(BASE_FOLDER + OUT_FOLDER);
+                if (!Directory.Exists(BASE_FOLDER + OUT_FOLDER_VOC))
+                {
+                    Directory.CreateDirectory(BASE_FOLDER + OUT_FOLDER_VOC);
+                }
+            }
+            else if(mTestType == TestType.Similarity)
+            {
+                if (!Directory.Exists(BASE_FOLDER + OUT_FOLDER_COMM))
+                {
+                    Directory.CreateDirectory(BASE_FOLDER + OUT_FOLDER_COMM);
+                }
             }
         }
 
@@ -157,11 +172,12 @@ namespace FiveElementsIntTest.SeniorWords
             {
                 //save result
                 mTimer.Stop();
-                StSWResult result = new StSWResult();
+                StVCResult result = new StVCResult();
                 result.SelectedItemIndex = selectedIndex;
                 result.RT = mTimer.GetElapsedTime();
                 mResults.Add(result);
                 mTimer.Reset();
+                mtWarn.Enabled = false;
 
                 //return process
                 bool continuousErrQuit = continuousZeroQuit(selectedIndex);
@@ -205,7 +221,20 @@ namespace FiveElementsIntTest.SeniorWords
 
         private string getOutputPath()
         {
-            return BASE_FOLDER + OUT_FOLDER + FEITStandard.GetStamp() + ".txt";
+            if (mTestType == TestType.Vocabulary)
+            {
+                return BASE_FOLDER + OUT_FOLDER_VOC + 
+                    mMainWindow.mDemography.GenBriefString() + ".txt";
+            }
+            else if (mTestType == TestType.Similarity)
+            {
+                return BASE_FOLDER + OUT_FOLDER_COMM + 
+                    mMainWindow.mDemography.GenBriefString() + ".txt";
+            }
+            else
+            {
+                return null;
+            }
         }
 
         public void PCATDataSaveReport()
@@ -234,7 +263,7 @@ namespace FiveElementsIntTest.SeniorWords
         private void testEnd()
         {
             //PCATDataSaveReport();
-            new SWReportWriter(getOutputPath(), mResults, mItems);
+            new VCReportWriter(getOutputPath(), mResults, mItems);
 
             mOrganizer.EndPage();
 
@@ -298,13 +327,19 @@ namespace FiveElementsIntTest.SeniorWords
             PageCommon.InitCommonPageElements(ref amCanvas);
             clearAll();
             buildElements();
-            mOrganizer = new OrganizerSeniorWords(this);
+            mOrganizer = new OrganizerVocabCommon(this);
 
-            SWItemReader rd = new SWItemReader();
+            VCtemReader rd = new VCtemReader();
 
-            mItems = rd.ReadSheet(BASE_FOLDER + INPUT_FILE);
+            if (mTestType == TestType.Vocabulary)
+            {
+                mItems = rd.ReadSheet(BASE_FOLDER + INPUT_FILE_VOC);
+            }
+            else if (mTestType == TestType.Similarity)
+            {
+                mItems = rd.ReadSheet(BASE_FOLDER + INPUT_FILE_COMM);
+            }
             
-
             mOrganizer.StartPage();
         }
 
@@ -316,9 +351,8 @@ namespace FiveElementsIntTest.SeniorWords
             mCurTillIndex++;
             mTimer.Start();
 
-            amCanvas.Children.Remove(mWarning);
+            mWarning.Out();
 
-            mtWarn = new Timer();
             mtWarn.Interval = 10000;
             mtWarn.Elapsed += new ElapsedEventHandler(tWarn_Elapsed);
             mtWarn.AutoReset = false;
@@ -333,9 +367,7 @@ namespace FiveElementsIntTest.SeniorWords
 
         void showWarning()
         {
-            amCanvas.Children.Add(mWarning);
-            Canvas.SetTop(mWarning, FEITStandard.PAGE_BEG_Y + 600);
-            Canvas.SetLeft(mWarning, FEITStandard.PAGE_BEG_X + (FEITStandard.PAGE_WIDTH - 300) / 2);
+            mWarning.Flashing();
         }
 
         private void fillPage(int index)

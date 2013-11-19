@@ -24,6 +24,22 @@ namespace FiveElementsIntTest
             mOrder = new List<int>();
         }
 
+        /*public void SetTouchFree()
+        {
+            for (int i = 0; i < mCheckComps.Count; i++)
+            {
+                mCheckComps[i].IsHitTestVisible = false;
+            }
+        }
+
+        public void SetTouchable()
+        {
+            for (int i = 0; i < mCheckComps.Count; i++)
+            {
+                mCheckComps[i].IsHitTestVisible = true;
+            }
+        }*/
+
         public virtual void onAction(int actionCompIndex)
         {
             if (mNowTill < mClickLimit/*10*/ && mTouchActivated)

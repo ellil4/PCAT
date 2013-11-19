@@ -64,7 +64,8 @@ namespace FiveElementsIntTest.SymSpan
         public override void onAction(int actionCompIndex)
         {
             base.onAction(actionCompIndex);
-            mCheckComps[actionCompIndex].amEllipse.Visibility = System.Windows.Visibility.Visible;
+            if(mTouchActivated)
+                mCheckComps[actionCompIndex].amEllipse.Visibility = System.Windows.Visibility.Visible;
         }
 
         public override void reset()

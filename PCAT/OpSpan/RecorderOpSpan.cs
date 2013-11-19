@@ -17,7 +17,7 @@ namespace FiveElementsIntTest.OpSpan
         public List<int> displayedAnswer;
         public List<long> choiceShowTime;
         public List<long> choiceMadeTime;
-        public List<bool> choice;
+        public List<string> choice;
         public List<bool> correctness;
 
 
@@ -59,7 +59,7 @@ namespace FiveElementsIntTest.OpSpan
             mathOn = new List<long>();
             mathOff = new List<long>();
             displayedAnswer = new List<int>();
-            choice = new List<bool>();
+            choice = new List<string>();
             correctness = new List<bool>();
             choiceShowTime = new List<long>();
             choiceMadeTime = new List<long>();
@@ -100,7 +100,7 @@ namespace FiveElementsIntTest.OpSpan
                     subGroupRec.AnimalStim.Add(animal[thisCursor1]);
                     subGroupRec.ExpressionStim.Add(mathExpression[thisCursor1]);
                     subGroupRec.AnswerStim.Add(displayedAnswer[thisCursor1].ToString());
-                    subGroupRec.Confirm.Add(choice[thisCursor1]);
+                    subGroupRec.Confirm.Add(choice[thisCursor1].ToString());
                     subGroupRec.ConfirmRT.Add(choiceMadeTime[thisCursor1] - choiceShowTime[thisCursor1]);
                     subGroupRec.ConfirmCorrectness.Add(correctness[thisCursor1]);
                     subGroupRec.ExposureTime.Add(mathOff[thisCursor1] - mathOn[thisCursor1]);

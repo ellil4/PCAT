@@ -66,10 +66,10 @@ namespace FiveElementsIntTest.OpSpan
             mRecorder = new RecorderOpSpan(this);
             mTimer = new FEITTimer();
 
-            interFilename = "inter_" + mMainWindow.mDemography.GenString() + ".txt";
-            orderFilename = "order_" + mMainWindow.mDemography.GenString() + ".txt";
-            pracMathFilename = "pracMath_" + mMainWindow.mDemography.GenString() + ".txt";
-            pracOrderFilename = "pracOrder_" + mMainWindow.mDemography.GenString() + ".txt";
+            interFilename = "inter_" + mMainWindow.mDemography.GenBriefString() + ".txt";
+            orderFilename = "order_" + mMainWindow.mDemography.GenBriefString() + ".txt";
+            pracMathFilename = "pracMath_" + mMainWindow.mDemography.GenBriefString() + ".txt";
+            pracOrderFilename = "pracOrder_" + mMainWindow.mDemography.GenBriefString() + ".txt";
         }
 
         public static int getSubGroupID(int numInArray)
@@ -132,7 +132,7 @@ namespace FiveElementsIntTest.OpSpan
                 readFixedFromFile(FEITStandard.GetExePath() + "OP\\opspan.txt",
                     ref mGroupsPrac, mGroupArrangementPrac, 1);
                 readFixedFromFile(FEITStandard.GetExePath() + "OP\\opspan.txt",
-                    ref mGroups, mGroupArrangement, 7);
+                    ref mGroups, mGroupArrangement, 5);
             }
 
             //replace equations here:
@@ -279,6 +279,34 @@ namespace FiveElementsIntTest.OpSpan
             mRecorder.mPracOrderRTs = opc.mRTs;
         }
 
+        private long getMeanRT(List<long> originRTs)
+        {
+            long retval = 0;
+            originRTs = originRTs.OrderByDescending(rt => rt).ToList<long>();
+            List<long> newRTs = new List<long>();
+            int removeCount = 0;
+            for (int i = 0; i < originRTs.Count; i++)
+            {
+                if (removeCount < 2 && originRTs[i] > 10000)
+                {
+                    removeCount++;
+                }
+                else
+                {
+                    newRTs.Add(originRTs[i]);
+                }
+            }
+
+            for (int k = 0; k < newRTs.Count; k++)
+            {
+                retval += newRTs[k];
+            }
+
+            retval /= newRTs.Count;
+
+            return retval;
+        }
+
         private void loadPractiseEquation()
         {
             OrganizerPractiseEquation ope = new OrganizerPractiseEquation(this);
@@ -291,28 +319,11 @@ namespace FiveElementsIntTest.OpSpan
             mRecorder.mMathPracRTs = ope.mRTs;
         }
 
-        private long calcMeanRt()
-        {
-            long retval = 2000;
-
-            if (mRTs != null)
-            {
-                for (int i = 0; i < mRTs.Count; i++)
-                {
-                    retval += mRTs[i];
-                }
-
-                retval /= mRTs.Count;
-            }
-            
-            return retval;
-        }
-
         private void loadInstructionComprehensivePrac()
         {
             ClearAll();
             
-            mMeanRT = calcMeanRt();
+            mMeanRT = getMeanRT(mRTs);
 
             mLayoutInstruction.addInstruction(150, 100,
                 FEITStandard.PAGE_WIDTH, 400,

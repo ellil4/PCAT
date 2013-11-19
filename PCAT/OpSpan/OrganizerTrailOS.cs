@@ -15,6 +15,7 @@ namespace FiveElementsIntTest.OpSpan
         private List<TrailGroupOS> mGroups;
         private PageOpSpan mPage;
         private bool mPractiseMode = false;
+        private bool mExtraTrailDone = false;
 
         private int mCurTypeMax = 0;
         private int mCurTypeAt = 1;
@@ -41,6 +42,7 @@ namespace FiveElementsIntTest.OpSpan
         private int mEquationResult;
 
         private delegate bool timedele();
+        private delegate void simpleTimedele();
 
 
 
@@ -140,7 +142,11 @@ namespace FiveElementsIntTest.OpSpan
             {
                 for (int j = 0; j < mAnswerGrp[i].Confirm.Count; j++)
                 {
-                    if (mGroups[i].mTrails[j].correctness ==
+                    int grp_i = i;
+                    if (i > 1 && mExtraTrailDone)
+                        grp_i += 2;
+
+                    if (mGroups[grp_i].mTrails[j].correctness ==
                         mAnswerGrp[i].Confirm[j])
                     {
                         totalCorrect++;
@@ -172,7 +178,7 @@ namespace FiveElementsIntTest.OpSpan
 
         public void groupIterate()
         {
-            mAnswerGrp.Add(mAnswer);
+            
             mAnswer = new AnswerOpSpan();
             
             //statistics
@@ -185,7 +191,8 @@ namespace FiveElementsIntTest.OpSpan
             }
             else
             {
-                mGrpAt++;
+                mGrpAt++;//go extra
+                mExtraTrailDone = true;
             }
 
             mTraAt = 0;
@@ -253,12 +260,14 @@ namespace FiveElementsIntTest.OpSpan
                 mSpanOrderErrCount++;
             }
 
-            if (!mValid && mCurTypeAt == mCurTypeMax && !mPractiseMode)
+            if (!mValid && !mPractiseMode)
             {
                 route = showWarningPage;
             }
 
             //quit with error
+            mAnswerGrp.Add(mAnswer);
+
             if (!mPractiseMode &&
                 (mSpanOrderErrCount == 2 || getTotalMathCorrectRate() < 0.8) && 
                 mGrpAt > 3 &&
@@ -267,7 +276,7 @@ namespace FiveElementsIntTest.OpSpan
                 route = quit;
             }
             else if (!mPractiseMode &&
-                (mSpanOrderErrCount == 2) && 
+                (mSpanOrderErrCount == 4) && 
                 mGrpAt == 3)//quit in span2
             {
                 route = quit;
@@ -405,7 +414,8 @@ namespace FiveElementsIntTest.OpSpan
 
         void t_Overtime(object sender, ElapsedEventArgs e)
         {
-            showBlackPage2Overtime();
+            mPage.Dispatcher.Invoke(DispatcherPriority.Normal, 
+                new simpleTimedele(showBlackPage2Overtime));
         }
 
         void t_Elapsed(object sender, ElapsedEventArgs e)
@@ -495,12 +505,22 @@ namespace FiveElementsIntTest.OpSpan
 
         public bool showOvertimePage()
         {
+            mPage.mRecorder.mathOff.Add(mPage.mTimer.GetElapsedTime());
+            mPage.mRecorder.displayedAnswer.Add(Int32.Parse(mGroups[mGrpAt].mTrails[mTraAt].result));
+
             route = showBlackPage2Animal;
 
             mPage.ClearAll();
             CompCentralText ct = new CompCentralText();
             ct.PutTextToCentralScreen("心算超时",
                 "Microsoft YaHei", 55, ref mPage.mBaseCanvas, 0, Color.FromRgb(255, 0, 0));
+            
+            //fill a wrong answer and no sense data
+            mAnswer.Confirm.Add(!currentCorrectness());
+            mPage.mRecorder.choiceShowTime.Add(-1);
+            mPage.mRecorder.choiceMadeTime.Add(-1);
+            mPage.mRecorder.choice.Add("null");
+            mPage.mRecorder.correctness.Add(false);
 
             delayAndNext(1500);
 
@@ -579,9 +599,9 @@ namespace FiveElementsIntTest.OpSpan
             CompCentralText cct = new CompCentralText();
             CompCentralText cct2 = new CompCentralText();
             cct.PutTextToCentralScreen("请你注意", "KaiTi", 48, 
-                ref mPage.mBaseCanvas, -30, Color.FromRgb(255, 255, 255));
-            cct2.PutTextToCentralScreen("保持心算的正确率！", "KaiTi", 48, 
-                ref mPage.mBaseCanvas, 30, Color.FromRgb(255, 255, 255));
+                ref mPage.mBaseCanvas, -30, Color.FromRgb(255, 0, 0));
+            cct2.PutTextToCentralScreen(" 保持心算的正确率！", "KaiTi", 48, 
+                ref mPage.mBaseCanvas, 30, Color.FromRgb(255, 0, 0));
 
 
             route = showBlackPage2Title;
@@ -601,7 +621,8 @@ namespace FiveElementsIntTest.OpSpan
             {
                 //record
                 mPage.mTimer.Stop();
-                mPage.mRecorder.outputReport(FEITStandard.GetRepotOutputPath() + "op\\" + mPage.interFilename,
+                mPage.mRecorder.outputReport(
+                    FEITStandard.GetRepotOutputPath() + "op\\" + mPage.interFilename,
                     FEITStandard.GetRepotOutputPath() + "op\\" + mPage.orderFilename, 
                     FEITStandard.GetRepotOutputPath() + "op\\" + mPage.pracMathFilename,
                     FEITStandard.GetRepotOutputPath() + "op\\" + mPage.pracOrderFilename);

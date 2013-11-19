@@ -160,7 +160,7 @@ namespace FiveElementsIntTest.OpSpan
             cdd.mDenyMethod = doNothing;
             mPosMark++;
 
-            if (mPosMark < 16)
+            if (mPosMark < mActualTestLen)
             {
                 mfNext = showEquation;
             }
