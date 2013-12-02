@@ -15,11 +15,11 @@ using System.Windows.Shapes;
 namespace FiveElementsIntTest.SybSrh
 {
     /// <summary>
-    /// PageTitle.xaml 的互動邏輯
+    /// PageX2.xaml 的互動邏輯
     /// </summary>
-    public partial class PageTitle : UserControl
+    public partial class PageX2 : UserControl
     {
-        public PageTitle()
+        public PageX2()
         {
             InitializeComponent();
         }

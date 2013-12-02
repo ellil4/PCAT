@@ -30,7 +30,7 @@ namespace FiveElementsIntTest.VocabCommon
         public Label mNextBtn;
 
         public List<StVCItem> mItems;
-        public List<StVCResult> mResults;
+        public StVCResult[] mResults;
         private int mCurTillIndex = 2;//begin with the third one
         private bool mbReturned = false;
         private int mReturnedAt = -1;
@@ -61,8 +61,8 @@ namespace FiveElementsIntTest.VocabCommon
             checkOutputFolder();
 
             mSelections = new List<CompSeniorWords>();
-
-            mResults = new List<StVCResult>();
+            mResults = new StVCResult[40];
+            prefillExtraItemzResult();
             mTimer = new FEITTimer();
 
             /*if (!mMainWindow.mDB.TableExists(Names.VOCAB_TABLENAME))
@@ -72,6 +72,16 @@ namespace FiveElementsIntTest.VocabCommon
 
             mWarning = new CompOvertimeWarning(this);
             mtWarn = new Timer();
+        }
+
+        private void prefillExtraItemzResult()
+        {
+            for (int i = 0; i < 2; i++)
+            {
+                mResults[i] = new StVCResult();
+                mResults[i].RT = -1;
+                mResults[i].SelectedItemIndex = -1;
+            }
         }
 
         public int SelectedIdx()
@@ -175,7 +185,7 @@ namespace FiveElementsIntTest.VocabCommon
                 StVCResult result = new StVCResult();
                 result.SelectedItemIndex = selectedIndex;
                 result.RT = mTimer.GetElapsedTime();
-                mResults.Add(result);
+                mResults[mCurTillIndex - 1] = result;
                 mTimer.Reset();
                 mtWarn.Enabled = false;
 
@@ -183,7 +193,7 @@ namespace FiveElementsIntTest.VocabCommon
                 bool continuousErrQuit = continuousZeroQuit(selectedIndex);
                 int thisScore = mItems[mCurTillIndex - 1].Weights[result.SelectedItemIndex];
 
-                if (mCurTillIndex < 5 && mbReturned == false)
+                if (mCurTillIndex - 1 < 5 && mbReturned == false)
                 {
                     if (thisScore == 0)
                     {
@@ -193,7 +203,7 @@ namespace FiveElementsIntTest.VocabCommon
                     }
                 }
 
-                if (mCurTillIndex == 1)//return process finished
+                if (mCurTillIndex - 1 == 1)//return process finished
                 {
                     mCurTillIndex = mReturnedAt;
                 }

@@ -8,19 +8,32 @@ namespace FiveElementsIntTest.VocabCommon
 {
     public class VCReportWriter
     {
-        public VCReportWriter(String path, List<StVCResult> results, List<StVCItem> items)
+        public VCReportWriter(String path, StVCResult[] results, List<StVCItem> items)
         {
 
             StreamWriter sw = File.CreateText(path);
-            int len = results.Count;
+            int len = results.Length;
             sw.WriteLine("RT\tSelected\tScore");
 
             for (int i = 0; i < len; i++)
             {
-                String line = results[i].RT + "\t" + 
-                    results[i].SelectedItemIndex + "\t" + 
-                    items[i].Weights[results[i].SelectedItemIndex];
-                sw.WriteLine(line);
+                if (results[i] != null)
+                {
+                    String line;
+                    if (results[i].SelectedItemIndex != -1)
+                    {
+                        line = results[i].RT + "\t" +
+                            results[i].SelectedItemIndex + "\t" +
+                            items[i].Weights[results[i].SelectedItemIndex];
+                    }
+                    else
+                    {
+                        line = results[i].RT + "\t" +
+                            results[i].SelectedItemIndex + "\t" +
+                            "2";
+                    }
+                    sw.WriteLine(line);
+                }
             }
 
             sw.Close();

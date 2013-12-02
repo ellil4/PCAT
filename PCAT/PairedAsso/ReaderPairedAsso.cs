@@ -8,14 +8,13 @@ namespace FiveElementsIntTest.PairedAsso
 {
     public class ReaderPairedAsso
     {
-        
-        
+
+        public static int REPEATS = 2;
         public static List<List<StPair>> GetLearningItems()
         {
             List<List<StPair>> retval = new List<List<StPair>>();
             String BasePath = FEITStandard.GetExePath() + "PAIREDASSO\\";
             int groupLen = PagePairedAsso.mGroupLen;
-            int groupCount = 3;
 
             TabFetcher fet = new TabFetcher(BasePath + "Learn.txt", "\\t");
             fet.Open();
@@ -23,7 +22,7 @@ namespace FiveElementsIntTest.PairedAsso
 
             List<String> line = null;
 
-            for (int j = 0; j < groupCount; j++)
+            for (int j = 0; j < REPEATS; j++)
             {
                 List<StPair> group = new List<StPair>();
                 for (int i = 0; i < groupLen; i++)
@@ -48,14 +47,13 @@ namespace FiveElementsIntTest.PairedAsso
 
             String BasePath = FEITStandard.GetExePath() + "PAIREDASSO\\";
             int groupLen = PagePairedAsso.mGroupLen;
-            int groupCount = 3;
 
             TabFetcher fet = new TabFetcher(BasePath + "Test.txt", "\\t");
             fet.Open();
             fet.GetLineBy();
 
             List<String> line = null;
-            for (int k = 0; k < groupCount; k++)
+            for (int k = 0; k < REPEATS; k++)
             {
                 List<StTest> group = new List<StTest>();
                 for (int i = 0; i < groupLen; i++)

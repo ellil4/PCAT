@@ -27,12 +27,6 @@ namespace FiveElementsIntTest.PairedAsso
             ct.PutTextToCentralScreen("下面请注意记！",
                 "KaiTi", 50, ref mPage.amBaseCanvas, 0, Color.FromRgb(255, 255, 255));
 
-            /*Timer t = new Timer();
-            t.Interval = 2000;
-            t.AutoReset = false;
-            t.Elapsed += new ElapsedEventHandler(showPair_Elapsed);
-            t.Enabled = true;*/
-
             CompBtnNextPage btn = new CompBtnNextPage("开始");
             btn.Add2Page(mPage.amBaseCanvas, FEITStandard.PAGE_BEG_Y + 470);
             btn.mfOnAction = showBlackPage;

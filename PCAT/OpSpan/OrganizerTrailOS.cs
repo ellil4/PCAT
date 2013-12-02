@@ -96,6 +96,10 @@ namespace FiveElementsIntTest.OpSpan
             CompCentralText ct = new CompCentralText();
             ct.PutTextToCentralScreen("做心算，记属相",
                 "KaiTi", 50, ref mPage.mBaseCanvas, 0, Color.FromRgb(0, 255, 0));
+            
+            CompCentralText ct2 = new CompCentralText();
+            ct2.PutTextToCentralScreen("[" + mCurTrailsCount + "-" + mCurTypeAt + "]",
+                "KaiTi", 50, ref mPage.mBaseCanvas, 100, Color.FromRgb(0, 255, 0));
 
             route = showLongBlackPage2Equation;
 
@@ -396,7 +400,7 @@ namespace FiveElementsIntTest.OpSpan
 
             //new FEITClickableScreen(ref mPage.mBaseCanvas, mPage.nextStep, ref t);
             CompBtnNextPage btn = new CompBtnNextPage("算好了", t);
-            btn.Add2Page(mPage.mBaseCanvas, FEITStandard.PAGE_BEG_Y + 470);
+            btn.Add2Page(mPage.mBaseCanvas, FEITStandard.PAGE_BEG_Y + 400);
             btn.mfOnAction = mPage.nextStep;
 
             return true;

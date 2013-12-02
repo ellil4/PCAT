@@ -6,10 +6,10 @@
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300" Width="440" Height="250" Foreground="White" Background="Black">
     <Grid>
-        <Border BorderBrush="White" BorderThickness="4" Height="54" HorizontalAlignment="Left" Margin="2,95,0,0" Name="mBdrConfirm" VerticalAlignment="Top" Width="104" MouseUp="mBdrConfirm_MouseUp">
+        <Border BorderBrush="White" BorderThickness="4" Height="54" HorizontalAlignment="Left" Margin="2,192,0,0" Name="mBdrConfirm" VerticalAlignment="Top" Width="104" MouseUp="mBdrConfirm_MouseUp">
             <TextBlock Height="37" Name="textBlock1" Text="对" TextAlignment="Center" FontFamily="KaiTi" FontSize="36" Width="90" />
         </Border>
-        <Border BorderBrush="White" BorderThickness="4" Height="54" HorizontalAlignment="Left" Margin="335,95,0,0" Name="mBdrDeny" VerticalAlignment="Top" Width="104" MouseUp="mBdrDeny_MouseUp">
+        <Border BorderBrush="White" BorderThickness="4" Height="54" HorizontalAlignment="Left" Margin="335,192,0,0" Name="mBdrDeny" VerticalAlignment="Top" Width="104" MouseUp="mBdrDeny_MouseUp">
             <TextBlock FontFamily="KaiTi" FontSize="36" Height="37" Name="textBlock2" Text="错" TextAlignment="Center" Width="90" />
         </Border>
         <TextBox Height="65" HorizontalAlignment="Left" Margin="160,0,0,0" Name="mTextboxResult" VerticalAlignment="Top" Width="120" Text="8" IsReadOnly="True" Background="Black" Foreground="White" FontFamily="Batang" FontSize="58" TextAlignment="Center" BorderThickness="0" CharacterCasing="Normal" FontStretch="Normal" />

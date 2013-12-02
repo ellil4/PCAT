@@ -47,7 +47,7 @@ namespace FiveElementsIntTest.SymSpan
             img_ctrl.Height = 450;
 
             mPage.mBaseCanvas.Children.Add(img_ctrl);
-            Canvas.SetTop(img_ctrl, FEITStandard.PAGE_BEG_Y + (FEITStandard.PAGE_HEIGHT - img_ctrl.Height) / 2);
+            Canvas.SetTop(img_ctrl, FEITStandard.PAGE_BEG_Y + (FEITStandard.PAGE_HEIGHT - img_ctrl.Height) / 2 - 50);
             Canvas.SetLeft(img_ctrl, FEITStandard.PAGE_BEG_X + (FEITStandard.PAGE_WIDTH - img_ctrl.Width) / 2);
         }
 
@@ -64,7 +64,7 @@ namespace FiveElementsIntTest.SymSpan
                 mRecorder.pracSymmPicName.Add(mSymmItems[mAt].FileName);
 
                 CompBtnNextPage btn = new CompBtnNextPage("看好了");
-                btn.Add2Page(mPage.mBaseCanvas, FEITStandard.PAGE_BEG_Y + 470);
+                btn.Add2Page(mPage.mBaseCanvas, FEITStandard.PAGE_BEG_Y + 400);
                 btn.mfOnAction = blankMask200withShowJudge;
             }
         }

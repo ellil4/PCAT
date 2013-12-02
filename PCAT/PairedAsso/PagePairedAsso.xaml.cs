@@ -176,12 +176,12 @@ namespace FiveElementsIntTest.PairedAsso
                 case PairedAssoStep.test2:
                     showTest(1, "(二)");
                     break;
-                case PairedAssoStep.learning3:
+                /*case PairedAssoStep.learning3:
                     showLearning(2);
                     break;
                 case PairedAssoStep.test3:
                     showTest(2, "(三)");
-                    break;
+                    break;*/
                 case PairedAssoStep.end:
                     showEndPage();
                     break;
@@ -193,6 +193,6 @@ namespace FiveElementsIntTest.PairedAsso
 
     public enum PairedAssoStep
     {
-        title, instruction, learning1, test1, learning2, test2, learning3, test3, end
+        title, instruction, learning1, test1, learning2, test2, /*learning3, test3,*/ end
     }
 }

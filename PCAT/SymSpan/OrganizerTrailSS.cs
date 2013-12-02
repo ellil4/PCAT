@@ -219,7 +219,7 @@ namespace FiveElementsIntTest.SymSpan
 
                     if ((((float)mSymmErrorACC /
                         (float)(mCurSpanGroupsCount * mPage.mTestGroupScheme[mGrpAt - 1])) > 0.2) &&
-                        mGrpAt >= 4)
+                        mGrpAt - 1 >= 4)
                     {
                         mbDead = true;
                     }
@@ -240,12 +240,12 @@ namespace FiveElementsIntTest.SymSpan
             //length2 addtional 2 items
             if (mGrpAt == 2 && !mPractise)
             {
-                int posErrCount = 0;
+                /*int posErrCount = 0;
                 for (int i = 0; i < mPage.mRecorder.posCorrectness.Count; i++)
                 {
                     if (mPage.mRecorder.posCorrectness[i] == false)
                         posErrCount++;
-                }
+                }*/
 
                 /*int symmErrCount = 0;
                 for (int j = 0; j < mRecorder.symmJudgeCorrectness.Count; j++)
@@ -254,13 +254,14 @@ namespace FiveElementsIntTest.SymSpan
                         symmErrCount++;
                 }*/
 
-                if (posErrCount < 2)
+                if (mPage.mRecorder.posCorrectness[2] == true ||
+                    mPage.mRecorder.posCorrectness[3] == true)//not gonna have extra
                 {
                     mGrpAt += 2;
                     mCurSpanGroupsCount = getCurSpanGroupsCount();
                     mCurSpanAt = 0;
                     mOrderErrorACC = 0;
-                    mSymmErrorACC = 0;
+                    //mSymmErrorACC = 0;
                 }
             }
 
@@ -328,7 +329,7 @@ namespace FiveElementsIntTest.SymSpan
             img_ctrl.Height = 450;
 
             mPage.mBaseCanvas.Children.Add(img_ctrl);
-            Canvas.SetTop(img_ctrl, FEITStandard.PAGE_BEG_Y + (FEITStandard.PAGE_HEIGHT - img_ctrl.Height) / 2);
+            Canvas.SetTop(img_ctrl, FEITStandard.PAGE_BEG_Y + (FEITStandard.PAGE_HEIGHT - img_ctrl.Height) / 2 - 50);
             Canvas.SetLeft(img_ctrl, FEITStandard.PAGE_BEG_X + (FEITStandard.PAGE_WIDTH - img_ctrl.Width) / 2);
 
             mfRoute = showDualDeterPage;
@@ -342,7 +343,7 @@ namespace FiveElementsIntTest.SymSpan
                 if (mGrpAt == 0)
                 {
                     CompBtnNextPage btn = new CompBtnNextPage("看好了");
-                    btn.Add2Page(mPage.mBaseCanvas, FEITStandard.PAGE_BEG_Y + 470);
+                    btn.Add2Page(mPage.mBaseCanvas, FEITStandard.PAGE_BEG_Y + 400);
                     btn.mfOnAction = nextStep;
                 }
                 else
@@ -374,7 +375,7 @@ namespace FiveElementsIntTest.SymSpan
         void showIKnowBtn()
         {
             CompBtnNextPage btn = new CompBtnNextPage("看好了");
-            btn.Add2Page(mPage.mBaseCanvas, FEITStandard.PAGE_BEG_Y + 470);
+            btn.Add2Page(mPage.mBaseCanvas, FEITStandard.PAGE_BEG_Y + 400);
             btn.mfOnAction = onIKnowBtn; 
         }
 
@@ -659,9 +660,13 @@ namespace FiveElementsIntTest.SymSpan
         {
             mPage.ClearAll();
 
-            CompCentralText ct = new CompCentralText();
-            ct.PutTextToCentralScreen("***" + mContent[mGrpAt].Trails.Count + "题第" + (mCurSpanAt + 1) + "组" + "***",
+            CompCentralText ct0 = new CompCentralText();
+            ct0.PutTextToCentralScreen("判对称，记位置",
                 "KaiTi", 50, ref mPage.mBaseCanvas, 0, Color.FromRgb(0, 255, 0));
+
+            CompCentralText ct = new CompCentralText();
+            ct.PutTextToCentralScreen("[" + mContent[mGrpAt].Trails.Count + "-" + (mCurSpanAt + 1) + "]",
+                "KaiTi", 50, ref mPage.mBaseCanvas, 100, Color.FromRgb(0, 255, 0));
 
             mfRoute = showSymmPage;
 

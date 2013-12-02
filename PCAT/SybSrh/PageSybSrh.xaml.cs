@@ -27,7 +27,7 @@ namespace FiveElementsIntTest.SybSrh
     public partial class PageSybSrh : Page
     {
         private MainWindow mMainWindow;
-        public bool DEV_MODE = true;
+        public bool DEV_MODE = false;
         public int MAXTRAILCOUNT = 72;
         //public static int TEST1ITEMTILL = 2;
         //public static int TEST2ITEMTILL = TEST1ITEMTILL * 2;
@@ -63,7 +63,7 @@ namespace FiveElementsIntTest.SybSrh
 
         public enum STATUS
         {
-            INSTRUCTION, INSTRUCTION2, INSTRUCTION3, TEST, FINISH
+            INSTRUCTION, INSTRUCTION_PLUS, GO_PRAC, ON_PRAC, INSTRUCTION2, INSTRUCTION3, TEST, FINISH
         }
 
         public PageSybSrh(MainWindow mw)
@@ -125,6 +125,33 @@ namespace FiveElementsIntTest.SybSrh
                         mAllFixedItems[i].Selection[selI].Index);
                 }
             }
+        }
+
+        private List<SybSrhItem> get4Exercises()
+        {
+            List<SybSrhItem> retval =
+                mFixedReader.GetContext(RESPATH + "sybsrhprac.txt");
+            SybSrhSourceFetcher fetcher =
+                new SybSrhSourceFetcher(PageSybSrh.RESPATH);
+
+            for (int i = 0; i < retval.Count; i++)
+            {
+                for (int tarI = 0; tarI < 2; tarI++)
+                {
+                    retval[i].Target[tarI].BMP =
+                        fetcher.GetPic(retval[i].Target[tarI].Type,
+                        retval[i].Target[tarI].Index);
+                }
+
+                for (int selI = 0; selI < 5; selI++)
+                {
+                    retval[i].Selection[selI].BMP =
+                        fetcher.GetPic(retval[i].Selection[selI].Type,
+                        retval[i].Selection[selI].Index);
+                }
+            }
+
+            return retval;
         }
 
         private List<SybSrhItem> getNext12FixedItems()
@@ -205,23 +232,24 @@ namespace FiveElementsIntTest.SybSrh
                 {
                     BitmapSourceFactory.DeleteObject(mWasteIPtrs[i]);
                 }
-
-                mWasteIPtrs = new IntPtr[mImages.Count];
             }
+
+            mWasteIPtrs = new IntPtr[mImages.Count];
 
             for (int i = 0; i < mImages.Count; i++)
             {
                 if (i < 2)
                 {
+
                     mImages[i].amImage.Source =
                         BitmapSourceFactory.GetBitmapSource(
-                        mItems[mCurTillIdx].Target[i].BMP, out mWasteIPtrs[i]);
+                        mItems[index].Target[i].BMP, out mWasteIPtrs[i]);
                 }
                 else
                 {
                     mImages[i].amImage.Source =
                         BitmapSourceFactory.GetBitmapSource(
-                        mItems[mCurTillIdx].Selection[i - 2].BMP, out mWasteIPtrs[i]);
+                        mItems[index].Selection[i - 2].BMP, out mWasteIPtrs[i]);
                 }
             }
 
@@ -232,7 +260,7 @@ namespace FiveElementsIntTest.SybSrh
 
         public void Next()
         {
-            if (m2Minute.ElapsedMilliseconds >= 120000 || mDidCount == MAXTRAILCOUNT)
+            if (m2Minute.ElapsedMilliseconds >= 12000 || mDidCount == MAXTRAILCOUNT)
             {
                 mStatus = STATUS.FINISH;
             }
@@ -241,7 +269,14 @@ namespace FiveElementsIntTest.SybSrh
             {
                 case STATUS.INSTRUCTION:
                     mLayout.SetInstructionLayout2();
-                    mStatus = STATUS.INSTRUCTION2;
+                    mStatus = STATUS.INSTRUCTION_PLUS;
+                    break;
+                case STATUS.INSTRUCTION_PLUS:
+                    mLayout.SetInstructionLayout2p();
+                    mStatus = STATUS.GO_PRAC;
+                    break;
+                case STATUS.ON_PRAC:
+                    goPrac();
                     break;
                 case STATUS.INSTRUCTION2:
                     mLayout.SetInstructionLayout3();
@@ -301,6 +336,21 @@ namespace FiveElementsIntTest.SybSrh
                 UpdateSelPageData(mCurTillIdx);
                 mCurTillIdx++;
             }
+        }
+
+        private bool mPracRed = false;
+        private int mPracIndex = 0;
+        private void goPrac()
+        {
+            if (!mPracRed)
+            {
+                mItems = get4Exercises();
+                mPracRed = true;
+                mLayout.SetSelectionLayout();
+            }
+
+            UpdateSelPageData(mPracIndex);
+            mPracIndex++;
         }
 
         private void preTextNextReaction(STATUS nextStage)
@@ -365,11 +415,11 @@ namespace FiveElementsIntTest.SybSrh
 
         private void writeResult()
         {
-            PCATDataSaveReport();
+            //PCATDataSaveReport();
             SybSrhWriter writer = new SybSrhWriter();
             String stamp = FEITStandard.GetStamp();
             
-            writer.WriteResults(
+            writer.WriteResults(FEITStandard.BASE_FOLDER + "Report\\sybsrh\\" + 
                 mMainWindow.mDemography.GenBriefString() + ".txt", mResult);
 
             if (DEV_MODE)
@@ -522,10 +572,14 @@ namespace FiveElementsIntTest.SybSrh
 
             if (mStatus == STATUS.INSTRUCTION || 
                 mStatus == STATUS.INSTRUCTION2 || 
-                mStatus == STATUS.INSTRUCTION3)
+                mStatus == STATUS.INSTRUCTION3 || 
+                mStatus == STATUS.INSTRUCTION_PLUS ||
+                mStatus == STATUS.GO_PRAC)
             {
                 if (e.Key == Key.Space)
                 {
+                    if (mStatus == STATUS.GO_PRAC)
+                        mStatus = STATUS.ON_PRAC;
                     Next();
                 }
             }
@@ -541,6 +595,24 @@ namespace FiveElementsIntTest.SybSrh
                 else if (e.Key == Key.X)
                 {
                     mResult.Add(new SybSrhResult(false, mTimer.GetElapsedTime(), mItems[mCurTillIdx - 1]));
+                    Next();
+                }
+            }
+            else if (mStatus == STATUS.ON_PRAC)
+            {
+                mTimer.Stop();
+
+                if (mPracIndex == 4)
+                    mStatus = STATUS.INSTRUCTION2;
+
+                if (e.Key == Key.O)
+                {
+                    mResult.Add(new SybSrhResult(true, mTimer.GetElapsedTime(), mItems[mPracIndex - 1]));
+                    Next();
+                }
+                else if (e.Key == Key.X)
+                {
+                    mResult.Add(new SybSrhResult(false, mTimer.GetElapsedTime(), mItems[mPracIndex - 1]));
                     Next();
                 }
             }

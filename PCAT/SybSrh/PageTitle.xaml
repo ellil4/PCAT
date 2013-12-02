@@ -8,6 +8,6 @@
     <Grid Background="Black">
         <Label Content="符号搜索" Height="100" HorizontalAlignment="Left" Margin="281,83,0,0" Name="label1" VerticalAlignment="Top" Width="254" FontWeight="Bold" Foreground="White" FontSize="60" />
         <Label Content="Symbol Search" Height="42" HorizontalAlignment="Left" Margin="321,161,0,0" Name="label2" VerticalAlignment="Top" Width="174" Foreground="White" FontSize="25" FontFamily="SimSun" FontWeight="Normal" />
-        <TextBlock Height="223" HorizontalAlignment="Left" Margin="92,241,0,0" Name="textBlock1" Text="    横线上方会有两个图形，若横线下面的5个图形中包含横线上方的符号之一，请按&quot;O&quot;，不包含请按&quot;X&quot;。&#x0a;&#x0a;    下面举例说明。" VerticalAlignment="Top" Width="638" Foreground="White" FontSize="35" FontFamily="KaiTi" TextWrapping="WrapWithOverflow" />
+        <TextBlock Height="271" HorizontalAlignment="Left" Margin="92,241,0,0" Name="textBlock1" Text="    横线上方会有两个图形，若横线下面的5个图形中包含横线上方的符号之一，请按&quot;O&quot;，不包含请按&quot;X&quot;。&#x0a;&#x0a;    下面举例说明。&#x0a;   (按空格键继续)" VerticalAlignment="Top" Width="638" Foreground="White" FontSize="35" FontFamily="KaiTi" TextWrapping="WrapWithOverflow" />
     </Grid>
 </UserControl>

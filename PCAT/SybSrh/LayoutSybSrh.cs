@@ -87,6 +87,15 @@ namespace FiveElementsIntTest.SybSrh
             Canvas.SetTop(pt, FEITStandard.PAGE_BEG_Y);
         }
 
+        public void SetInstructionLayout2p()
+        {
+            mPage.clearAll();
+            PageX2 pt = new PageX2();
+            mPage.amCanvas.Children.Add(pt);
+            Canvas.SetLeft(pt, FEITStandard.PAGE_BEG_X);
+            Canvas.SetTop(pt, FEITStandard.PAGE_BEG_Y);
+        }
+
         public void SetInstructionLayout3()
         {
             mPage.clearAll();
