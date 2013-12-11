@@ -110,7 +110,7 @@ namespace FiveElementsIntTest.OpSpan
         public override void Show()//over
         {
             mPage.mLayoutInstruction.addTitle(
-                50, 63, "***请按顺序回忆属相***", "KaiTi", 40, Color.FromRgb(255, 255, 255));
+                50, 0, "请按顺序回忆属相", "KaiTi", 40, Color.FromRgb(0, 255, 0));
             PutNumCheckToScreen(0, 160, 4, 3, 800, 240);
             PutTriBtnToScreen(0, 450);
         }

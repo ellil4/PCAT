@@ -329,7 +329,7 @@ namespace FiveElementsIntTest.SymSpan
             img_ctrl.Height = 450;
 
             mPage.mBaseCanvas.Children.Add(img_ctrl);
-            Canvas.SetTop(img_ctrl, FEITStandard.PAGE_BEG_Y + (FEITStandard.PAGE_HEIGHT - img_ctrl.Height) / 2 - 50);
+            Canvas.SetTop(img_ctrl, FEITStandard.PAGE_BEG_Y + (FEITStandard.PAGE_HEIGHT - img_ctrl.Height) / 2);
             Canvas.SetLeft(img_ctrl, FEITStandard.PAGE_BEG_X + (FEITStandard.PAGE_WIDTH - img_ctrl.Width) / 2);
 
             mfRoute = showDualDeterPage;
@@ -343,7 +343,7 @@ namespace FiveElementsIntTest.SymSpan
                 if (mGrpAt == 0)
                 {
                     CompBtnNextPage btn = new CompBtnNextPage("看好了");
-                    btn.Add2Page(mPage.mBaseCanvas, FEITStandard.PAGE_BEG_Y + 400);
+                    btn.Add2Page(mPage.mBaseCanvas, FEITStandard.PAGE_BEG_Y + 450);
                     btn.mfOnAction = nextStep;
                 }
                 else
@@ -375,7 +375,7 @@ namespace FiveElementsIntTest.SymSpan
         void showIKnowBtn()
         {
             CompBtnNextPage btn = new CompBtnNextPage("看好了");
-            btn.Add2Page(mPage.mBaseCanvas, FEITStandard.PAGE_BEG_Y + 400);
+            btn.Add2Page(mPage.mBaseCanvas, FEITStandard.PAGE_BEG_Y + 450);
             btn.mfOnAction = onIKnowBtn; 
         }
 
@@ -444,15 +444,15 @@ namespace FiveElementsIntTest.SymSpan
                 dualPad.BorderBrush = new SolidColorBrush(Color.FromRgb(50, 50, 50));
 
             dualPad.BorderThickness = new Thickness(1.0);
-            CompCentralText ct = new CompCentralText();
-            ct.PutTextToCentralScreen("是否对称", "KaiTi", 45, 
-                ref mPage.mBaseCanvas, -130, Color.FromRgb(255, 255, 255));
-
             mPage.mBaseCanvas.Children.Add(dualPad);
             Canvas.SetTop(dualPad, FEITStandard.PAGE_BEG_Y +
-                (FEITStandard.PAGE_HEIGHT - CompDualDetermine.OUTHEIGHT) / 2);
+                (FEITStandard.PAGE_HEIGHT - CompDualDetermine.OUTHEIGHT) / 2 + 65);
             Canvas.SetLeft(dualPad, FEITStandard.PAGE_BEG_X +
                 (FEITStandard.PAGE_WIDTH - CompDualDetermine.OUTWIDTH) / 2);
+
+            CompCentralText ct = new CompCentralText();
+            ct.PutTextToCentralScreen("是否对称", "KaiTi", 45, 
+                ref mPage.mBaseCanvas, 0, Color.FromRgb(255, 255, 255));
 
             mfRoute = showBlackPageAndGo2Pos;
 

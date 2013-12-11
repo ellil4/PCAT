@@ -6,6 +6,6 @@
              mc:Ignorable="d" 
              d:DesignHeight="57" d:DesignWidth="300" IsHitTestVisible="False">
     <Grid IsHitTestVisible="False" Width="300" Height="57">
-        <Label Content="请快给出答案" Height="56" HorizontalAlignment="Left" Name="label1" VerticalAlignment="Top" Width="300" FontSize="36" Foreground="Red" Background="{x:Null}" BorderBrush="{x:Null}" BorderThickness="2" FontStretch="Normal" FontWeight="Normal" Padding="0" HorizontalContentAlignment="Center" VerticalContentAlignment="Top" />
+        <Label Content="请尽快给出答案" Height="56" HorizontalAlignment="Left" Name="label1" VerticalAlignment="Top" Width="300" FontSize="36" Foreground="Red" Background="{x:Null}" BorderBrush="{x:Null}" BorderThickness="2" FontStretch="Normal" FontWeight="Normal" Padding="0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontFamily="KaiTi" />
     </Grid>
 </UserControl>

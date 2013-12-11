@@ -8,6 +8,6 @@
     <Grid Background="Black" Focusable="True">
         <Label Content="Quat Engineering" Height="50" HorizontalAlignment="Left" Name="amLabel" VerticalAlignment="Top" Width="750" BorderBrush="Black" BorderThickness="0" Focusable="False" Foreground="White" FontSize="31" Padding="4" />
         <Image Height="50" HorizontalAlignment="Right" Name="amImage" Stretch="Fill" VerticalAlignment="Top" Width="50" Focusable="False" Source="/PCAT;component/Res/SLECTED.jpg" />
-        <Border BorderBrush="White" BorderThickness="4" Height="50" HorizontalAlignment="Left" Name="amBorder" VerticalAlignment="Top" Width="750" />
+        <Border BorderBrush="White" BorderThickness="2" Height="50" HorizontalAlignment="Left" Name="amBorder" VerticalAlignment="Top" Width="750" />
     </Grid>
 </UserControl>

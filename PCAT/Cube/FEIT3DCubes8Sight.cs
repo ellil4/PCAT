@@ -13,7 +13,7 @@ namespace FiveElementsIntTest.Cube
         ALL_FACES, TOP_PRIORITY
     }
 
-    public class FEIT3DCubes8Sight
+    public class FEIT3DCubes8Sight //旋转
     {
         public Model3DGroup mGroup;
         public Viewport3D mVp3d;

@@ -77,7 +77,7 @@ namespace FiveElementsIntTest.SymSpan
         public override void Show()
         {
             mPage.mLayoutInstruction.addTitle(
-                50, 56, "***请按顺序回忆位置***", "KaiTi", 40, Color.FromRgb(255, 255, 255));
+                50, 0, "请按顺序回忆红点出现过的位置", "KaiTi", 32, Color.FromRgb(0, 255, 0));
             PutNumCheckToScreen(271, 160, 4, 4, 600, 240);
             PutTriBtnToScreen(0, 450);
         }

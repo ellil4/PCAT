@@ -27,6 +27,7 @@ namespace FiveElementsIntTest
             InitializeComponent();
             MouseOver(false);
             SetSelected(false);
+            amImage.Visibility = System.Windows.Visibility.Hidden;
         }
 
         public void SetText(String content)
@@ -38,12 +39,12 @@ namespace FiveElementsIntTest
         {
             if (selected)
             {
-                amImage.Visibility = Visibility.Visible;
+                amBorder.Visibility = Visibility.Visible;
                 isSelected = true;
             }
             else
             {
-                amImage.Visibility = Visibility.Hidden;
+                amBorder.Visibility = Visibility.Hidden;
                 isSelected = false;
             }
         }
@@ -56,7 +57,8 @@ namespace FiveElementsIntTest
             }
             else 
             {
-                amBorder.Visibility = Visibility.Hidden;
+                if(!isSelected)
+                    amBorder.Visibility = Visibility.Hidden;
             }
         }
     }

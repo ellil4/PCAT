@@ -4,13 +4,12 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       mc:Ignorable="d" 
-      d:DesignHeight="300" d:DesignWidth="300"
-	Title="PageCube" Loaded="Page_Loaded">
+      d:DesignHeight="600" d:DesignWidth="800"
+	Title="PageCube" Loaded="Page_Loaded"    Focusable="True"  >
 
     <Grid>
-        <Canvas Height="100" HorizontalAlignment="Left" Name="mBaseCanvas" VerticalAlignment="Top" Width="200" Background="Black">
-            <Border BorderBrush="Silver" BorderThickness="1" Height="600" Name="mAuxBorder" Width="800" Canvas.Left="21" Canvas.Top="24"/>
-            <Border BorderBrush="Silver" BorderThickness="1" Height="768" Name="mAuxBorder1024" Width="1024" Canvas.Left="6" Canvas.Top="56" />
+        <Canvas  Height="600" HorizontalAlignment="Left" Name="mBaseCanvas" VerticalAlignment="Top" Width="800" Background="Black" Focusable="True">
+            <Label Canvas.Left="46" Canvas.Top="46" Content="Label" Height="20" Name="label1" Width="59" Background="{x:Null}" />
         </Canvas>
     </Grid>
 </Page>

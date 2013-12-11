@@ -1,0 +1,19 @@
+﻿<UserControl x:Class="FiveElementsIntTest.Paper.ExamplePage"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             d:DesignHeight="700" d:DesignWidth="800">
+    <Grid>
+        <Canvas  Height="600" HorizontalAlignment="Center" Name="BaseCanvas"  VerticalAlignment="Center"  Width="800" Background="Black" Focusable="True">
+            
+            <Border BorderBrush="GhostWhite" BorderThickness="4"  Height="4" Name="border1" Width="700" />
+            <Label  Content="" Height="40" Name="label1" Width="174" IsEnabled="False" Foreground="White" FontStretch="Normal" FontSize="12" FontWeight="Bold" />
+            
+            <Label  Content="请用鼠标点选您认为正确的答案" Height="35" HorizontalContentAlignment="Center"  Name="label2" Width="356"  Foreground="#FF00F400"  IsEnabled="False" FontFamily="KaiTi_GB2312" FontStyle="Normal" FontWeight="Bold" FontSize="24"/>
+            <Label  Content="折纸"  Height="38" Name="label3" Width="97" Foreground="#FF00F400"  IsEnabled="False" FontFamily="KaiTi_GB2312" FontStyle="Normal" FontWeight="Bold" FontSize="28"/>
+            <Label  Content="打孔" Height="41" Name="label4" Width="87" Foreground="#FF00F400"  IsEnabled="False" FontFamily="KaiTi_GB2312" FontStyle="Normal" FontWeight="Bold" FontSize="28"/>
+        </Canvas>
+    </Grid>
+</UserControl>

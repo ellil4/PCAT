@@ -8,13 +8,13 @@ using System.Windows.Media.Imaging;
 using System.Collections;
 using System.Windows;
 using _3DTools;
-
+using System.Runtime.InteropServices;
 namespace FiveElementsIntTest.Cube
 {
     public class FEIT3DCubeBox
     {
-        public List<GeometryModel3D> mModels;
-        public List<MeshGeometry3D> mMeshes;
+        public List<GeometryModel3D> mModels;//魔方动作控制
+        public List<MeshGeometry3D> mMeshes;//用于生成3-D形状的三角形基元
         private static int[] mV = { 1, -1, 1, 1, 1, -1, 1, 1, 1, 1, -1, 1, 1, -1, -1, 1, 1, -1, 
                             -1, -1, -1, -1, 1, 1, -1, 1, -1, -1, -1, -1, -1, -1, 1, -1, 1, 1, 
                              1, -1, -1, -1, 1, -1, 1, 1, -1, 1, -1, -1, -1, -1, -1, -1, 1, -1, 
@@ -22,26 +22,42 @@ namespace FiveElementsIntTest.Cube
                             -1, 1, 1, 1, 1, -1, -1, 1, -1, -1, 1, 1, 1, 1, 1, 1, 1, -1, 
                             -1, -1, -1, 1, -1, 1, -1, -1, 1, -1, -1, -1, 1, -1, -1, 1, -1, 1 };
 
+        IntPtr[] mIptrs;
+
         public FEIT3DCubeBox()
         {
             mModels = new List<GeometryModel3D>();
             mMeshes = new List<MeshGeometry3D>();
-
+            mIptrs = new IntPtr[6];
             for (int i = 0; i < 6; i++)
             {
+                mIptrs[i] = IntPtr.Zero;
                 mModels.Add(new GeometryModel3D());
                 mMeshes.Add(new MeshGeometry3D());
-                mModels[i].Geometry = mMeshes[i];
+                mModels[i].Geometry = mMeshes[i];//几何3d形状
                 GenSurface(i);
                 mModels[i].Material = new DiffuseMaterial(Brushes.OrangeRed);
+                // 材料              //2D-3D转换                       //绘制图形对象的对象
             }
         }
 
-        public void SetTexture(int dstSur, System.Drawing.Bitmap graph)
-        {
+        [DllImport("gdi32")]
+        static extern int DeleteObject(IntPtr o);
+        
+        public void SetTexture( int dstSur, System.Drawing.Bitmap graph)
+        {           //质地    
+
+            if (mIptrs[dstSur] != IntPtr.Zero)
+            {
+                DeleteObject(mIptrs[dstSur]);
+                mIptrs[dstSur] = IntPtr.Zero;
+            }
+
+            mIptrs[dstSur] = graph.GetHbitmap();
+
             ImageBrush ib = new ImageBrush(
                 System.Windows.Interop.Imaging.CreateBitmapSourceFromHBitmap(
-                graph.GetHbitmap(), IntPtr.Zero, System.Windows.Int32Rect.Empty,
+                mIptrs[dstSur], IntPtr.Zero, System.Windows.Int32Rect.Empty,
                 BitmapSizeOptions.FromWidthAndHeight(graph.Width, graph.Height)));
 
             mModels[dstSur].Material = new DiffuseMaterial(ib);
@@ -52,7 +68,7 @@ namespace FiveElementsIntTest.Cube
             switch (dstSur)
             {
                 case 0:
-                    pc.Add(new Point(0, 1));
+                    pc.Add(new Point(0, 1));//坐标
                     pc.Add(new Point(1, 0));
                     pc.Add(new Point(0, 0));
                     pc.Add(new Point(0, 1));
@@ -71,7 +87,7 @@ namespace FiveElementsIntTest.Cube
                     pc.Add(new Point(1, 1));
                     pc.Add(new Point(0, 0));
                     pc.Add(new Point(1, 0));
-                    pc.Add(new Point(1, 1));
+                    pc.Add(new  Point(1, 1));
                     pc.Add(new Point(0, 1));
                     pc.Add(new Point(0, 0));
                     break;

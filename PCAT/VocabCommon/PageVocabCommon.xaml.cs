@@ -47,7 +47,7 @@ namespace FiveElementsIntTest.VocabCommon
         public static String INPUT_FILE_VOC = "FEITSWsource.txt";
         public static String INPUT_FILE_COMM = "FEITCOMMsource.txt";
 
-        private int mContinuousZero = 0;
+        private int mContinuousNon2 = 0;
 
         public CompOvertimeWarning mWarning;
         private TestType mTestType;
@@ -158,10 +158,10 @@ namespace FiveElementsIntTest.VocabCommon
         {
             bool retval = false;
 
-            if (selIndex != -1 && mItems[mCurTillIndex - 1].Weights[selIndex] == 0)
+            if (selIndex != -1 && mItems[mCurTillIndex - 1].Weights[selIndex] != 2)
             {
-                mContinuousZero++;
-                if (mContinuousZero == 3)
+                mContinuousNon2++;
+                if (mContinuousNon2 == 3)
                 {
                     retval = true;
                     testEnd();
@@ -169,7 +169,7 @@ namespace FiveElementsIntTest.VocabCommon
             }
             else
             {
-                mContinuousZero = 0;
+                mContinuousNon2 = 0;
             }
 
             return retval;

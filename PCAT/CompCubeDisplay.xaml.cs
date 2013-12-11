@@ -13,7 +13,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using FiveElementsIntTest.Cube;
 using System.Windows.Interop;
-
+using System.Runtime.InteropServices;
 namespace FiveElementsIntTest
 {
     /// <summary>
@@ -25,6 +25,14 @@ namespace FiveElementsIntTest
         public List<FEIT3DCubeBox> mCubeBoxes;
         public Image mOverlapImage;
         public FEIT3DCubes8Rotater mRotater;
+
+        public void Show(bool enable)
+        {
+            if (enable)
+                this.Visibility = System.Windows.Visibility.Visible;
+            else
+                this.Visibility = System.Windows.Visibility.Hidden;
+        }
 
         public CompCubeDisplay(int size, LIGHT_MODE light_mode, bool bWire)
         {
@@ -71,135 +79,153 @@ namespace FiveElementsIntTest
             mCubeBoxes[cubeIndex].SetTexture(cubeFaceIndex, texture);
         }
 
-        public void SetTextureWithCode(Char code, System.Drawing.Bitmap texture)
+        public void SetTextureWithCode(String code, System.Drawing.Bitmap texture)
         {
             switch (code)
             {
-                case 'A':
+                case "A":
                     SetTexture(4, 0, texture);
                     break;
-                case 'B':
+                case "B":
                     SetTexture(4, 3, texture);
                     break;
-                case 'C':
+                case "C":
                     SetTexture(4, 2, texture);
                     break;
-                case 'D':
+                case "D":
                     SetTexture(4, 1, texture);
                     break;
-                case 'E':
+                case "E":
                     SetTexture(3, 0, texture);
                     break;
-                case 'F':
+                case "F":
                     SetTexture(3, 4, texture);
                     break;
-                case 'G':
+                case "G":
                     SetTexture(3, 5, texture);
                     break;
-                case 'H':
+                case "H":
                     SetTexture(3, 1, texture);
                     break;
-                case 'I':
+                case "I":
                     SetTexture(0, 0, texture);
                     break;
-                case 'J':
+                case "J":
                     SetTexture(0, 3, texture);
                     break;
-                case 'K':
+                case "K":
                     SetTexture(0, 7, texture);
                     break;
-                case 'L':
+                case "L":
                     SetTexture(0, 4, texture);
                     break;
             }
         }
 
-        public void SetSemiTurn(String partName, bool clockWise)
+        public String mLastTurnPhase = null;
+        public bool mLastTurnWise = false;
+
+
+        [DllImport("gdi32")]
+        static extern int DeleteObject(IntPtr o);
+        IntPtr mArrowPtr = IntPtr.Zero;
+
+        private void setSemiTurn(String partName, bool clockWise)
         {
+            int rotAngle = 0;
+
+            if (clockWise)
+            {
+                rotAngle = 30;
+            }
+            else
+            {
+                rotAngle = -30;
+            }
             System.Drawing.Bitmap texture = null;
 
-            if(partName.Equals("top"))
+            if (partName.Equals("top"))
             {
-                mRotater.rotateTop(45);
+                mRotater.rotateTop(rotAngle);
                 if (clockWise)
                 {
-                    texture = 
+                    texture =
                         FiveElementsIntTest.Properties.Resources.CubeArrowUpClock;
                 }
                 else
                 {
-                    texture = 
+                    texture =
                         FiveElementsIntTest.Properties.Resources.CubeArrowUpAnti;
                 }
-                    
+
             }
             else if (partName.Equals("bottom"))
             {
-                mRotater.rotateBottom(60);
+                mRotater.rotateBottom(rotAngle);
                 if (clockWise)
                 {
-                    texture = 
+                    texture =
                         FiveElementsIntTest.Properties.Resources.CubeArrowDownClock;
                 }
                 else
                 {
-                    texture = 
+                    texture =
                         FiveElementsIntTest.Properties.Resources.CubeArrowDownAnti;
                 }
             }
             else if (partName.Equals("left"))
             {
-                mRotater.rotateLeft(45);
+                mRotater.rotateLeft(rotAngle);
                 if (clockWise)
                 {
-                    texture = 
+                    texture =
                         FiveElementsIntTest.Properties.Resources.CubeArrowLeftClock;
                 }
                 else
                 {
-                    texture = 
+                    texture =
                         FiveElementsIntTest.Properties.Resources.CubeArrowLeftAnti;
                 }
             }
             else if (partName.Equals("right"))
             {
-                mRotater.rotateRight(45);
+                mRotater.rotateRight(rotAngle);
                 if (clockWise)
                 {
-                    texture = 
+                    texture =
                         FiveElementsIntTest.Properties.Resources.CubeArrowRightClock;
                 }
                 else
                 {
-                    texture = 
+                    texture =
                         FiveElementsIntTest.Properties.Resources.CubeArrowRightAnti;
                 }
             }
             else if (partName.Equals("front"))
             {
-                mRotater.rotateFront(45);
+                mRotater.rotateFront(rotAngle);
                 if (clockWise)
                 {
-                    texture = 
+                    texture =
                         FiveElementsIntTest.Properties.Resources.CubeArrowFrontClock;
                 }
                 else
                 {
-                    texture = 
+                    texture =
                         FiveElementsIntTest.Properties.Resources.CubeArrowFrontAnti;
                 }
             }
             else if (partName.Equals("back"))
             {
-                mRotater.rotateBack(45);
+                mRotater.rotateBack(rotAngle);
                 if (clockWise)
                 {
-                    texture = 
+                    texture =
                         FiveElementsIntTest.Properties.Resources.CubeArrowBackClock;
                 }
                 else
                 {
-                    texture = 
+                    texture =
                         FiveElementsIntTest.Properties.Resources.CubeArrowBackAnti;
                 }
             }
@@ -208,11 +234,31 @@ namespace FiveElementsIntTest
             //here to add the arrow
             if (texture != null)
             {
+                if (mArrowPtr != IntPtr.Zero)
+                {
+                    DeleteObject(mArrowPtr);
+                    mArrowPtr = IntPtr.Zero;
+                }
+
+                mArrowPtr = texture.GetHbitmap();
+
                 mOverlapImage.Source =
                        Imaging.CreateBitmapSourceFromHBitmap(
-                       texture.GetHbitmap(), IntPtr.Zero, System.Windows.Int32Rect.Empty,
+                       mArrowPtr, IntPtr.Zero, System.Windows.Int32Rect.Empty,
                     BitmapSizeOptions.FromWidthAndHeight((int)mOverlapImage.Width, (int)mOverlapImage.Height));
             }
+        }
+
+        public void SetSemiTurn(String partName, bool clockWise)
+        {
+            if (mLastTurnPhase != null)
+            {
+                setSemiTurn(mLastTurnPhase, !mLastTurnWise);
+            }
+
+            setSemiTurn(partName, clockWise);
+            mLastTurnPhase = partName;
+            mLastTurnWise = clockWise;
         }
 
 

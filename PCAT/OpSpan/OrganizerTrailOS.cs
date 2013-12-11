@@ -99,7 +99,7 @@ namespace FiveElementsIntTest.OpSpan
             
             CompCentralText ct2 = new CompCentralText();
             ct2.PutTextToCentralScreen("[" + mCurTrailsCount + "-" + mCurTypeAt + "]",
-                "KaiTi", 50, ref mPage.mBaseCanvas, 100, Color.FromRgb(0, 255, 0));
+                "KaiTi", 32, ref mPage.mBaseCanvas, 100, Color.FromRgb(255, 255, 255));
 
             route = showLongBlackPage2Equation;
 
@@ -517,7 +517,7 @@ namespace FiveElementsIntTest.OpSpan
             mPage.ClearAll();
             CompCentralText ct = new CompCentralText();
             ct.PutTextToCentralScreen("心算超时",
-                "Microsoft YaHei", 55, ref mPage.mBaseCanvas, 0, Color.FromRgb(255, 0, 0));
+                "KaiTi", 55, ref mPage.mBaseCanvas, 0, Color.FromRgb(255, 0, 0));
             
             //fill a wrong answer and no sense data
             mAnswer.Confirm.Add(!currentCorrectness());

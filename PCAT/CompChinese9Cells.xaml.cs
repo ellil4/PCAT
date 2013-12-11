@@ -27,7 +27,7 @@ namespace FiveElementsIntTest
         private string mQuest = "";
         private string mCharSelected = "";
 
-        public delegate void ConfirmFunc();
+        public delegate void ConfirmFunc(object obj);
         public ConfirmFunc mfConfirm;
 
         public CompChinese9Cells(Page page)
@@ -61,6 +61,16 @@ namespace FiveElementsIntTest
             {
                 mCharaLabels[i].Content = charas[i];
             }
+        }
+
+        public string GetCharas()
+        {
+            string retval = "";
+            for (int i = 0; i < mSelectedOrder.Count; i++)
+            {
+                retval += mCharaLabels[mSelectedOrder[i]].Content;
+            }
+            return retval;
         }
 
         private void refreshText()
@@ -121,7 +131,7 @@ namespace FiveElementsIntTest
 
         private void amLabelBtnConfirm_MouseUp(object sender, MouseButtonEventArgs e)
         {
-            mfConfirm();
+            mfConfirm(this);
         }
     }
 }

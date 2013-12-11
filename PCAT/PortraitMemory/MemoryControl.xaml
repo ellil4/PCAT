@@ -1,0 +1,16 @@
+﻿<UserControl x:Class="FiveElementsIntTest.PortraitMemory.MemoryControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             d:DesignHeight="600" d:DesignWidth="800" Background="White">
+
+    <Canvas HorizontalAlignment="Center" Name="MemoryCanvas"  VerticalAlignment="Center" Background="White"  Focusable="True" >
+        
+        <Label   Height="52" Name="_nameLabel" FontSize="28" FontFamily="Adobe Heiti Std" Width="178"  HorizontalContentAlignment="Left"/>
+        <Label   Height="52" Name="_jobLabel" FontSize="28" FontFamily="Adobe Heiti Std" Width="178"  HorizontalContentAlignment="Left"/>
+        <Label   Height="52" Name="_likeLabel" FontSize="28" FontFamily="Adobe Heiti Std" Width="178"  HorizontalContentAlignment="Left"/>
+    </Canvas>
+    
+</UserControl>

@@ -92,7 +92,7 @@ namespace FiveElementsIntTest.PairedAsso
             String[] str = new String[] {"行", "地", "气", "热", "星", "月", "亮", "球", "圆"};
             cells.SetCharas(str);
             cells.SetQuest("太阳");
-            cells.mfConfirm = next;
+            cells.mfConfirm = instructionInteractionJudge;
             amBaseCanvas.Children.Add(cells);
             Canvas.SetTop(cells, FEITStandard.PAGE_BEG_Y + (FEITStandard.PAGE_HEIGHT - 515) / 2 + 50);
             Canvas.SetLeft(cells, FEITStandard.PAGE_BEG_X + (FEITStandard.PAGE_WIDTH - 800) / 2);
@@ -100,7 +100,15 @@ namespace FiveElementsIntTest.PairedAsso
             CompCentralText ct2 = new CompCentralText();
             ct2.PutTextToCentralScreen("此时，用鼠标依次点击“月”“亮”二字即可完成作答。\r\n请点击“月”“亮”， 然后点击“确定”进入下一页。",
                 "KaiTi", 32, ref amBaseCanvas, 300, Color.FromRgb(255, 255, 255));
+        }
 
+        private void instructionInteractionJudge(object obj)
+        {
+            CompChinese9Cells compCell = (CompChinese9Cells)obj;
+            if (compCell.GetCharas().Equals("月亮"))
+            {
+                next();
+            }
         }
 
         private void showLearning(int index)

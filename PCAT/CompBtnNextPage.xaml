@@ -4,8 +4,8 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" 
-             d:DesignHeight="38" d:DesignWidth="123" BorderBrush="White" Foreground="White" Background="Black" BorderThickness="2" MouseUp="UserControl_MouseUp">
+             d:DesignHeight="48" d:DesignWidth="123" BorderBrush="White" Foreground="Black" Background="White" BorderThickness="4" MouseUp="UserControl_MouseUp" FontWeight="Bold">
     <Grid Background="{x:Null}" IsHitTestVisible="False" Height="36">
-        <TextBlock Height="33" HorizontalAlignment="Left" Name="amText" Text="下一页" VerticalAlignment="Top" Width="119" FontSize="26" TextAlignment="Center" FontStretch="Normal" IsHitTestVisible="False" FontFamily="KaiTi" Margin="0,1,0,0" />
+        <TextBlock Height="33" HorizontalAlignment="Left" Name="amText" Text="下一页" VerticalAlignment="Top" Width="119" FontSize="28" TextAlignment="Center" FontStretch="Normal" IsHitTestVisible="False" FontFamily="KaiTi" Margin="-1,1,0,0" />
     </Grid>
 </UserControl>

@@ -52,6 +52,12 @@ namespace FiveElementsIntTest.OpSpan
             blackScreen(1000);
         }
 
+        public void t_halfSecBlackScreen(object sender, ElapsedEventArgs e)
+        {
+             mPage.Dispatcher.Invoke(
+                 DispatcherPriority.Normal, new timedele(halfSecBlackScreen));
+        }
+
         public void halfSecBlackScreen()
         {
             blackScreen(500);

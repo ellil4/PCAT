@@ -20,6 +20,9 @@ using FiveElementsIntTest.GraphicRecog;
 using FiveElementsIntTest.SybSrh;
 using FiveElementsIntTest.CtSpan;
 using FiveElementsIntTest.PairedAsso;
+using FiveElementsIntTest.Paper;
+using FiveElementsIntTest.PortraitMemory;
+
 using PCATData;
 using Network;
 
@@ -93,6 +96,7 @@ namespace FiveElementsIntTest
                     if (mVersion == VERSION.CLIENT)
                         mClient.SendTestBeginMessage("折纸测验");
                     //////////////////////////////////////////////////////////////////////////////
+					NavigationService.Navigate(new PagePaper(this));
                     break;
                 case TestType.Cube:
                     if (mVersion == VERSION.CLIENT)
@@ -111,6 +115,16 @@ namespace FiveElementsIntTest
                         mClient.SendTestBeginMessage("类同测验");
 
                     NavigationService.Navigate(new PageVocabCommon(this, TestType.Similarity));
+                    break;
+					
+				case TestType.PortraitMemory:
+                    if (mVersion == VERSION.CLIENT)
+                        mClient.SendTestBeginMessage("人像特点联系回忆");
+						
+                    NavigationService.Navigate(new PagePortrailtMemory(this));
+                    break;
+                case TestType.OpSpan2:
+                    NavigationService.Navigate(new OpSpan2.BasePage(this));
                     break;
             }
 

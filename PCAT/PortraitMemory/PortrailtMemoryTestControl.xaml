@@ -1,0 +1,25 @@
+﻿<UserControl x:Class="FiveElementsIntTest.PortraitMemory.PortrailtMemoryTestControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             d:DesignHeight="600" d:DesignWidth="800">
+    <Grid Background="White">
+        <Canvas Name="memorytestCanvas" Background="White" Focusable="True" Height="460" VerticalAlignment="Top">
+            <Canvas Height="127" Name="namecanvas" Width="331" Focusable="True">
+                
+            </Canvas>
+            <Canvas  Height="127" Name="jobcanvas" Width="331" Focusable="True">
+                
+            </Canvas>
+            <Canvas   Height="127" Name="likecanvas" Width="331" Focusable="True">
+                
+            </Canvas>
+            <Label   Content="姓氏"  HorizontalContentAlignment="Center" Height="48" Name="nametip" Width="96" FontFamily="KaiTi_GB2312" FontSize="28" FontWeight="Heavy" VerticalContentAlignment="Center"/>
+            <Label   Content="工作" HorizontalContentAlignment="Center" Height="48" Name="jobtip" Width="96"  FontFamily="KaiTi_GB2312" FontSize="28"  FontWeight="Heavy" VerticalContentAlignment="Center"/>
+            <Label   Content="爱好" HorizontalContentAlignment="Center" Height="48" Name="liketip" Width="99"  FontFamily="KaiTi_GB2312" FontSize="28"  FontWeight="Heavy" VerticalContentAlignment="Center"/>
+            <Canvas   Height="410" Name="picturecanvas" Width="250" />
+        </Canvas>
+    </Grid>
+</UserControl>

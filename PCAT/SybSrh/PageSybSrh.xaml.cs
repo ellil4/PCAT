@@ -260,7 +260,7 @@ namespace FiveElementsIntTest.SybSrh
 
         public void Next()
         {
-            if (m2Minute.ElapsedMilliseconds >= 12000 || mDidCount == MAXTRAILCOUNT)
+            if (m2Minute.ElapsedMilliseconds >= 120000 || mDidCount == MAXTRAILCOUNT)
             {
                 mStatus = STATUS.FINISH;
             }

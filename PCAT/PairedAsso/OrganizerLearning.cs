@@ -43,7 +43,7 @@ namespace FiveElementsIntTest.PairedAsso
             CompCentralText ct = new CompCentralText();
             ct.PutTextToCentralScreen(
                 mSource[mItemAt].First + " - " + mSource[mItemAt].Second,
-                "SimHei", 50, ref mPage.amBaseCanvas, 0, Color.FromRgb(255, 255, 255));
+                "SimHei", 60, ref mPage.amBaseCanvas, 0, Color.FromRgb(255, 255, 255));
 
             Timer t = new Timer();
             

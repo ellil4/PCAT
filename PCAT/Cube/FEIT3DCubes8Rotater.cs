@@ -7,7 +7,8 @@ using System.Windows.Media.Media3D;
 
 namespace FiveElementsIntTest.Cube
 {
-    public class FEIT3DCubes8Rotater
+    public class FEIT3DCubes8Rotater //暂时不看
+
     {
         //public Dictionary<int, FEIT3DCubeBox> mBoxes;
         public FEITBoxesGear mBoxesGear;
@@ -83,7 +84,7 @@ namespace FiveElementsIntTest.Cube
 
         public void rotateLeft(double Angle)
         {
-            Vector3D vec = new Vector3D(0, 0, 1);
+            Vector3D vec = new Vector3D(0, 0, -1);
             rotateBox(0, vec, Angle);
             rotateBox(1, vec, Angle);
             rotateBox(4, vec, Angle);
@@ -101,7 +102,7 @@ namespace FiveElementsIntTest.Cube
 
         public void rotateTop(double Angle)
         {
-            Vector3D vec = new Vector3D(0, 1, 0);
+            Vector3D vec = new Vector3D(0, -1, 0);
             rotateBox(0, vec, Angle);
             rotateBox(1, vec, Angle);
             rotateBox(2, vec, Angle);
@@ -119,7 +120,7 @@ namespace FiveElementsIntTest.Cube
 
         public void rotateFront(double Angle)
         {
-            Vector3D vec = new Vector3D(1, 0, 0);
+            Vector3D vec = new Vector3D(-1, 0, 0);
             rotateBox(0, vec, Angle);
             rotateBox(3, vec, Angle);
             rotateBox(4, vec, Angle);

@@ -137,8 +137,8 @@ namespace FiveElementsIntTest.OpSpan
 
             cdd.HideCorrecteness(false);
             Timer t = new Timer();
-            t.Elapsed += new ElapsedEventHandler(t_Elapsed);
-            t.Interval = 1000;
+            t.Elapsed += new ElapsedEventHandler(t_halfSecBlackScreen);
+            t.Interval = 500;
             t.AutoReset = false;
             t.Enabled = true;
         }
@@ -171,8 +171,8 @@ namespace FiveElementsIntTest.OpSpan
 
             cdd.HideCorrecteness(false);
             Timer t = new Timer();
-            t.Elapsed += new ElapsedEventHandler(t_Elapsed);
-            t.Interval = 1000;
+            t.Elapsed += new ElapsedEventHandler(t_halfSecBlackScreen);
+            t.Interval = 500;
             t.AutoReset = false;
             t.Enabled = true;
         }
@@ -215,7 +215,7 @@ namespace FiveElementsIntTest.OpSpan
             //new FEITClickableScreen(ref mPage.mBaseCanvas, equationClicked);
 
             CompBtnNextPage btn = new CompBtnNextPage("算好了");
-            btn.Add2Page(mPage.mBaseCanvas, FEITStandard.PAGE_BEG_Y + 490);
+            btn.Add2Page(mPage.mBaseCanvas, FEITStandard.PAGE_BEG_Y + 400);
             btn.mfOnAction = equationClicked;
             
             mfNext = showAnswer;

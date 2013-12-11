@@ -135,12 +135,27 @@
     <Compile Include="CtSpan\StResult.cs" />
     <Compile Include="CtSpan\TestLoop.cs" />
     <Compile Include="CtSpan\TokenType.cs" />
+    <Compile Include="Cube\bordercontrol.cs" />
+    <Compile Include="Cube\CubeDemonstration.cs" />
+    <Compile Include="Cube\ExerciseOnePage.xaml.cs">
+      <DependentUpon>ExerciseOnePage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Cube\ExerciseOnePage_Ins.xaml.cs">
+      <DependentUpon>ExerciseOnePage_Ins.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Cube\ExerciseTwoPage.xaml.cs">
+      <DependentUpon>ExerciseTwoPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Cube\ExerciseTwoPage_Ins.xaml.cs">
+      <DependentUpon>ExerciseTwoPage_Ins.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Cube\FEIT3DCubeBox.cs" />
     <Compile Include="Cube\FEIT3DCubes8Rotater.cs" />
     <Compile Include="Cube\FEIT3DCubes8Sight.cs" />
     <Compile Include="Cube\FEIT3DPlane.cs" />
     <Compile Include="Cube\FEIT3DWireFrame.cs" />
     <Compile Include="Cube\FEITBoxesGear.cs" />
+    <Compile Include="Cube\Imagecontrol.cs" />
     <Compile Include="Cube\OrganizerTrailCubes.cs" />
     <Compile Include="Cube\PageCube.xaml.cs">
       <DependentUpon>PageCube.xaml</DependentUpon>
@@ -153,15 +168,43 @@
     <Compile Include="FEITClickableScreen.cs" />
     <Compile Include="FEITCentralFlipper.cs" />
     <Compile Include="GraphicRecog\GRFormWriter.cs" />
+    <Compile Include="OpSpan2\BasePage.xaml.cs">
+      <DependentUpon>BasePage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="OpSpan2\BoardAnimal.xaml.cs">
+      <DependentUpon>BoardAnimal.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="OpSpan2\BoardEquation.xaml.cs">
+      <DependentUpon>BoardEquation.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="OpSpan2\BoardEquationJudge.xaml.cs">
+      <DependentUpon>BoardEquationJudge.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="OpSpan2\BoardInstructionAnimalPrac.xaml.cs">
+      <DependentUpon>BoardInstructionAnimalPrac.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="OpSpan2\BoardInstructionEquationPractise.xaml.cs">
+      <DependentUpon>BoardInstructionEquationPractise.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="OpSpan2\BoardOrderOP.xaml.cs">
+      <DependentUpon>BoardOrderOP.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="OpSpan2\BoardTitle.xaml.cs">
+      <DependentUpon>BoardTitle.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="OpSpan2\RecorderOpSpan2.cs" />
     <Compile Include="OpSpan\OpSpanEquationMaker.cs" />
     <Compile Include="OpSpan\OrganizerPractiseBase.cs" />
     <Compile Include="OpSpan\OrganizerPractiseChar.cs" />
     <Compile Include="OpSpan\OrganizerPractiseEquation.cs" />
+    <Compile Include="OpSpan2\StEquation.cs" />
     <Compile Include="OpSpan\StEquation.cs" />
     <Compile Include="OpSpan\SubPageOrderOSPrac.cs" />
     <Compile Include="CompOvertimeWarning.xaml.cs">
       <DependentUpon>CompOvertimeWarning.xaml</DependentUpon>
     </Compile>
+    <Compile Include="OpSpan\TrailGroupOS.cs" />
+    <Compile Include="OpSpan\TrailOS_ST.cs" />
     <Compile Include="PairedAsso\OrganizerLearning.cs" />
     <Compile Include="PairedAsso\OrganizerTest.cs" />
     <Compile Include="PairedAsso\PagePairedAsso.xaml.cs">
@@ -174,6 +217,35 @@
     <Compile Include="PairedAsso\Title.xaml.cs">
       <DependentUpon>Title.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Paper\ExamplePage.xaml.cs">
+      <DependentUpon>ExamplePage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Paper\PagePaper.xaml.cs">
+      <DependentUpon>PagePaper.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Paper\PaperBorderControl.cs" />
+    <Compile Include="Paper\PaperImageControl.cs" />
+    <Compile Include="Paper\PaperInsUserControl.xaml.cs">
+      <DependentUpon>PaperInsUserControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Paper\PaperReadFile.cs" />
+    <Compile Include="Paper\PaperTestControl.xaml.cs">
+      <DependentUpon>PaperTestControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Paper\PaperWriteFile.cs" />
+    <Compile Include="Paper\RecedeVer.cs" />
+    <Compile Include="PortraitMemory\MemoryControl.xaml.cs">
+      <DependentUpon>MemoryControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="PortraitMemory\PagePortrailtMemory.xaml.cs">
+      <DependentUpon>PagePortrailtMemory.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="PortraitMemory\PortrailtMemoryTestControl.xaml.cs">
+      <DependentUpon>PortrailtMemoryTestControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="PortraitMemory\StudyReader.cs" />
+    <Compile Include="PortraitMemory\TestReader.cs" />
+    <Compile Include="PortraitMemory\TestResult.cs" />
     <Compile Include="ServerConfigDialog.xaml.cs">
       <DependentUpon>ServerConfigDialog.xaml</DependentUpon>
     </Compile>
@@ -330,9 +402,25 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Cube\PageCube.xaml">
-      <SubType>Designer</SubType>
+    <Page Include="Cube\ExerciseOnePage.xaml">
       <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Cube\ExerciseOnePage_Ins.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Cube\ExerciseTwoPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Cube\ExerciseTwoPage_Ins.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Cube\PageCube.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="DemographyPane.xaml">
       <SubType>Designer</SubType>
@@ -375,6 +463,38 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="OpSpan2\BasePage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="OpSpan2\BoardAnimal.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="OpSpan2\BoardEquation.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="OpSpan2\BoardEquationJudge.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="OpSpan2\BoardInstructionAnimalPrac.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="OpSpan2\BoardInstructionEquationPractise.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="OpSpan2\BoardOrderOP.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="OpSpan2\BoardTitle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="OpSpan\PageOpSpan.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -390,6 +510,34 @@
     <Page Include="PairedAsso\Title.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Paper\ExamplePage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Paper\PagePaper.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Paper\PaperInsUserControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Paper\PaperTestControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="PortraitMemory\MemoryControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="PortraitMemory\PagePortrailtMemory.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="PortraitMemory\PortrailtMemoryTestControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="SybSrh\PageTitle.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -434,8 +582,8 @@
     <Compile Include="OpSpan\PageOpSpan.xaml.cs">
       <DependentUpon>PageOpSpan.xaml</DependentUpon>
     </Compile>
-    <Compile Include="OpSpan\TrailOS_ST.cs" />
-    <Compile Include="OpSpan\TrailGroupOS.cs" />
+    <Compile Include="OpSpan2\StTrailOS_ST.cs" />
+    <Compile Include="OpSpan2\StTrailGroupOS.cs" />
     <Compile Include="OpSpan\UIGroupNumChecksOS.cs" />
     <Compile Include="PageCommon.cs" />
     <Compile Include="DigitSymbol\PageDigitSymbol.xaml.cs">
@@ -567,6 +715,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Res\CSTriangle.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Res\ArrowTexDown.jpg" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -146,7 +146,7 @@ namespace FiveElementsIntTest.SymSpan
             mStatus = StatusSS.singleSymm;
         }
 
-        private List<long> mRTBaseLine;
+        private List<long> mRTBaseLine = new List<long>();
 
         private void loadSingleSymm()
         {
@@ -288,12 +288,15 @@ namespace FiveElementsIntTest.SymSpan
             loadMainTitle();
 
             //systest disabled
+            //loadSingleSymm();
             //mMeanRT = 2000;
             /*OrganizerTrailSS ots =
                 new OrganizerTrailSS(this, false, mTest, ref mGroupsAnswer);
             mStatus = StatusSS.finish;
             ots.nextStep();*/
-
+            //loadSinglePos();
+            //loadSingleSymm();
+            //loadPractise();
             //loadTest();
         }
     }

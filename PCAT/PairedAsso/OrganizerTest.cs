@@ -59,7 +59,7 @@ namespace FiveElementsIntTest.PairedAsso
         {
             mPage.clearAll();
             mPage.amBaseCanvas.Children.Add(mWarning);
-            Canvas.SetTop(mWarning, FEITStandard.PAGE_BEG_Y + 300);
+            Canvas.SetTop(mWarning, FEITStandard.PAGE_BEG_Y + 360);
             Canvas.SetLeft(mWarning, FEITStandard.PAGE_BEG_X + (FEITStandard.PAGE_WIDTH - 300) / 2 - 150);
             mWarning.Out();
 
@@ -79,6 +79,11 @@ namespace FiveElementsIntTest.PairedAsso
         {
             mCurAt = 0;
             showCallingAttentionPage();
+        }
+
+        private void next(object obj)
+        {
+            next();
         }
 
         private void next()
@@ -120,9 +125,9 @@ namespace FiveElementsIntTest.PairedAsso
 
             mCompHold.SetQuest(mSource[mCurAt].Pair.First);
             mCompHold.SetCharas(mSource[mCurAt].Chars9);
-            mCompHold.mfConfirm = next;
+            mCompHold.mfConfirm = confirmCheckNext;
             mPage.amBaseCanvas.Children.Add(mCompHold);
-            Canvas.SetTop(mCompHold, FEITStandard.PAGE_BEG_Y + (FEITStandard.PAGE_HEIGHT - 515) / 2);
+            Canvas.SetTop(mCompHold, FEITStandard.PAGE_BEG_Y + (FEITStandard.PAGE_HEIGHT - 515) / 2 + 60);
             Canvas.SetLeft(mCompHold, FEITStandard.PAGE_BEG_X + (FEITStandard.PAGE_WIDTH - 800) / 2);
 
             mPage.mOrders.Add(mCompHold.mSelectedOrder);
@@ -133,6 +138,15 @@ namespace FiveElementsIntTest.PairedAsso
             mtWarn.Elapsed += new ElapsedEventHandler(tWarn_Elapsed);
             mtWarn.AutoReset = false;
             mtWarn.Enabled = true;
+        }
+
+        void confirmCheckNext(object obj)
+        {
+            CompChinese9Cells cc9 = (CompChinese9Cells)obj;
+            if (cc9.mSelectedOrder.Count == 2)
+            {
+                next();
+            }
         }
 
         void mtFlipper_Elapsed(object sender, ElapsedEventArgs e)

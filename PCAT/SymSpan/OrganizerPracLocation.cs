@@ -130,7 +130,7 @@ namespace FiveElementsIntTest.SymSpan
 
             CompCentralText text0 = new CompCentralText();
             text0.PutTextToCentralScreen(
-                "左右对折                             ", "KaiTi", 30, ref mPage.mBaseCanvas,
+                "左右对折                                ", "KaiTi", 30, ref mPage.mBaseCanvas,
                 300, System.Windows.Media.Color.FromRgb(0, 255, 0));
 
             putPicAtCanvas("insymmInstruction.bmp");
@@ -303,8 +303,8 @@ namespace FiveElementsIntTest.SymSpan
 
             CompCentralText text = new CompCentralText();
             text.PutTextToCentralScreen(
-                "**请按顺序回忆红点出现过的位置**", "KaiTi", 30, ref mPage.mBaseCanvas,
-                -200, System.Windows.Media.Color.FromRgb(255, 255, 255));
+                "请按顺序回忆红点出现过的位置", "KaiTi", 32, ref mPage.mBaseCanvas,
+                -200, System.Windows.Media.Color.FromRgb(0, 255, 0));
 
             mComp.setPositionMode(false);
             //mComp.setMarked(-1);

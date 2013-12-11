@@ -9,14 +9,15 @@ namespace FiveElementsIntTest
     public enum TestType
     {
         DigitSymbol, SymbolSearch, OpSpan, SymSpan, CtSpan,
-        VocAsso, GraphAsso, Paper, Cube, Vocabulary, Similarity
+        VocAsso, GraphAsso, Paper, Cube, Vocabulary, Similarity, PortraitMemory, OpSpan2
     }
 
     public class FEITStandard
     {
         public static String[] TEST_TITLE = { "数字符号", "符号搜索", "操作广度", 
                                         "对称广度", "计数广度", "词对联想", "图对联想", 
-                                        "折纸测验", "魔方旋转", "词汇测验", "类同测验"};
+                                        "折纸测验", "魔方旋转", "词汇测验", "类同测验","人像特点联系回忆", 
+                                        "操作广度2"};
 
         public static int PAGE_WIDTH = 800;
         public static int PAGE_HEIGHT = 600;
@@ -39,8 +40,7 @@ namespace FiveElementsIntTest
 
         public static string GetRepotOutputPath()
         {
-            string ret = GetExePath() + "Report\\";
-            return ret;
+            return GetExePath() + "Report\\";
         }
 
         public static string GetExePath()
@@ -68,11 +68,11 @@ namespace FiveElementsIntTest
             DateTime dt = System.DateTime.Now;
             String str = "";
 
-            str += dt.Year.ToString();
-            str += dt.Month.ToString();
-            str += dt.Day.ToString();
-            str += dt.Hour.ToString();
-            str += dt.Minute.ToString();
+            str += dt.Year.ToString()+"-";
+            str += dt.Month.ToString() + "-";
+            str += dt.Day.ToString() + "-";
+            str += dt.Hour.ToString() + "-";
+            str += dt.Minute.ToString() + "-";
             str += dt.Second.ToString();
 
             return str;
