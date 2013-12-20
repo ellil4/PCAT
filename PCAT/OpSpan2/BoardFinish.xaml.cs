@@ -15,21 +15,20 @@ using System.Windows.Shapes;
 namespace FiveElementsIntTest.OpSpan2
 {
     /// <summary>
-    /// BoardInstructionEquationPractise.xaml 的互動邏輯
+    /// BoardFinish.xaml 的互動邏輯
     /// </summary>
-    public partial class BoardInstructionEquationPractise : UserControl
+    public partial class BoardFinish : UserControl
     {
-        public BasePage mBasePage;
-        public BoardInstructionEquationPractise(BasePage bp)
+        BasePage mBasePage;
+        public BoardFinish(BasePage bp)
         {
             InitializeComponent();
             mBasePage = bp;
         }
 
-        private void label5_MouseUp(object sender, MouseButtonEventArgs e)
+        private void amFalseBtn_MouseUp(object sender, MouseButtonEventArgs e)
         {
-            //go to equation exe
-            mBasePage.ShowEquationPage();
+            mBasePage.mMainWindow.TestForward();
         }
     }
 }

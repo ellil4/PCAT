@@ -21,8 +21,8 @@ namespace FiveElementsIntTest.OpSpan2
     public partial class BoardEquationJudge : UserControl
     {
         public BasePage mBasePage;
-        public StEquation mEquation;
         bool mOriginalAns;
+        //bool mIsPractise = false;
 
         public BoardEquationJudge(BasePage bp)
         {
@@ -30,31 +30,49 @@ namespace FiveElementsIntTest.OpSpan2
 
             mBasePage = bp;
 
-            switch(mBasePage.mStage)
+            switch (mBasePage.mStage)
             {
                 case Stage.EquationPrac:
-                    //rec
-                    mBasePage.mRecorder.mMathPracEquations.Add(mBasePage.mEquationPrac[mBasePage.mCurInGrpAt]);
-                    //show 
                     amAnswerShow.Content = mBasePage.mEquationPrac[mBasePage.mCurInGrpAt].Result;
                     //get ans
                     mOriginalAns = mBasePage.mEquationPrac[mBasePage.mCurInGrpAt].Answer;
+                    break;
+                case Stage.ComprehPrac:
+                    //show
+                    amAnswerShow.Content =
+                        mBasePage.mComprehPrac[mBasePage.mCurSchemeAt].mTrails[mBasePage.mCurInGrpAt].result;
+                    //get ans
+                    mOriginalAns =
+                        mBasePage.mComprehPrac[mBasePage.mCurSchemeAt].mTrails[mBasePage.mCurInGrpAt].correctness;
+                    break;
+                case Stage.Formal:
+                    //show
+                    amAnswerShow.Content =
+                        mBasePage.mTest[mBasePage.mCurSchemeAt].mTrails[mBasePage.mCurInGrpAt].result;
+                    //get ans
+                    mOriginalAns =
+                        mBasePage.mTest[mBasePage.mCurSchemeAt].mTrails[mBasePage.mCurInGrpAt].correctness;
                     break;
             }
 
             amCorrectness.Visibility = System.Windows.Visibility.Hidden;
         }
 
-        private void showCorrect()
+        private void goCorrect()
         {
-            amCorrectness.Content = "正确";
-            amCorrectness.Foreground = new SolidColorBrush(Color.FromRgb(0, 255, 0));
-            amCorrectness.Visibility = System.Windows.Visibility.Visible;
+            if (mBasePage.mStage == Stage.AnimalPrac)
+            {
+                amCorrectness.Content = "正确";
+                amCorrectness.Foreground = new SolidColorBrush(Color.FromRgb(0, 255, 0));
+                amCorrectness.Visibility = System.Windows.Visibility.Visible;
+            }
+
 
             Timer t_correct = new Timer();
             t_correct.Interval = 500;
             t_correct.AutoReset = false;
             t_correct.Elapsed += new ElapsedEventHandler(t_afterShowCorrectness_Elapsed);
+            t_correct.Enabled = true;
         }
 
         delegate void TimeDele();
@@ -68,6 +86,7 @@ namespace FiveElementsIntTest.OpSpan2
             t_wrong.Interval = 500;
             t_wrong.AutoReset = false;
             t_wrong.Elapsed += new ElapsedEventHandler(t_afterShowCorrectness_Elapsed);
+            t_wrong.Enabled = true;
         }
 
         void t_afterShowCorrectness_Elapsed(object sender, ElapsedEventArgs e)
@@ -78,33 +97,83 @@ namespace FiveElementsIntTest.OpSpan2
             t_mask.Interval = 500;
             t_mask.AutoReset = false;
             t_mask.Elapsed += new ElapsedEventHandler(t_mask_Elapsed);
+            t_mask.Enabled = true;
         }
 
         void t_mask_Elapsed(object sender, ElapsedEventArgs e)
         {
-            //iter & go out
-            mBasePage.DoCursorIteration();
             switch (mBasePage.mStage)
             {
                 case Stage.EquationPrac:
+                    //iter & go out
+                    mBasePage.DoCursorIteration();
                     if (mBasePage.mCurInGrpAt != mBasePage.mEquationPrac.Count)
                     {
-                        mBasePage.Dispatcher.Invoke(new TimeDele2(mBasePage.ShowEquationPage));
+                        mBasePage.Dispatcher.Invoke(new TimeDele(mBasePage.ShowEquationPage));
                     }
                     else
                     {
                         //go to compreh practise
+                        mBasePage.Dispatcher.Invoke(new TimeDele(mBasePage.ShowInstructionComprehPrac));
+                    }
+                    break;
+                case Stage.ComprehPrac:
+                    if (mBasePage.SchemeReturned())//end of span && end of scheme
+                    {
+                        //go to order UI
+                        mBasePage.Dispatcher.Invoke(new TimeDele(mBasePage.ShowOrderSelectPage));
+                    }
+                    else
+                    {
+                        //go to next animal
+                        mBasePage.Dispatcher.Invoke(new TimeDele(mBasePage.ShowBoardAnimal));
+                    }
+                    break;
+                case Stage.Formal:
+                    if (mBasePage.SchemeReturned() || mBasePage.SchemeIterated())//end of span || end of scheme
+                    {
+                        //go to order UI
+                        mBasePage.Dispatcher.Invoke(new TimeDele(mBasePage.ShowOrderSelectPage));
+                    }
+                    else
+                    {
+                        //go to next animal
+                        mBasePage.Dispatcher.Invoke(new TimeDele(mBasePage.ShowBoardAnimal));
                     }
                     break;
             }
         }
 
+        void addChoiceMadeAndDureTime(long pressTime)
+        {
+            mBasePage.mRecorder.choiceMadeTime.Add(pressTime);
+
+            mBasePage.mRecorder.choiceDure.Add(
+                pressTime - mBasePage.mRecorder.choiceShowTime[
+                mBasePage.mRecorder.choiceShowTime.Count - 1]);
+        }
+
         private void amTrueBtn_MouseUp(object sender, MouseButtonEventArgs e)
         {
-            mBasePage.mRecorder.mMathPracAnswers.Add(true);
+            long pressTime = mBasePage.mTimeline.ElapsedMilliseconds;
+            switch (mBasePage.mStage)
+            {
+                case Stage.EquationPrac:
+                    mBasePage.mRecorder.mathPracAnswers.Add("True");
+                    break;
+                case Stage.ComprehPrac:
+                    addChoiceMadeAndDureTime(pressTime);
+                    mBasePage.mRecorder.choice.Add("True");
+                    break;
+                case Stage.Formal:
+                    addChoiceMadeAndDureTime(pressTime);
+                    mBasePage.mRecorder.choice.Add("True");
+                    break;
+            }
+            
             if (mOriginalAns)
             {
-                showCorrect();
+                goCorrect();
             }
             else
             {
@@ -114,14 +183,38 @@ namespace FiveElementsIntTest.OpSpan2
 
         private void amFalseBtn_MouseUp(object sender, MouseButtonEventArgs e)
         {
-            mBasePage.mRecorder.mMathPracAnswers.Add(false);
+            long pressTime = mBasePage.mTimeline.ElapsedMilliseconds;
+            switch (mBasePage.mStage)
+            {
+                case Stage.EquationPrac:
+                    mBasePage.mRecorder.mathPracAnswers.Add("False");
+                    break;
+                case Stage.ComprehPrac:
+                    addChoiceMadeAndDureTime(pressTime);
+                    mBasePage.mRecorder.choice.Add("False");
+                    break;
+                case Stage.Formal:
+                    addChoiceMadeAndDureTime(pressTime);
+                    mBasePage.mRecorder.choice.Add("False");
+                    break;
+            }
+            
             if (mOriginalAns)
             {
                 showWrong();
             }
             else
             {
-                showCorrect();
+                goCorrect();
+            }
+        }
+
+        private void UserControl_Loaded(object sender, RoutedEventArgs e)
+        {
+            if (mBasePage.mStage == Stage.Formal || mBasePage.mStage == Stage.ComprehPrac)
+            {
+                mBasePage.mRecorder.choiceShowTime.Add(
+                    mBasePage.mTimeline.ElapsedMilliseconds);
             }
         }
     }

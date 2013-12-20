@@ -14,21 +14,18 @@ using System.Windows.Shapes;
 
 namespace FiveElementsIntTest.OpSpan2
 {
-    /// <summary>
-    /// BoardInstructionAnimalPrac.xaml 的互動邏輯
-    /// </summary>
-    public partial class BoardInstructionAnimalPrac : UserControl
+    public partial class BoardInstructionFormal : UserControl
     {
         public BasePage mBasePage;
-        public BoardInstructionAnimalPrac(BasePage bp)
+        public BoardInstructionFormal(BasePage bp)
         {
             InitializeComponent();
             mBasePage = bp;
         }
 
-        private void label3_MouseUp(object sender, MouseButtonEventArgs e)
+        private void amStartBtn_MouseUp(object sender, MouseButtonEventArgs e)
         {
-            mBasePage.ShowBoardAnimal(null);//show the first of the animal paractise
+            mBasePage.ShowEquationPage();
         }
     }
 }

@@ -180,8 +180,17 @@
     <Compile Include="OpSpan2\BoardEquationJudge.xaml.cs">
       <DependentUpon>BoardEquationJudge.xaml</DependentUpon>
     </Compile>
-    <Compile Include="OpSpan2\BoardInstructionAnimalPrac.xaml.cs">
-      <DependentUpon>BoardInstructionAnimalPrac.xaml</DependentUpon>
+    <Compile Include="OpSpan2\BoardFinish.xaml.cs">
+      <DependentUpon>BoardFinish.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="OpSpan2\BoardInstructionFormal.xaml.cs">
+      <DependentUpon>BoardInstructionFormal.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="OpSpan2\BoardGroupTitle.xaml.cs">
+      <DependentUpon>BoardGroupTitle.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="OpSpan2\BoardInstructionComprehPrac.xaml.cs">
+      <DependentUpon>BoardInstructionComprehPrac.xaml</DependentUpon>
     </Compile>
     <Compile Include="OpSpan2\BoardInstructionEquationPractise.xaml.cs">
       <DependentUpon>BoardInstructionEquationPractise.xaml</DependentUpon>
@@ -479,7 +488,19 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="OpSpan2\BoardInstructionAnimalPrac.xaml">
+    <Page Include="OpSpan2\BoardFinish.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="OpSpan2\BoardInstructionFormal.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="OpSpan2\BoardGroupTitle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="OpSpan2\BoardInstructionComprehPrac.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

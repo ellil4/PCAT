@@ -12,6 +12,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Timers;
+using System.Windows.Threading;
 
 namespace FiveElementsIntTest.OpSpan2
 {
@@ -24,13 +25,29 @@ namespace FiveElementsIntTest.OpSpan2
         BasePage mBasePage;
 
         public delegate void TimeDele();
+        public delegate void TimeDeleP(object obj = null);
 
-        public BoardAnimal(BasePage page, string content)
+        public BoardAnimal(BasePage page)
         {
             InitializeComponent();
             mBasePage = page;
-            mContent = content;
-            label1.Content = content;
+            //mContent = content;
+            switch (mBasePage.mStage)
+            {
+                case Stage.AnimalPrac:
+                    mContent =
+                        mBasePage.mAnimalPrac[mBasePage.mCurSchemeAt][mBasePage.mCurInGrpAt];
+                    break;
+                case Stage.ComprehPrac:
+                    mContent =
+                        mBasePage.mComprehPrac[mBasePage.mCurSchemeAt].mTrails[mBasePage.mCurInGrpAt].memTarget;
+                    break;
+                case Stage.Formal:
+                    mContent =
+                        mBasePage.mTest[mBasePage.mCurSchemeAt].mTrails[mBasePage.mCurInGrpAt].memTarget;
+                    break;
+            }
+            label1.Content = mContent;
         }
 
         public void Run()
@@ -59,44 +76,43 @@ namespace FiveElementsIntTest.OpSpan2
 
         void tb_Elapsed_go_out(object sender, ElapsedEventArgs e)
         {
+            if(mBasePage.mStage == Stage.ComprehPrac || mBasePage.mStage == Stage.Formal)
+                mBasePage.mRecorder.inGroupNum.Add(mBasePage.mCurInGrpAt);
+
+            mBasePage.DoCursorIteration();
+            
             switch (mBasePage.mStage)
             {
                 case Stage.AnimalPrac:
-                    
-                    mBasePage.DoCursorIteration();
-
                     if (!mBasePage.SchemeIterated())//
                     {
-                        mBasePage.ShowBoardAnimal(null);
+                        mBasePage.Dispatcher.Invoke(new TimeDele(mBasePage.ShowBoardAnimal));
                     }
                     else//Scheme Iterated
                     {
-                        mBasePage.ShowOrderSelectPage(null);
+                        mBasePage.Dispatcher.Invoke(new TimeDele(mBasePage.ShowOrderSelectPage));
                     }
-
                     break;
                 case Stage.ComprehPrac:
-                    mBasePage.DoCursorIteration();
 
                     if (!mBasePage.SchemeIterated())//
                     {
-                        mBasePage.ShowEquationPage(null);
+                        mBasePage.Dispatcher.Invoke(new TimeDele(mBasePage.ShowEquationPage));
                     }
                     else//Scheme Iterated
                     {
-                        mBasePage.ShowOrderSelectPage(null);
+                        mBasePage.Dispatcher.Invoke(new TimeDele(mBasePage.ShowOrderSelectPage));
                     }
                     break;
                 case Stage.Formal:
-                    mBasePage.DoCursorIteration();
 
                     if (!mBasePage.SchemeIterated())//
                     {
-                        mBasePage.ShowEquationPage(null);
+                        mBasePage.Dispatcher.Invoke(new TimeDele(mBasePage.ShowEquationPage));
                     }
                     else//Scheme Iterated
                     {
-                        mBasePage.ShowOrderSelectPage(null);
+                        mBasePage.Dispatcher.Invoke(new TimeDele(mBasePage.ShowOrderSelectPage));
                     }
                     break;
             }

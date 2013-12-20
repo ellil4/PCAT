@@ -4,7 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" 
-             d:DesignHeight="768" d:DesignWidth="1024">
+             d:DesignHeight="768" d:DesignWidth="1024" Loaded="UserControl_Loaded">
     <Grid Background="Black">
         <Label Background="White" Content="对" FontFamily="KaiTi" FontSize="32" Foreground="Black" Height="52" HorizontalAlignment="Left" HorizontalContentAlignment="Center" Margin="300,410,0,0" Name="amTrueBtn" VerticalAlignment="Top" VerticalContentAlignment="Center" Width="105" MouseUp="amTrueBtn_MouseUp" />
         <Label Background="White" Content="错" FontFamily="KaiTi" FontSize="32" Foreground="Black" Height="52" HorizontalAlignment="Left" HorizontalContentAlignment="Center" Margin="614,410,0,0" Name="amFalseBtn" VerticalAlignment="Top" VerticalContentAlignment="Center" Width="105" MouseUp="amFalseBtn_MouseUp" />

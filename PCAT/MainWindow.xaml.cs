@@ -124,7 +124,10 @@ namespace FiveElementsIntTest
                     NavigationService.Navigate(new PagePortrailtMemory(this));
                     break;
                 case TestType.OpSpan2:
-                    NavigationService.Navigate(new OpSpan2.BasePage(this));
+                    NavigationService.Navigate(new OpSpan2.BasePage(this, SECOND_ARCHI_TYPE.OPSPAN));
+                    break;
+                case TestType.SymmSpan2:
+                    NavigationService.Navigate(new OpSpan2.BasePage(this, SECOND_ARCHI_TYPE.SYMMSPAN));
                     break;
             }
 

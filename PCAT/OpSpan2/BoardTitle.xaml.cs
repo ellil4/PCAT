@@ -11,6 +11,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Timers;
 
 namespace FiveElementsIntTest.OpSpan2
 {
@@ -28,7 +29,19 @@ namespace FiveElementsIntTest.OpSpan2
 
         private void label3_MouseUp(object sender, MouseButtonEventArgs e)
         {
-            mBasePage.ShowInstructionAnimalPrac(null);
+            mBasePage.ClearAll();
+            Timer t = new Timer();
+            t.Interval = 1000;
+            t.AutoReset = false;
+            t.Elapsed += new ElapsedEventHandler(t_Elapsed);
+            t.Enabled = true;
+        }
+
+        delegate void TimeDele();
+
+        void t_Elapsed(object sender, ElapsedEventArgs e)
+        {
+            mBasePage.Dispatcher.Invoke(new TimeDele(mBasePage.ShowBoardAnimal));
         }
     }
 }

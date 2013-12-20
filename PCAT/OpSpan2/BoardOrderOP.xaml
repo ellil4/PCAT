@@ -4,10 +4,9 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" 
-             d:DesignHeight="768" d:DesignWidth="1024" FontFamily="KaiTi">
+             d:DesignHeight="768" d:DesignWidth="1024" FontFamily="KaiTi" Loaded="UserControl_Loaded">
     <Grid Background="Black">
         <Label Content="请按顺序回忆属相" Height="56" HorizontalAlignment="Left" Margin="362,140,0,0" Name="label1" VerticalAlignment="Top" Width="303" Foreground="Lime" FontFamily="KaiTi" FontSize="36" />
-        <TextBlock Height="50" Margin="12,216,12,0" Name="amTBAnswer" Text="鼠牛" VerticalAlignment="Top" FontFamily="SimHei" TextAlignment="Center" FontSize="40" Foreground="White" />
         <Rectangle Height="2" HorizontalAlignment="Left" Margin="112,272,0,0" Name="rectangle1" Stroke="White" VerticalAlignment="Top" Width="800" Fill="White" />
         <TextBlock FontFamily="KaiTi" FontSize="32" Foreground="Red" Height="50" Margin="12,288,12,0" Name="amTBNotice" Text="错误，请再试一遍" TextAlignment="Center" VerticalAlignment="Top" />
         <Label Content="鼠" Height="55" Width ="55" HorizontalAlignment="Left" Margin="272,362,0,0" Name="amAni1" VerticalAlignment="Top" FontFamily="SimHei" FontSize="40" Foreground="White" BorderThickness="2" BorderBrush="White" Padding="4" />
@@ -26,5 +25,7 @@
         <Label Background="White" Content="确 认" FontFamily="KaiTi" FontSize="28" Foreground="Black" Height="46" Margin="597,558,345,164" Name="amBtnConfirm" MouseUp="amBtnConfirm_MouseUp" />
         <Label BorderBrush="White" BorderThickness="2" Content="?" FontFamily="SimHei" FontSize="40" Foreground="White" Height="55" HorizontalAlignment="Left" Margin="794,402,0,0" Name="amAniQues" Padding="0" VerticalAlignment="Top" Width="55" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" MouseEnter="amAniQues_MouseEnter" MouseLeave="amAniQues_MouseLeave" />
         <TextBlock Height="71" HorizontalAlignment="Left" Margin="871,395,0,0" Name="amQuesLabel" Text="在不确定该位置的内容时点击“？”按钮" VerticalAlignment="Top" Width="141" FontSize="20" TextWrapping="Wrap" Background="White" Foreground="Black"></TextBlock>
+        <Label Content="剩余时间：45秒" Height="70" HorizontalAlignment="Left" Margin="346,630,0,0" Name="amLabelCountDown" VerticalAlignment="Top" Width="333" Foreground="Red" FontSize="32" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" />
+        <Canvas Height="100" HorizontalAlignment="Left" Name="amOrderCanvas" VerticalAlignment="Top" Width="200" />
     </Grid>
 </UserControl>

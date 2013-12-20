@@ -21,19 +21,24 @@ namespace FiveElementsIntTest.OpSpan2
     public partial class BoardOrderOP : UserControl
     {
         List<Label> mAnimalButtons;
+        List<Label> mAnswersBoxes;
 
         public BasePage mBasePage;
+        public bool mIsExtra;
+        int mCountDownNum = 45;
+        int mLen;
+        int mCur = 0;
 
-        public BoardOrderOP(BasePage bp)
+        public BoardOrderOP(BasePage bp, bool isExtra)
         {
             InitializeComponent();
             mAnimalButtons = new List<Label>();
 
             mBasePage = bp;
+            mIsExtra = isExtra;
 
             init();
             register();
-
         }
 
         void init()
@@ -51,8 +56,60 @@ namespace FiveElementsIntTest.OpSpan2
             mAnimalButtons.Add(amAni11);
             mAnimalButtons.Add(amAni12);
 
-            amTBAnswer.Text = "";
+            //amTBAnswer.Text = "";
             amQuesLabel.Visibility = System.Windows.Visibility.Hidden;
+            amTBNotice.Visibility = System.Windows.Visibility.Hidden;
+
+            //boxes control
+            mAnswersBoxes = new List<Label>();
+            
+            switch(mBasePage.mStage)
+            {
+                case Stage.AnimalPrac:
+                    mLen = BasePage.mAnimalPracScheme[getSchemeID2Check()];
+                    break;
+                case Stage.ComprehPrac:
+                    mLen = BasePage.mPracScheme[getSchemeID2Check()];
+                    break;
+                case Stage.Formal:
+                    mLen = BasePage.mTestScheme[getSchemeID2Check()];
+                    break;
+            }
+
+            for (int i = 0; i < mLen; i++)
+            {
+                Label lb = new Label();
+                lb.Foreground = new SolidColorBrush(Color.FromRgb(255, 255, 255));
+                lb.Width = 55;
+                lb.Height = 55;
+                lb.BorderThickness = new Thickness(2);
+                lb.BorderBrush = new SolidColorBrush(Color.FromRgb(255, 255, 255));
+                amOrderCanvas.Children.Add(lb);
+                Canvas.SetTop(lb, 215);
+                Canvas.SetLeft(lb, (1024 - mLen * 55) / 2 + i * 53);
+                //lb.VerticalAlignment = System.Windows.VerticalAlignment.Center;
+                //lb.HorizontalAlignment = System.Windows.HorizontalAlignment.Center;
+                lb.HorizontalContentAlignment = System.Windows.HorizontalAlignment.Center;
+                lb.HorizontalContentAlignment = System.Windows.HorizontalAlignment.Center;
+                lb.FontFamily = new FontFamily("SimHei");
+                lb.FontSize = 40;
+                mAnswersBoxes.Add(lb);
+            }
+        }
+
+        bool boxesContains(string tx)
+        {
+            bool retval = false;
+            for (int i = 0; i < mAnswersBoxes.Count; i++)
+            {
+                if (mAnswersBoxes[i].Content != null && mAnswersBoxes[i].Equals(tx))
+                {
+                    retval = true;
+                    break;
+                }
+            }
+
+            return retval;
         }
 
         void register()
@@ -67,33 +124,38 @@ namespace FiveElementsIntTest.OpSpan2
 
         void amAniQues_MouseUp(object sender, MouseButtonEventArgs e)
         {
-            if (amTBAnswer.Text.Length < 10)
+            if (mCur < mLen)
             {
-                amTBAnswer.Text += ((Label)sender).Content;
+                mAnswersBoxes[mCur].Content = ((Label)sender).Content;
+                mCur++;
             }
         }
 
         void Animal_MouseUp(object sender, MouseButtonEventArgs e)
         {
-            if (!amTBAnswer.Text.Contains(((Label)sender).Content.ToString()) && 
-                amTBAnswer.Text.Length < 10)
+            if (mCur < mLen && !boxesContains(((Label)sender).Content.ToString()))
             {
                 ((Label)sender).BorderBrush =
                     new SolidColorBrush(Color.FromRgb(255, 119, 0));
-                amTBAnswer.Text += ((Label)sender).Content;
- 
+                mAnswersBoxes[mCur].Content = ((Label)sender).Content;
+                mCur++;
             }
         }
 
         private void amBtnClear_MouseUp(object sender, MouseButtonEventArgs e)
         {
-            amTBAnswer.Text = "";
+            string tar = mAnswersBoxes[mCur - 1].Content.ToString();
 
             for(int i = 0; i < mAnimalButtons.Count; i++)
             {
-                mAnimalButtons[i].BorderBrush = 
-                    new SolidColorBrush(Color.FromRgb(255, 255, 255));
+                if (mAnimalButtons[i].Content.Equals(tar))
+                {
+                    mAnimalButtons[i].BorderBrush = new SolidColorBrush(Color.FromRgb(255, 255, 255));
+                }
             }
+
+            mAnswersBoxes[mCur - 1].Content = "";
+            mCur--;
         }
 
         private void amAniQues_MouseEnter(object sender, MouseEventArgs e)
@@ -106,69 +168,449 @@ namespace FiveElementsIntTest.OpSpan2
             amQuesLabel.Visibility = System.Windows.Visibility.Hidden;
         }
 
-        private void amBtnConfirm_MouseUp(object sender, MouseButtonEventArgs e)
+        void showRight()
         {
+            amTBNotice.Text = "正确";
+            amTBNotice.Foreground = new SolidColorBrush(Color.FromRgb(0, 255, 0));
+            amTBNotice.Visibility = System.Windows.Visibility.Visible;
+        }
+
+        void showWrong()
+        {
+            amTBNotice.Visibility = System.Windows.Visibility.Visible;
             switch (mBasePage.mStage)
             {
                 case Stage.AnimalPrac:
-                    string realOrder = mBasePage.GetAnimalPracRealOrder(mBasePage.mCurSchemeAt);
-                    string userOrder = amTBAnswer.Text;
+                    if (mBasePage.mSecondAnimalPrac)
+                    {
+                        amTBNotice.Text = "错误";
+                    }
+                    else
+                    {
+                        amTBNotice.Text = "错误，请再看一遍";
+                    }
+                    break;
+                case Stage.ComprehPrac:
+                    if (mBasePage.mSecondComprehPrac)
+                    {
+                        amTBNotice.Text = "错误";
+                    }
+                    else
+                    {
+                        amTBNotice.Text = "错误，请再看一遍";
+                    }
+                    break;
+                case Stage.Formal:
+                    amTBNotice.Visibility = System.Windows.Visibility.Hidden;
+                    break;
 
-                    mBasePage.mRecorder.mPracOrderRealOrder.Add(realOrder);
-                    mBasePage.mRecorder.mPracOrderAnswers.Add(userOrder);
+            }
+        }
+
+        void saveComprehForamlOutTime(long offtime)
+        {
+            mBasePage.mRecorder.orderOff.Add(offtime);
+            mBasePage.mRecorder.orderDure.Add(
+                offtime - mBasePage.mRecorder.orderOn[mBasePage.mRecorder.orderOn.Count - 1]);
+        }
+
+        private void comprehPracGoOut(string userOrder, long offtime)
+        {
+            saveComprehForamlOutTime(offtime);
+            string realOrder = mBasePage.GetComprehPracAnimalRealOrder();
+            mBasePage.mRecorder.rightOrder.Add(realOrder);
+            mBasePage.mRecorder.userInputOrder.Add(userOrder);
+            mBasePage.mRecorder.isExtraG.Add(mIsExtra);
+            mBasePage.mRecorder.isPractiseG.Add(true);
+            mBasePage.mExeDidCount++;
+
+            if (realOrder.Equals(userOrder))
+            {
+                showRight();
+                //go formal
+                Timer outAsInstructionFormal = new Timer();
+                outAsInstructionFormal.Interval = 500;
+                outAsInstructionFormal.AutoReset = false;
+                outAsInstructionFormal.Elapsed +=
+                    new ElapsedEventHandler(outAsComprhPracRight_Elapsed);
+                outAsInstructionFormal.Enabled = true;
+
+            }
+            else
+            {
+                showWrong();
+                //go agian or formal
+
+                Timer outAsComprhPracWrong = new Timer();
+                outAsComprhPracWrong.Interval = 1500;
+                outAsComprhPracWrong.AutoReset = false;
+                outAsComprhPracWrong.Elapsed +=
+                    new ElapsedEventHandler(outAsComprhPracWrong_Elapsed);
+                outAsComprhPracWrong.Enabled = true;
+            }
+        }
+
+        private void fillJumpedAllOK(int schemeIDX)
+        {
+            for (int i = 0; i < BasePage.mTestScheme[schemeIDX]; i++)
+            {
+                mBasePage.mRecorder.mathExpression.Add(mBasePage.mTest[schemeIDX].mTrails[i].equation);
+                mBasePage.mRecorder.mathOn.Add(0);
+                mBasePage.mRecorder.mathOff.Add(0);
+                mBasePage.mRecorder.mathDure.Add(0);
+                mBasePage.mRecorder.displayedAnswer.Add(mBasePage.mTest[schemeIDX].mTrails[i].result);
+                mBasePage.mRecorder.choice.Add("pass");
+                mBasePage.mRecorder.correctness.Add(true);
+                mBasePage.mRecorder.choiceShowTime.Add(0);
+                mBasePage.mRecorder.choiceMadeTime.Add(0);
+                mBasePage.mRecorder.choiceDure.Add(0);
+                mBasePage.mRecorder.animal.Add(mBasePage.mTest[schemeIDX].mTrails[i].memTarget);
+                mBasePage.mRecorder.isExtra.Add(true);
+                mBasePage.mRecorder.isPractise.Add(false);
+                mBasePage.mRecorder.spanWidth.Add(BasePage.mTestScheme[schemeIDX]);
+                mBasePage.mRecorder.groupNum.Add(mBasePage.GetGroupAtInSpan(schemeIDX, BasePage.mTestScheme));
+                mBasePage.mRecorder.isOvertime.Add(false);
+                mBasePage.mRecorder.inGroupNum.Add(mBasePage.mCurInGrpAt);
+                mBasePage.mRecorder.equaLv.Add(mBasePage.mTest[schemeIDX].mTrails[i].equationLevel);
+            }
+
+            mBasePage.mRecorder.spanWidthG.Add(BasePage.mTestScheme[schemeIDX]);
+            mBasePage.mRecorder.groupNumG.Add(mBasePage.GetGroupAtInSpan(schemeIDX, BasePage.mTestScheme));
+            mBasePage.mRecorder.isExtraG.Add(true);
+            mBasePage.mRecorder.isPractiseG.Add(false);
+            mBasePage.mRecorder.orderOn.Add(0);
+            mBasePage.mRecorder.orderOff.Add(0);
+            mBasePage.mRecorder.orderDure.Add(0);
+            string rightOrder = "";
+            for (int i = 0; i < mBasePage.mTest[schemeIDX].mTrails.Count; i++)
+            {
+                rightOrder += mBasePage.mTest[schemeIDX].mTrails[i].memTarget;
+            }
+            mBasePage.mRecorder.rightOrder.Add(rightOrder);
+            mBasePage.mRecorder.userInputOrder.Add("pass");
+        }
+
+        private void formalGoOut(int schemeID2Check, string userOrder, long offtime)
+        {
+            mBasePage.ResetSchemeIterationStatus();
+            saveComprehForamlOutTime(offtime);
+            string realOrder = mBasePage.GetFormalAnimalRealOrder(schemeID2Check);
+            mBasePage.mRecorder.rightOrder.Add(realOrder);
+            mBasePage.mRecorder.userInputOrder.Add(userOrder);
+            mBasePage.mRecorder.isExtraG.Add(mIsExtra);
+            mBasePage.mRecorder.isPractiseG.Add(false);
+
+            if (mBasePage.IfGroupPassed(getSchemeID2Check(), BasePage.mTestScheme))
+            {
+                if (!mIsExtra || mBasePage.mCurSchemeAt == 2)
+                {
+                    if (getSchemeID2Check() != BasePage.mTestScheme.Length - 2)//not the last span
+                    {
+                        fillJumpedAllOK(mBasePage.mCurSchemeAt);
+                        mBasePage.mCurSchemeAt++;//jump
+
+                        if (mBasePage.mCurSchemeAt == 2)
+                        {
+                            fillJumpedAllOK(mBasePage.mCurSchemeAt);
+                            mBasePage.mCurSchemeAt++;//jump over 222
+                        }
+
+                        mBasePage.ShowGroupTitle();
+                    }
+                    else//is last span and pass
+                    {
+                        //finish
+                        mBasePage.mSecondFormal = false;
+                        mBasePage.ShowFinishPage(mBasePage);
+                    }
+                }
+                else//is extra
+                {
+                    if (!mBasePage.SchemeReturned())
+                    {
+                        mBasePage.ShowGroupTitle();
+                    }
+                    else
+                    {
+                        //finish
+                        mBasePage.mSecondFormal = false;
+                        mBasePage.ShowFinishPage(mBasePage);
+                    }
+                }
+
+                mBasePage.mSecondFormal = false;
+                
+            }
+            else//not pass
+            {
+                if (!mIsExtra)//one more chance
+                {
+                    mBasePage.mSecondFormal = true;
+                    mBasePage.ShowGroupTitle();
+                }
+                else
+                {
+                    if (mBasePage.mCurSchemeAt != 2)
+                    {
+                        //output, save, 
+                        //quit
+                        mBasePage.mSecondFormal = false;
+                        mBasePage.ShowFinishPage(mBasePage);
+                    }
+                    else//==2
+                    {
+                        //one more chance
+                        mBasePage.mSecondFormal = true;
+                        mBasePage.ShowGroupTitle();
+                    }
+                }
+            }
+        }
+
+        int getSchemeID2Check()
+        {
+            int schemeID2Check = -4;
+
+            if (mBasePage.SchemeReturned())
+            {
+                if (mBasePage.mStage == Stage.AnimalPrac)
+                {
+                    schemeID2Check = BasePage.mAnimalPracScheme.Length - 1;
+                }
+                else if (mBasePage.mStage == Stage.ComprehPrac)
+                {
+                    schemeID2Check = BasePage.mPracScheme.Length - 1;
+                }
+                else if (mBasePage.mStage == Stage.Formal)
+                {
+                    schemeID2Check = BasePage.mTestScheme.Length - 1;
+                }
+            }
+            else
+            {
+                schemeID2Check = mBasePage.mCurSchemeAt - 1;
+            }
+
+            return schemeID2Check;
+        }
+
+        private void amBtnConfirm_MouseUp(object sender, MouseButtonEventArgs e)
+        {
+            long offtime = mBasePage.mTimeline.ElapsedMilliseconds;
+            string realOrder;
+
+            string userOrder = "";
+
+            for (int i = 0; i < mAnswersBoxes.Count; i++)
+            {
+                userOrder += mAnswersBoxes[i].Content.ToString();
+            }
+
+            if (String.IsNullOrEmpty(userOrder))
+                userOrder = "not set";
+
+            mCountDowner.Enabled = false;
+
+            int schemeID2Check = getSchemeID2Check();
+
+
+            switch (mBasePage.mStage)
+            {
+                case Stage.AnimalPrac:
+                    mBasePage.ResetSchemeIterationStatus();
+                    mBasePage.mRecorder.orderPracOff.Add(
+                        offtime);
+                    mBasePage.mRecorder.orderPracRTs.Add(
+                        offtime - mBasePage.mRecorder.orderPracOn[mBasePage.mRecorder.orderPracOn.Count - 1]);
+
+
+                    realOrder = mBasePage.GetAnimalPracRealOrder(schemeID2Check);
+
+                    mBasePage.mRecorder.orderPracRealOrder.Add(realOrder);
+                    mBasePage.mRecorder.orderPracAnswers.Add(userOrder);
 
                     if (realOrder.Equals(userOrder))
                     {
-                        mBasePage.mRecorder.mPracOrderCorrectness.Add(true);
-
-                        amTBNotice.Text = "正确";
-                        amTBNotice.Foreground = new SolidColorBrush(Color.FromRgb(0, 255, 0));
-                        amTBNotice.Visibility = System.Windows.Visibility.Visible;
+                        mBasePage.mRecorder.orderPracCorrectness.Add(true);
+                        showRight();
 
                         Timer out2Equa = new Timer();
                         out2Equa.Interval = 500;
                         out2Equa.AutoReset = false;
-                        out2Equa.Elapsed += new ElapsedEventHandler(out2Equa_Elapsed);
+                        out2Equa.Elapsed +=
+                            new ElapsedEventHandler(outAsAnimalPracRight_Elapsed);
                         out2Equa.Enabled = true;
-                        
                     }
                     else
                     {
-                        mBasePage.mRecorder.mPracOrderCorrectness.Add(false);
-
-                        amTBNotice.Visibility = System.Windows.Visibility.Visible;
+                        mBasePage.mRecorder.orderPracCorrectness.Add(false);
+                        showWrong();
 
                         Timer outAsWrong = new Timer();
                         outAsWrong.Interval = 1500;
                         outAsWrong.AutoReset = false;
-                        outAsWrong.Elapsed += new ElapsedEventHandler(outAsWrong_Elapsed);
+                        outAsWrong.Elapsed += 
+                            new ElapsedEventHandler(outAsAnimalPracWrong_Elapsed);
                         outAsWrong.Enabled = true;
                     }
                     break;
                 case Stage.ComprehPrac:
+                    comprehPracGoOut(userOrder, offtime);
                     break;
                 case Stage.Formal:
+                    formalGoOut(schemeID2Check, userOrder, offtime);
                     break;
             }
         }
 
-        void out2Equa_Elapsed(object sender, ElapsedEventArgs e)
+        void outAsComprhPracRight_Elapsed(object sender, ElapsedEventArgs e)
         {
-            //go base line test
+            if (mBasePage.IfGroupPassed(0, BasePage.mPracScheme))
+            {
+                mBasePage.Dispatcher.Invoke(
+                   new TimeDele(mBasePage.ShowInstructionFormal));
+            }
+            else//order passed but mem failed
+            {
+                if (!mBasePage.mSecondComprehPrac)
+                {
+                    mBasePage.ProgressReturn();
+                    mBasePage.mSecondComprehPrac = true;
+                    mBasePage.Dispatcher.Invoke(
+                        new TimeDele(mBasePage.ShowEquationPage));
+                }
+                else
+                {
+                    mBasePage.Dispatcher.Invoke(
+                        new TimeDele(mBasePage.ShowInstructionFormal));
+                }
+            }
         }
 
-        void outAsWrong_Elapsed(object sender, ElapsedEventArgs e)
+        void outAsComprhPracWrong_Elapsed(object sender, ElapsedEventArgs e)
         {
-            if (!mBasePage.mSecondAnimalPrac)
+            if (!mBasePage.mSecondComprehPrac)
             {
-                mBasePage.mSecondAnimalPrac = true;
-                mBasePage.mCurInGrpAt = 0;
-                mBasePage.ShowBoardAnimal(null);
+                mBasePage.ProgressReturn();
+                mBasePage.mSecondComprehPrac = true;
+                mBasePage.Dispatcher.Invoke(
+                    new TimeDele(mBasePage.ShowEquationPage));
+            }
+            else
+            {
+                mBasePage.Dispatcher.Invoke(
+                    new TimeDele(mBasePage.ShowInstructionFormal));
+            }
+        }
+
+        delegate void TimeDele();
+
+        void outAsAnimalPracRight_Elapsed(object sender, ElapsedEventArgs e)
+        {
+            mBasePage.mSecondAnimalPrac = false;
+            if(!mBasePage.SchemeReturned())
+            {
+                mBasePage.Dispatcher.Invoke(
+                    new TimeDele(mBasePage.ShowBoardAnimal));
             }
             else
             {
                 //go base line test
+                mBasePage.Dispatcher.Invoke(
+                    new TimeDele(mBasePage.ShowInstructionEquationPrac));
+            }
+        }
 
+        void outAsAnimalPracWrong_Elapsed(object sender, ElapsedEventArgs e)
+        {
+            if (!mBasePage.mSecondAnimalPrac)
+            {
+                mBasePage.mSecondAnimalPrac = true;
+                if (!mBasePage.SchemeReturned())
+                {
+                    mBasePage.mCurSchemeAt--;
+                }
+                else
+                {
+                    mBasePage.mCurSchemeAt = BasePage.mAnimalPracScheme.Length - 1;
+                }
+                 mBasePage.Dispatcher.Invoke(
+                    new TimeDele(mBasePage.ShowBoardAnimal));
+            }
+            else
+            {
+                mBasePage.mSecondAnimalPrac = false;
+                if (!mBasePage.SchemeReturned())
+                {
+                    mBasePage.Dispatcher.Invoke(
+                    new TimeDele(mBasePage.ShowBoardAnimal));
+                }
+                else
+                {
+                    //go base line test
+                    mBasePage.Dispatcher.Invoke(
+                        new TimeDele(mBasePage.ShowInstructionEquationPrac));
+                }
+            }
+        }
+
+        Timer mCountDowner;
+
+        private void UserControl_Loaded(object sender, RoutedEventArgs e)
+        {
+            mCountDowner = new Timer();
+            mCountDowner.AutoReset = true;
+            mCountDowner.Interval = 1000;
+            mCountDowner.Elapsed += new ElapsedEventHandler(cd_Elapsed);
+
+            if (mBasePage.mStage == Stage.ComprehPrac ||
+                mBasePage.mStage == Stage.Formal)
+            {
+                mCountDowner.Enabled = true;
+
+                mBasePage.mRecorder.orderOn.Add(
+                    mBasePage.mTimeline.ElapsedMilliseconds);
+                //-1 for it is already iterated
+                mBasePage.mRecorder.spanWidthG.Add(
+                    BasePage.mTestScheme[getSchemeID2Check()]);
+                
+                mBasePage.mRecorder.groupNumG.Add(
+                mBasePage.GetGroupAtInSpan(getSchemeID2Check(),
+                    BasePage.mTestScheme));
+            }
+            else
+            {
+                //single practise does not limit time
+                mCountDowner.Enabled = false;
+                amLabelCountDown.Visibility = System.Windows.Visibility.Hidden;
+
+                mBasePage.mRecorder.orderPracOn.Add(
+                    mBasePage.mTimeline.ElapsedMilliseconds);
+            }
+        }
+
+        void cd_Elapsed(object sender, ElapsedEventArgs e)
+        {
+            mBasePage.Dispatcher.Invoke(new TimeDele(countDown));
+        }
+
+        private void countDown()
+        {
+            mCountDownNum--;
+            amLabelCountDown.Content = "剩余时间：" + mCountDownNum + "秒";
+            if (mCountDownNum == 0)
+            {
+                long offtime = mBasePage.mTimeline.ElapsedMilliseconds;
+                mCountDowner.Enabled = false;
+                switch (mBasePage.mStage)
+                {
+                    case Stage.ComprehPrac:
+                        comprehPracGoOut("overtime", offtime);
+                        break;
+                    case Stage.Formal:
+                        formalGoOut(getSchemeID2Check(), "overtime", offtime);
+                        break;
+                }
             }
         }
     }

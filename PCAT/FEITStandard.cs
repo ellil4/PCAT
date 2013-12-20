@@ -9,7 +9,7 @@ namespace FiveElementsIntTest
     public enum TestType
     {
         DigitSymbol, SymbolSearch, OpSpan, SymSpan, CtSpan,
-        VocAsso, GraphAsso, Paper, Cube, Vocabulary, Similarity, PortraitMemory, OpSpan2
+        VocAsso, GraphAsso, Paper, Cube, Vocabulary, Similarity, PortraitMemory, OpSpan2, SymmSpan2
     }
 
     public class FEITStandard
@@ -17,7 +17,7 @@ namespace FiveElementsIntTest
         public static String[] TEST_TITLE = { "数字符号", "符号搜索", "操作广度", 
                                         "对称广度", "计数广度", "词对联想", "图对联想", 
                                         "折纸测验", "魔方旋转", "词汇测验", "类同测验","人像特点联系回忆", 
-                                        "操作广度2"};
+                                        "操作广度2, 对称广度2"};
 
         public static int PAGE_WIDTH = 800;
         public static int PAGE_HEIGHT = 600;
@@ -94,4 +94,9 @@ namespace FiveElementsIntTest
             return retval;
         }
     }
+
+    public enum SECOND_ARCHI_TYPE
+    {
+        OPSPAN, SYMMSPAN
+    };
 }

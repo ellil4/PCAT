@@ -9,7 +9,8 @@ namespace FiveElementsIntTest.OpSpan2
     {
         public String equation;
         public String result;
-        public bool correctness;
+        public bool correctness;//result`s correctness
         public String memTarget;
+        public String equationLevel;
     }
 }
