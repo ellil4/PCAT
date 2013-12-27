@@ -43,7 +43,7 @@ namespace FiveElementsIntTest.SybSrh
         private int mRoundCount = 0;
 
         public static String RESPATH = AppDomain.CurrentDomain.BaseDirectory + "SybSrh\\";
-        public static String DSTPATH = AppDomain.CurrentDomain.BaseDirectory + "SybSrh\\output\\";
+        public static String DSTPATH = AppDomain.CurrentDomain.BaseDirectory + "Report\\SybSrh\\";
         public List<SybSrhResult> mResult;
         //public List<SybSrhResult> mSpanResult;
 
@@ -383,7 +383,7 @@ namespace FiveElementsIntTest.SybSrh
                 "_" + elem.Index + "_" + elem.IfTrue + ".png";
         }
 
-        private void dumpPics(String stamp)
+        /*private void dumpPics(String stamp)
         {
             SybSrhSourceFetcher fetcher = new SybSrhSourceFetcher(PageSybSrh.RESPATH);
             String path = DSTPATH + stamp;
@@ -411,7 +411,7 @@ namespace FiveElementsIntTest.SybSrh
                         ImageFormat.Png);
                 }
             }
-        }
+        }*/
 
         private void writeResult()
         {
@@ -419,12 +419,12 @@ namespace FiveElementsIntTest.SybSrh
             SybSrhWriter writer = new SybSrhWriter();
             String stamp = FEITStandard.GetStamp();
             
-            writer.WriteResults(FEITStandard.BASE_FOLDER + "Report\\sybsrh\\" + 
+            writer.WriteResults(FEITStandard.BASE_FOLDER + "Report\\SybSrh\\" + 
                 mMainWindow.mDemography.GenBriefString() + ".txt", mResult);
 
             if (DEV_MODE)
             {
-                dumpPics(stamp);
+               // dumpPics(stamp);
             }
         }
 

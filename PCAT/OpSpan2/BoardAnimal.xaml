@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" 
              d:DesignHeight="768" d:DesignWidth="1024">
-    <Grid Background="Black">
+    <Grid Background="Black" Name="amGrid" HorizontalAlignment="Center" VerticalAlignment="Center" Width="1024" Height="768">
         <Label Content="字" Height="56" HorizontalAlignment="Center" Margin="484,356,474,356" Name="label1" VerticalAlignment="Center" Width="66" FontFamily="Shonar Bangla" FontSize="48" Foreground="White" />
     </Grid>
 </UserControl>

@@ -9,122 +9,125 @@ namespace FiveElementsIntTest.SybSrh
     public class SybSrhFixedReader
     {
         TabFetcher tf;
-   //    String fpath = @"SybSrh/sybsrhprac.txt";
+        //    String fpath = @"SybSrh/sybsrhprac.txt";
 
-       List<String> _Tableline;
+        List<String> _Tableline;
 
-       SybSrhVisualElem tar;
+        SybSrhVisualElem tar;
 
-       SybSrhVisualElem sel;
+        SybSrhVisualElem sel;
 
-       SybSrhItem mSybSrhItem;
+        SybSrhItem mSybSrhItem;
 
-       List<SybSrhItem> _test;
+        List<SybSrhItem> _test;
 
-       public List<SybSrhItem> GetContext(String filepath)//   () 
-       {
-          //  tf = new TabFetcher(fpath, "\\t");  
-                _test = new List<SybSrhItem>();
+        public List<SybSrhItem> GetContext(String filepath)//   () 
+        {
+            //  tf = new TabFetcher(fpath, "\\t");  
+            _test = new List<SybSrhItem>();
 
-              tf = new TabFetcher(filepath, "\\t");
+            tf = new TabFetcher(filepath, "\\t");
 
-               tf.Open();
+            tf.Open();
 
-               loadTable();
+            loadTable();
 
-                tf.Close();
+            tf.Close();
 
-                 return _test;
-       }
+            return _test;
+        }
 
         private void loadTable()//
         {
             List<List<String>> temp = new List<List<string>>();
-         
+
             List<String> line;
 
             _Tableline = tf.GetLineBy();
 
             while (_Tableline.Count > 0)
-              {
-                  _Tableline = tf.GetLineBy();
+            {
+                _Tableline = tf.GetLineBy();
 
-                  line = new List<string>();
+                line = new List<string>();
 
-                  line = _Tableline;
+                line = _Tableline;
 
-                  temp.Add(line);
+                temp.Add(line);
             }
 
             temp.RemoveAt(temp.Count - 1);
 
-              loadContent(temp);
+            loadContent(temp);
         }
 
-        private void loadContent(List<List<String>> tm) 
+        private void loadContent(List<List<String>> tm)
         {
-                List<SybSrhItem> rev = new List<SybSrhItem>();
+            List<SybSrhItem> rev = new List<SybSrhItem>();
 
-                for (int i = 0; i < tm.Count;i++ )
+            for (int i = 0; i < tm.Count; i++)
+            {
+                int j = 0;
+
+                mSybSrhItem = new SybSrhItem();
+
+                while (j < tm[i].Count - 3)
                 {
-                          int j = 0;
 
-                          mSybSrhItem = new SybSrhItem();
-              
-                          while(j < tm[i].Count - 3){
+                    for (int y = 0; y < 2; y++)
+                    {
+                        tar = new SybSrhVisualElem();
 
-                             for (int y = 0; y < 2;y++ )
-                               {
-                                    tar = new SybSrhVisualElem();
+                        tar.Type = Convert.ToInt32(tm[i][j++]);
 
-                                    tar.Type = Convert.ToInt32(tm[i][j++]);
+                        tar.Index = Convert.ToInt32(tm[i][j++]);
 
-                                    tar.Index = Convert.ToInt32(tm[i][j++]);
+                        String tem = tm[i][j++];
 
-                                    String tem =tm[i][j++];
-                           
-                                 if (tem == "1")
+                        if (tem == "1")
+                        {
+                            tar.IfTrue = true;
+                        }
+                        else if (tem == "0")
+                        {
+                            tar.IfTrue = false;
+                        }
 
-                                        tar.IfTrue = true;
+                        mSybSrhItem.Target[y] = tar;
+                    }
 
-                                    else if (tem == "0")
+                    for (int p = 0; p < 5; p++)
+                    {
+                        sel = new SybSrhVisualElem();
 
-                                        tar.IfTrue = false;
+                        sel.Type = Convert.ToInt32(tm[i][j++]);
 
-                                    mSybSrhItem.Target[y] = tar;
-                                 }
+                        sel.Index = Convert.ToInt32(tm[i][j++]);
 
-                             for (int p = 0; p < 5;p++)
-                             {
-                                 sel = new SybSrhVisualElem();
+                        String tem = tm[i][j++];
 
-                                 sel.Type = Convert.ToInt32(tm[i][j++]);
+                        if (tem == "1")
+                        {
+                            sel.IfTrue = true;
+                        }
+                        else if (tem == "0")
+                        {
+                            sel.IfTrue = false;
+                        }
 
-                                 sel.Index = Convert.ToInt32(tm[i][j++]);
+                        mSybSrhItem.Selection[p] = sel;
 
-                                 String tem = tm[i][j++];
-                        
-                                 if (tem == "1")
+                    }
 
-                                     tar.IfTrue = true;
+                }//while 
 
-                                 else if (tem == "0")
+                rev.Add(mSybSrhItem);
 
-                                     tar.IfTrue = false;
+            } //for
 
-                                 mSybSrhItem.Selection[p] = sel;
-                     
-                             }
+            _test = rev;//
 
-                        }//while 
+        }//loadcontent
 
-                         rev.Add(mSybSrhItem);
-
-                        } //for
-
-                _test = rev;//
-
-            }//loadcontent
-            
     }//-----------class
 }//spacename

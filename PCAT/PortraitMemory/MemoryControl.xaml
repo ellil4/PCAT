@@ -8,9 +8,9 @@
 
     <Canvas HorizontalAlignment="Center" Name="MemoryCanvas"  VerticalAlignment="Center" Background="White"  Focusable="True" >
         
-        <Label   Height="52" Name="_nameLabel" FontSize="28" FontFamily="Adobe Heiti Std" Width="178"  HorizontalContentAlignment="Left"/>
-        <Label   Height="52" Name="_jobLabel" FontSize="28" FontFamily="Adobe Heiti Std" Width="178"  HorizontalContentAlignment="Left"/>
-        <Label   Height="52" Name="_likeLabel" FontSize="28" FontFamily="Adobe Heiti Std" Width="178"  HorizontalContentAlignment="Left"/>
+        <Label   Height="62" Name="_nameLabel" FontSize="32" FontFamily="Adobe Heiti Std" Width="178"  HorizontalContentAlignment="Left"/>
+        <Label   Height="62" Name="_jobLabel" FontSize="32" FontFamily="Adobe Heiti Std" Width="178"  HorizontalContentAlignment="Left"/>
+        <Label   Height="62" Name="_likeLabel" FontSize="32" FontFamily="Adobe Heiti Std" Width="178"  HorizontalContentAlignment="Left"/>
     </Canvas>
     
 </UserControl>

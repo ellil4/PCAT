@@ -26,6 +26,10 @@ namespace FiveElementsIntTest.OpSpan2
         {
             InitializeComponent();
             mBasePage = bp;
+            if (mBasePage.ARCTYPE == SECOND_ARCHI_TYPE.SYMMSPAN)
+            {
+                label4.Content = "判对称，记位置";
+            }
         }
 
         public void Run()

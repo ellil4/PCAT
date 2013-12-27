@@ -45,8 +45,8 @@ namespace FiveElementsIntTest.OpSpan2
         public List<int> groupNumG;//op2
 
         private static string[] HEADER_INFO_COLLECTION = 
-        {"equa", "equa on", "equa off", "equa dure", "equa lv",  "displayed answer", "choice", "correctness",
-        "choice Show time", "choice made time", "choice dure", "animal", 
+        {"inter", "inter on", "inter off", "inter dure", "inter lv",  "displayed answer", "choice", "correctness",
+        "choice Show time", "choice made time", "choice dure", "mem target", 
         "isPractise", "isExtra", "isOvertime", "span width", "group num", "in group num", "baseline"};
 
         private static string[] HEADER_ORDER = 
@@ -54,10 +54,10 @@ namespace FiveElementsIntTest.OpSpan2
         "isPractise", "isExtra",  "span width", "group num"};
 
         private static string[] HEADER_PRACMATH = 
-        { "equa", "ShownResult", "equa dure", "TrueAnswer", "UserAnswer" };
+        { "inter", "ShownResult", "inter dure", "TrueAnswer", "UserAnswer" };
 
         private static string[] HEADER_PRACORDER = 
-            {"order on", "order off", "order dure", "RealOrder", "UserAnswer", "Corectness"};
+            {"order dure", "RealOrder", "UserAnswer", "Corectness"};
 
         //chart 3 practise math
         public List<StEquation> mathPracEquations;

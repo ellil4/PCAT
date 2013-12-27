@@ -9,7 +9,7 @@ namespace FiveElementsIntTest.Paper
     class PaperReadFile
     {
 
-        TabFetcher tf = new TabFetcher("Paper_Test_Paper\\PF-C.txt", "\\s");//PF-C.txt
+        TabFetcher tf = new TabFetcher("Paper\\Paper_Test_Paper\\PF-C.txt", "\\s");//PF-C.txt
         
         public List<String> Surface = new List<string>();//表头
         List<String> Question_test = new List<string>(); //记录从文件里读取的毛数据

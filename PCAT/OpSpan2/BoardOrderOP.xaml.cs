@@ -26,8 +26,9 @@ namespace FiveElementsIntTest.OpSpan2
         public BasePage mBasePage;
         public bool mIsExtra;
         int mCountDownNum = 45;
-        int mLen;
-        int mCur = 0;
+        public int mLen;
+        public int mCur = 0;
+        BoardSubChess mChess;
 
         public BoardOrderOP(BasePage bp, bool isExtra)
         {
@@ -36,12 +37,38 @@ namespace FiveElementsIntTest.OpSpan2
 
             mBasePage = bp;
             mIsExtra = isExtra;
+            
+            amQuesLabel.Visibility = System.Windows.Visibility.Hidden;
+            amTBNotice.Visibility = System.Windows.Visibility.Hidden;
 
-            init();
-            register();
+            if (mBasePage.ARCTYPE == SECOND_ARCHI_TYPE.OPSPAN)
+            {
+                initAnimal();
+                registerAnimal();
+            }
+            else if (mBasePage.ARCTYPE == SECOND_ARCHI_TYPE.SYMMSPAN)
+            {
+                //manipulate
+                amAniQues.Visibility = System.Windows.Visibility.Hidden;
+                label1.Content = "请按顺序回忆红点出现过的位置";
+                rectangle1.Visibility = System.Windows.Visibility.Hidden;
+
+                commonInit();
+                for (int i = 0; i < mAnimalButtons.Count; i++)
+                {
+                    mAnimalButtons[i].Visibility = System.Windows.Visibility.Hidden;
+                }
+                //add chess
+                mChess = new BoardSubChess();
+                mChess.mBoardOrder = this;
+                mChess.mEditable = true;
+                amGrid.Children.Add(mChess);
+                mChess.HorizontalAlignment = System.Windows.HorizontalAlignment.Center;
+                mChess.VerticalAlignment = System.Windows.VerticalAlignment.Center;
+            }
         }
 
-        void init()
+        void commonInit()
         {
             mAnimalButtons.Add(amAni1);
             mAnimalButtons.Add(amAni2);
@@ -56,17 +83,10 @@ namespace FiveElementsIntTest.OpSpan2
             mAnimalButtons.Add(amAni11);
             mAnimalButtons.Add(amAni12);
 
-            //amTBAnswer.Text = "";
-            amQuesLabel.Visibility = System.Windows.Visibility.Hidden;
-            amTBNotice.Visibility = System.Windows.Visibility.Hidden;
-
-            //boxes control
-            mAnswersBoxes = new List<Label>();
-            
-            switch(mBasePage.mStage)
+            switch (mBasePage.mStage)
             {
-                case Stage.AnimalPrac:
-                    mLen = BasePage.mAnimalPracScheme[getSchemeID2Check()];
+                case Stage.MemPrac:
+                    mLen = BasePage.mMemPracScheme[getSchemeID2Check()];
                     break;
                 case Stage.ComprehPrac:
                     mLen = BasePage.mPracScheme[getSchemeID2Check()];
@@ -75,6 +95,16 @@ namespace FiveElementsIntTest.OpSpan2
                     mLen = BasePage.mTestScheme[getSchemeID2Check()];
                     break;
             }
+        }
+
+        //OPSPAN ONLY
+        void initAnimal()
+        {
+
+            commonInit();
+            //amTBAnswer.Text = "";
+            //boxes control
+            mAnswersBoxes = new List<Label>();
 
             for (int i = 0; i < mLen; i++)
             {
@@ -87,8 +117,6 @@ namespace FiveElementsIntTest.OpSpan2
                 amOrderCanvas.Children.Add(lb);
                 Canvas.SetTop(lb, 215);
                 Canvas.SetLeft(lb, (1024 - mLen * 55) / 2 + i * 53);
-                //lb.VerticalAlignment = System.Windows.VerticalAlignment.Center;
-                //lb.HorizontalAlignment = System.Windows.HorizontalAlignment.Center;
                 lb.HorizontalContentAlignment = System.Windows.HorizontalAlignment.Center;
                 lb.HorizontalContentAlignment = System.Windows.HorizontalAlignment.Center;
                 lb.FontFamily = new FontFamily("SimHei");
@@ -97,6 +125,7 @@ namespace FiveElementsIntTest.OpSpan2
             }
         }
 
+        //OPSPAN ONLY
         bool boxesContains(string tx)
         {
             bool retval = false;
@@ -112,7 +141,8 @@ namespace FiveElementsIntTest.OpSpan2
             return retval;
         }
 
-        void register()
+        //OPSPAN ONLY
+        void registerAnimal()
         {
             for (int i = 0; i < mAnimalButtons.Count; i++)
             {
@@ -122,6 +152,7 @@ namespace FiveElementsIntTest.OpSpan2
             amAniQues.MouseUp += new MouseButtonEventHandler(amAniQues_MouseUp);
         }
 
+        //OPSPAN ONLY
         void amAniQues_MouseUp(object sender, MouseButtonEventArgs e)
         {
             if (mCur < mLen)
@@ -131,6 +162,7 @@ namespace FiveElementsIntTest.OpSpan2
             }
         }
 
+        //OPSPAN ONLY
         void Animal_MouseUp(object sender, MouseButtonEventArgs e)
         {
             if (mCur < mLen && !boxesContains(((Label)sender).Content.ToString()))
@@ -144,25 +176,37 @@ namespace FiveElementsIntTest.OpSpan2
 
         private void amBtnClear_MouseUp(object sender, MouseButtonEventArgs e)
         {
-            string tar = mAnswersBoxes[mCur - 1].Content.ToString();
-
-            for(int i = 0; i < mAnimalButtons.Count; i++)
+            if (mCur > 0)
             {
-                if (mAnimalButtons[i].Content.Equals(tar))
+                if (mBasePage.ARCTYPE == SECOND_ARCHI_TYPE.OPSPAN)
                 {
-                    mAnimalButtons[i].BorderBrush = new SolidColorBrush(Color.FromRgb(255, 255, 255));
-                }
-            }
+                    string tar = mAnswersBoxes[mCur - 1].Content.ToString();
 
-            mAnswersBoxes[mCur - 1].Content = "";
-            mCur--;
+                    for (int i = 0; i < mAnimalButtons.Count; i++)
+                    {
+                        if (mAnimalButtons[i].Content.Equals(tar))
+                        {
+                            mAnimalButtons[i].BorderBrush = new SolidColorBrush(Color.FromRgb(255, 255, 255));
+                        }
+                    }
+
+                    mAnswersBoxes[mCur - 1].Content = "";
+                }
+                else if (mBasePage.ARCTYPE == SECOND_ARCHI_TYPE.SYMMSPAN)
+                {
+                    mChess.ClearOne();
+                }
+
+                mCur--;
+            }
         }
 
+        //OPSPAN ONLY
         private void amAniQues_MouseEnter(object sender, MouseEventArgs e)
         {
             amQuesLabel.Visibility = System.Windows.Visibility.Visible;
         }
-
+        //OPSPAN ONLY
         private void amAniQues_MouseLeave(object sender, MouseEventArgs e)
         {
             amQuesLabel.Visibility = System.Windows.Visibility.Hidden;
@@ -180,8 +224,8 @@ namespace FiveElementsIntTest.OpSpan2
             amTBNotice.Visibility = System.Windows.Visibility.Visible;
             switch (mBasePage.mStage)
             {
-                case Stage.AnimalPrac:
-                    if (mBasePage.mSecondAnimalPrac)
+                case Stage.MemPrac:
+                    if (mBasePage.mSecondMemPrac)
                     {
                         amTBNotice.Text = "错误";
                     }
@@ -373,9 +417,9 @@ namespace FiveElementsIntTest.OpSpan2
 
             if (mBasePage.SchemeReturned())
             {
-                if (mBasePage.mStage == Stage.AnimalPrac)
+                if (mBasePage.mStage == Stage.MemPrac)
                 {
-                    schemeID2Check = BasePage.mAnimalPracScheme.Length - 1;
+                    schemeID2Check = BasePage.mMemPracScheme.Length - 1;
                 }
                 else if (mBasePage.mStage == Stage.ComprehPrac)
                 {
@@ -401,9 +445,19 @@ namespace FiveElementsIntTest.OpSpan2
 
             string userOrder = "";
 
-            for (int i = 0; i < mAnswersBoxes.Count; i++)
+            if (mBasePage.ARCTYPE == SECOND_ARCHI_TYPE.OPSPAN)
             {
-                userOrder += mAnswersBoxes[i].Content.ToString();
+                for (int i = 0; i < mAnswersBoxes.Count; i++)
+                {
+                    if (mAnswersBoxes[i].Content != null)
+                    {
+                        userOrder += mAnswersBoxes[i].Content.ToString();
+                    }
+                }
+            }
+            else if (mBasePage.ARCTYPE == SECOND_ARCHI_TYPE.SYMMSPAN)
+            {
+                userOrder = mChess.GetAnswerStr();
             }
 
             if (String.IsNullOrEmpty(userOrder))
@@ -416,7 +470,7 @@ namespace FiveElementsIntTest.OpSpan2
 
             switch (mBasePage.mStage)
             {
-                case Stage.AnimalPrac:
+                case Stage.MemPrac:
                     mBasePage.ResetSchemeIterationStatus();
                     mBasePage.mRecorder.orderPracOff.Add(
                         offtime);
@@ -507,7 +561,7 @@ namespace FiveElementsIntTest.OpSpan2
 
         void outAsAnimalPracRight_Elapsed(object sender, ElapsedEventArgs e)
         {
-            mBasePage.mSecondAnimalPrac = false;
+            mBasePage.mSecondMemPrac = false;
             if(!mBasePage.SchemeReturned())
             {
                 mBasePage.Dispatcher.Invoke(
@@ -523,23 +577,23 @@ namespace FiveElementsIntTest.OpSpan2
 
         void outAsAnimalPracWrong_Elapsed(object sender, ElapsedEventArgs e)
         {
-            if (!mBasePage.mSecondAnimalPrac)
+            if (!mBasePage.mSecondMemPrac)
             {
-                mBasePage.mSecondAnimalPrac = true;
+                mBasePage.mSecondMemPrac = true;
                 if (!mBasePage.SchemeReturned())
                 {
                     mBasePage.mCurSchemeAt--;
                 }
                 else
                 {
-                    mBasePage.mCurSchemeAt = BasePage.mAnimalPracScheme.Length - 1;
+                    mBasePage.mCurSchemeAt = BasePage.mMemPracScheme.Length - 1;
                 }
                  mBasePage.Dispatcher.Invoke(
                     new TimeDele(mBasePage.ShowBoardAnimal));
             }
             else
             {
-                mBasePage.mSecondAnimalPrac = false;
+                mBasePage.mSecondMemPrac = false;
                 if (!mBasePage.SchemeReturned())
                 {
                     mBasePage.Dispatcher.Invoke(

@@ -22,17 +22,17 @@ namespace FiveElementsIntTest.OpSpan2
     public partial class BasePage : Page
     {
         public MainWindow mMainWindow;
-        public static int[] mTestScheme = { 2, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 7, 8, 8 ,9, 9, 10, 10};
+        public static int[] mTestScheme = { 2, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 7, 8, 8 ,9, 9};
         public static int[] mPracScheme = {2};
-        public static int[] mAnimalPracScheme = { 2, 3 };
+        public static int[] mMemPracScheme = { 2, 3 };
         
         public int mCurSchemeAt = 0;
         public int mCurInGrpAt = 0;
         public int mExeDidCount = 0;
 
-        public List<List<string>> mAnimalPrac;//2, 3
-        public bool mSecondAnimalPrac = false;
-        public List<StEquation> mEquationPrac;
+        public List<List<string>> mMemPrac;//2, 3
+        public bool mSecondMemPrac = false;
+        public List<StEquation> mInterPrac;
         public List<StTrailGroupOS> mComprehPrac;
         public bool mSecondComprehPrac = false;
         public List<StTrailGroupOS> mTest;
@@ -60,10 +60,10 @@ namespace FiveElementsIntTest.OpSpan2
             mRecorder = new RecorderOpSpan2(this);
             
             //load 1
-            mAnimalPrac = new List<List<string>>();
-            loadAnimalOrderPractise();
+            mMemPrac = new List<List<string>>();
+            loadMemOrderPractise();
             //load 2
-            mEquationPrac = new List<StEquation>();
+            mInterPrac = new List<StEquation>();
             loadEquationPractise();
             loadComprehPractise();
             loadTest();
@@ -118,14 +118,14 @@ namespace FiveElementsIntTest.OpSpan2
             mCurInGrpAt++;
             switch(mStage)
             {
-                case Stage.AnimalPrac:
-                    if (mCurInGrpAt == mAnimalPracScheme[mCurSchemeAt])
+                case Stage.MemPrac:
+                    if (mCurInGrpAt == mMemPracScheme[mCurSchemeAt])
                     {
                         mCurInGrpAt = 0;
                         mCurSchemeAt++;
                         mSchemeIterated = true;
 
-                        if (mCurSchemeAt == mAnimalPracScheme.Length)
+                        if (mCurSchemeAt == mMemPracScheme.Length)
                         {
                             mCurSchemeAt = 0;
                             mSchemeReturned = true;
@@ -207,9 +207,17 @@ namespace FiveElementsIntTest.OpSpan2
 
         private void loadEquationPractise()
         {
-            TabFetcher fetcher =
-                    new TabFetcher(
-                        FEITStandard.GetExePath() + "OP\\opspanbaseline.txt", "\\t");
+            TabFetcher fetcher = null;
+            if (ARCTYPE == SECOND_ARCHI_TYPE.OPSPAN)
+            {
+                fetcher = new TabFetcher(
+                    FEITStandard.GetExePath() + "OP\\opspanbaseline.txt", "\\t");
+            }
+            else if (ARCTYPE == SECOND_ARCHI_TYPE.SYMMSPAN)
+            {
+                fetcher = new TabFetcher(
+                    FEITStandard.GetExePath() + "SYMM\\fixedSymmExeBaseline.txt", "\\t");
+            }
             fetcher.Open();
 
             fetcher.GetLineBy();//skip header
@@ -228,44 +236,70 @@ namespace FiveElementsIntTest.OpSpan2
                     equ.Answer = false;
                 }
 
-                mEquationPrac.Add(equ);
+                mInterPrac.Add(equ);
             }
 
             fetcher.Close();
         }
 
-        private void loadAnimalOrderPractise()
+        private void loadMemOrderPractise()
         {
-            TabFetcher fetcher =
-                new TabFetcher(FEITStandard.GetExePath() + "OP\\opspanword.txt", "\\t");
+            TabFetcher fetcher = null;
+            if (ARCTYPE == SECOND_ARCHI_TYPE.OPSPAN)
+            {
+                fetcher = new TabFetcher(FEITStandard.GetExePath() + "OP\\opspanword.txt", "\\t");
+            }
+            else if(ARCTYPE == SECOND_ARCHI_TYPE.SYMMSPAN)
+            {
+                fetcher = new TabFetcher(FEITStandard.GetExePath() + "SYMM\\locationExe.txt", "\\t");
+            }
+
 
             fetcher.Open();
             fetcher.GetLineBy();//skip header
 
-            for (int i = 0; i < mAnimalPracScheme.Length; i++)
+            for (int i = 0; i < mMemPracScheme.Length; i++)
             {
                 List<string> group = new List<string>();
-                for (int j = 0; j < mAnimalPracScheme[i]; j++)
+                for (int j = 0; j < mMemPracScheme[i]; j++)
                 {
                     List<string> line = fetcher.GetLineBy();
                     group.Add(line[2]);
                 }
-                mAnimalPrac.Add(group);
+                mMemPrac.Add(group);
             }
         }
 
         private void loadComprehPractise()
         {
-            mComprehPrac = 
-                readFixedFromFile(
-                FEITStandard.GetExePath() + "OP\\opspan.txt", mPracScheme, 1);
+            if (ARCTYPE == SECOND_ARCHI_TYPE.OPSPAN)
+            {
+                mComprehPrac =
+                    readFixedFromFile(
+                    FEITStandard.GetExePath() + "OP\\opspan.txt", mPracScheme, 1);
+            }
+            else if (ARCTYPE == SECOND_ARCHI_TYPE.SYMMSPAN)
+            {
+                mComprehPrac =
+                    readFixedFromFile(
+                    FEITStandard.GetExePath() + "SYMM\\fixedItems.txt", mPracScheme, 1);                    
+            }
         }
 
         private void loadTest()
         {
-            mTest =
-                readFixedFromFile(
-                FEITStandard.GetExePath() + "OP\\opspan.txt", mTestScheme, 5);
+            if (ARCTYPE == SECOND_ARCHI_TYPE.OPSPAN)
+            {
+                mTest =
+                    readFixedFromFile(
+                    FEITStandard.GetExePath() + "OP\\opspan.txt", mTestScheme, 3);
+            }
+            else if(ARCTYPE == SECOND_ARCHI_TYPE.SYMMSPAN)
+            {
+                mTest =
+                    readFixedFromFile(
+                    FEITStandard.GetExePath() + "SYMM\\fixedItems.txt", mTestScheme, 3);
+            }
         }
 
         private List<StTrailGroupOS> readFixedFromFile(string path, int[] scheme, int begFromLine)
@@ -400,7 +434,7 @@ namespace FiveElementsIntTest.OpSpan2
         public void ShowTitle()
         {
             ProgressReturn();
-            mStage = Stage.AnimalPrac;
+            mStage = Stage.MemPrac;
             BoardTitle bt = new BoardTitle(this);
             ShowBoard(bt);
         }
@@ -408,11 +442,36 @@ namespace FiveElementsIntTest.OpSpan2
         public void ShowInstructionEquationPrac()
         {
             ProgressReturn();
-            mStage = Stage.EquationPrac;
-            BoardInstructionEquationPractise biep = 
-                new BoardInstructionEquationPractise(this);
+            mStage = Stage.InterPrac;
+            if (ARCTYPE == SECOND_ARCHI_TYPE.OPSPAN)
+            {
+                BoardInstructionEquationPractise biep =
+                    new BoardInstructionEquationPractise(this);
 
-            ShowBoard(biep);
+                ShowBoard(biep);
+            }
+            else if(ARCTYPE == SECOND_ARCHI_TYPE.SYMMSPAN)
+            {
+                ShowSymmInst0();
+            }
+        }
+
+        public void ShowSymmInst0()
+        {
+            BoardSymmInst0 bsi0 = new BoardSymmInst0(this);
+            ShowBoard(bsi0);
+        }
+
+        public void ShowSymmInst1()
+        {
+            BoardSymmInst1 bsi1 = new BoardSymmInst1(this);
+            ShowBoard(bsi1);
+        }
+
+        public void ShowSymmInst2()
+        {
+            BoardSymmInst2 bsi2 = new BoardSymmInst2(this);
+            ShowBoard(bsi2);
         }
 
         public void ShowInstructionComprehPrac()
@@ -437,9 +496,11 @@ namespace FiveElementsIntTest.OpSpan2
         public string GetAnimalPracRealOrder(int schemeID)
         {
             string retval = "";
-            for (int i = 0; i < mAnimalPrac[schemeID].Count; i++)
+            for (int i = 0; i < mMemPrac[schemeID].Count; i++)
             {
-                retval += mAnimalPrac[schemeID][i];
+                retval += mMemPrac[schemeID][i];
+                if (ARCTYPE == SECOND_ARCHI_TYPE.SYMMSPAN)
+                    retval += ",";
             }
             return retval;
         }
@@ -450,6 +511,8 @@ namespace FiveElementsIntTest.OpSpan2
             for (int i = 0; i < mComprehPrac[0].mTrails.Count; i++)
             {
                 retval += mComprehPrac[0].mTrails[i].memTarget;
+                if (ARCTYPE == SECOND_ARCHI_TYPE.SYMMSPAN)
+                    retval += ",";
             }
             return retval;
         }
@@ -460,6 +523,8 @@ namespace FiveElementsIntTest.OpSpan2
             for (int i = 0; i < mTest[schemeID2Check].mTrails.Count; i++)
             {
                 retval += mTest[schemeID2Check].mTrails[i].memTarget;
+                if (ARCTYPE == SECOND_ARCHI_TYPE.SYMMSPAN)
+                    retval += ",";
             }
             return retval;
         }
@@ -467,9 +532,9 @@ namespace FiveElementsIntTest.OpSpan2
         public void ShowOrderSelectPage()
         {
             BoardOrderOP boo = null;
-            if (mStage == Stage.AnimalPrac)
+            if (mStage == Stage.MemPrac)
             {
-                boo = new BoardOrderOP(this, mSecondAnimalPrac);
+                boo = new BoardOrderOP(this, mSecondMemPrac);
             }
             else if (mStage == Stage.ComprehPrac)
             {
@@ -491,7 +556,7 @@ namespace FiveElementsIntTest.OpSpan2
         public void ShowEquationJudgePage()
         {
             BoardEquationJudge bej = null;
-            if(mStage == Stage.EquationPrac)
+            if(mStage == Stage.InterPrac)
             {
                 bej = new BoardEquationJudge(this);
             }
@@ -523,10 +588,20 @@ namespace FiveElementsIntTest.OpSpan2
             string pracMathFilename = "pracMath_" + mMainWindow.mDemography.GenBriefString() + ".txt";
             string pracOrderFilename = "pracOrder_" + mMainWindow.mDemography.GenBriefString() + ".txt";
 
-            mRecorder.outputReport(FEITStandard.GetRepotOutputPath() + "op\\" + interFilename,
-                    FEITStandard.GetRepotOutputPath() + "op\\" + orderFilename,
-                    FEITStandard.GetRepotOutputPath() + "op\\" + pracMathFilename,
-                    FEITStandard.GetRepotOutputPath() + "op\\" + pracOrderFilename);
+            if (ARCTYPE == SECOND_ARCHI_TYPE.OPSPAN)
+            {
+                mRecorder.outputReport(FEITStandard.GetRepotOutputPath() + "op\\" + interFilename,
+                        FEITStandard.GetRepotOutputPath() + "op\\" + orderFilename,
+                        FEITStandard.GetRepotOutputPath() + "op\\" + pracMathFilename,
+                        FEITStandard.GetRepotOutputPath() + "op\\" + pracOrderFilename);
+            }
+            else if (ARCTYPE == SECOND_ARCHI_TYPE.SYMMSPAN)
+            {
+                mRecorder.outputReport(FEITStandard.GetRepotOutputPath() + "symm\\" + interFilename,
+                    FEITStandard.GetRepotOutputPath() + "symm\\" + orderFilename,
+                    FEITStandard.GetRepotOutputPath() + "symm\\" + pracMathFilename,
+                    FEITStandard.GetRepotOutputPath() + "symm\\" + pracOrderFilename);
+            }
         }
 
         public void ShowFinishPage(object obj)
@@ -539,6 +614,6 @@ namespace FiveElementsIntTest.OpSpan2
 
     public enum Stage
     {
-        AnimalPrac, EquationPrac, ComprehPrac, Formal
+        MemPrac, InterPrac, ComprehPrac, Formal
     }
 }

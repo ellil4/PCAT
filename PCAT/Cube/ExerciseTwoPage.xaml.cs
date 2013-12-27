@@ -54,8 +54,14 @@ namespace FiveElementsIntTest.Cube
 
             //窗口布局
 
-            Canvas.SetLeft(image1, actual_x + 116);
-            Canvas.SetTop(image1, actual_y + 53);
+            BitmapImage bit = new BitmapImage();
+            bit.BeginInit();
+            bit.UriSource = new Uri(FEITStandard.GetExePath() + "Cube\\CubeRes\\cubinsExer-2-0.bmp");
+            bit.EndInit();
+            image1.Source = bit;
+
+            Canvas.SetLeft(image1, actual_x + 27);
+            Canvas.SetTop(image1, actual_y + 26);
 
             Canvas.SetLeft(border1, actual_x + 38);
             Canvas.SetTop(border1, actual_y + 285);
@@ -88,7 +94,7 @@ namespace FiveElementsIntTest.Cube
                 im = mImagecontrol.GetImage(93, 100);
                 BitmapImage bitim = new BitmapImage();
                 bitim.BeginInit();
-                bitim.UriSource = new Uri("/PCAT;component/Images/cubinsExer-2-" + temp + ".bmp", UriKind.Relative);
+                bitim.UriSource = new Uri(FEITStandard.GetExePath() + "Cube\\CubeRes\\cubinsExer-2-" + temp + ".bmp");
                 bitim.EndInit();
                 im.Stretch = Stretch.Fill;
                 im.Source = bitim;
@@ -150,10 +156,16 @@ namespace FiveElementsIntTest.Cube
                     {
                         canvas1.IsEnabled = false;
 
-                       if (i == 4)
-                            label1.Content = "恭喜你！答对了";
+                        if (i == 4)
+                        {
+                            label1.Foreground = new SolidColorBrush(Color.FromRgb(0, 255, 0));
+                            label1.Content = "正  确";
+                        }
                         else
-                            label1.Content = "选择错误，正确答案第五个";
+                        {
+                            label1.Foreground = Brushes.Red;
+                            label1.Content = "错误，正确答案：5";
+                        }
                         mBorders[i].Visibility = Visibility.Visible;
                         _control = true;
                     }

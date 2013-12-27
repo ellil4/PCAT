@@ -7,7 +7,7 @@
              d:DesignHeight="600" d:DesignWidth="800">
     <Grid Background="Black">
         <Canvas Height="600" HorizontalAlignment="Center" Name="BaseCanvas_ins"  VerticalAlignment="Center"  Width="800" Background="Black" Focusable="True">
-            <Image  Height="453" Name="image1" Stretch="Fill" Width="786" Source="/PCAT;component/Images/paperins.jpg" />
+            <Image  Height="453" Name="image1" Stretch="Fill" Width="786" />
         </Canvas>
     </Grid>
 </UserControl>

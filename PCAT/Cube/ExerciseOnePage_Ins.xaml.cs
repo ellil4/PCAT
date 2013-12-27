@@ -26,8 +26,14 @@ namespace FiveElementsIntTest.Cube
         {
             InitializeComponent();
 
-            Canvas.SetLeft(image1,0);
-            Canvas.SetTop(image1,0);
+            BitmapImage bit = new BitmapImage();
+            bit.BeginInit();
+            bit.UriSource = new Uri(FEITStandard.GetExePath() + "Cube\\CubeRes\\cubinsExer1_ins.bmp");
+            bit.EndInit();
+            image_ins1.Source = bit; 
+
+            Canvas.SetLeft(image_ins1, 0);
+            Canvas.SetTop(image_ins1, 0);
         }
     }
 }

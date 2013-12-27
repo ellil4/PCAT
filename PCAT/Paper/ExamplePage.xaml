@@ -11,7 +11,7 @@
             <Border BorderBrush="GhostWhite" BorderThickness="4"  Height="4" Name="border1" Width="700" />
             <Label  Content="" Height="40" Name="label1" Width="174" IsEnabled="False" Foreground="White" FontStretch="Normal" FontSize="12" FontWeight="Bold" />
             
-            <Label  Content="请用鼠标点选您认为正确的答案" Height="35" HorizontalContentAlignment="Center"  Name="label2" Width="356"  Foreground="#FF00F400"  IsEnabled="False" FontFamily="KaiTi_GB2312" FontStyle="Normal" FontWeight="Bold" FontSize="24"/>
+            <Label  Content="请用鼠标点选您认为正确的答案" Height="38" HorizontalContentAlignment="Center"  Name="label2" Width="391"  Foreground="#FF00F400"  IsEnabled="False" FontFamily="KaiTi_GB2312" FontStyle="Normal" FontWeight="Bold" FontSize="26"/>
             <Label  Content="折纸"  Height="38" Name="label3" Width="97" Foreground="#FF00F400"  IsEnabled="False" FontFamily="KaiTi_GB2312" FontStyle="Normal" FontWeight="Bold" FontSize="28"/>
             <Label  Content="打孔" Height="41" Name="label4" Width="87" Foreground="#FF00F400"  IsEnabled="False" FontFamily="KaiTi_GB2312" FontStyle="Normal" FontWeight="Bold" FontSize="28"/>
         </Canvas>

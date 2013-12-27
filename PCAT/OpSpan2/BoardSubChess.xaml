@@ -1,0 +1,26 @@
+﻿<UserControl x:Class="FiveElementsIntTest.OpSpan2.BoardSubChess"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             d:DesignHeight="268" d:DesignWidth="268" xmlns:my="clr-namespace:FiveElementsIntTest.OpSpan2">
+    <Grid Background="Black">
+        <my:ElementChess HorizontalAlignment="Left" x:Name="elementChess1" VerticalAlignment="Top" />
+        <my:ElementChess HorizontalAlignment="Left" Margin="66,0,0,0" x:Name="elementChess2" VerticalAlignment="Top" />
+        <my:ElementChess HorizontalAlignment="Left" Margin="132,0,0,0" x:Name="elementChess3" VerticalAlignment="Top" />
+        <my:ElementChess HorizontalAlignment="Left" Margin="198,0,0,0" x:Name="elementChess4" VerticalAlignment="Top" />
+        <my:ElementChess HorizontalAlignment="Left" Margin="0,66,0,0" x:Name="elementChess5" VerticalAlignment="Top" />
+        <my:ElementChess HorizontalAlignment="Left" Margin="66,66,0,0" x:Name="elementChess6" VerticalAlignment="Top" />
+        <my:ElementChess HorizontalAlignment="Left" Margin="132,66,0,0" x:Name="elementChess7" VerticalAlignment="Top" />
+        <my:ElementChess HorizontalAlignment="Left" Margin="198,66,0,0" x:Name="elementChess8" VerticalAlignment="Top" />
+        <my:ElementChess HorizontalAlignment="Left" Margin="0,131,0,0" x:Name="elementChess9" VerticalAlignment="Top" />
+        <my:ElementChess HorizontalAlignment="Left" Margin="66,131,0,0" x:Name="elementChess10" VerticalAlignment="Top" />
+        <my:ElementChess HorizontalAlignment="Left" Margin="132,131,0,0" x:Name="elementChess11" VerticalAlignment="Top" />
+        <my:ElementChess HorizontalAlignment="Left" Margin="198,131,0,0" x:Name="elementChess12" VerticalAlignment="Top" />
+        <my:ElementChess HorizontalAlignment="Left" Margin="0,197,0,0" x:Name="elementChess13" VerticalAlignment="Top" />
+        <my:ElementChess HorizontalAlignment="Left" Margin="66,197,0,0" x:Name="elementChess14" VerticalAlignment="Top" />
+        <my:ElementChess HorizontalAlignment="Left" Margin="132,197,0,0" x:Name="elementChess15" VerticalAlignment="Top" />
+        <my:ElementChess HorizontalAlignment="Left" Margin="198,197,0,0" x:Name="elementChess16" VerticalAlignment="Top" />
+    </Grid>
+</UserControl>

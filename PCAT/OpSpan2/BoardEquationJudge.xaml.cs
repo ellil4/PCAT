@@ -30,25 +30,57 @@ namespace FiveElementsIntTest.OpSpan2
 
             mBasePage = bp;
 
+            if (mBasePage.ARCTYPE == SECOND_ARCHI_TYPE.SYMMSPAN)
+            {
+                amTrueBtn.Content = "是";
+                amFalseBtn.Content = "否";
+
+                amTrueBtn.Margin = new Thickness(300, 510, 0, 0);
+                amFalseBtn.Margin = new Thickness(614, 510, 0, 0);
+                amCorrectness.Margin = new Thickness(430, 508, 434, 304);
+            }
+
             switch (mBasePage.mStage)
             {
-                case Stage.EquationPrac:
-                    amAnswerShow.Content = mBasePage.mEquationPrac[mBasePage.mCurInGrpAt].Result;
+                case Stage.InterPrac:
+                    if (mBasePage.ARCTYPE == SECOND_ARCHI_TYPE.OPSPAN)
+                    {
+                        amAnswerShow.Content = mBasePage.mInterPrac[mBasePage.mCurInGrpAt].Result;
+                    }
+                    else if (mBasePage.ARCTYPE == SECOND_ARCHI_TYPE.SYMMSPAN)
+                    {
+                        amAnswerShow.Content = "是否对称?";
+                    }
                     //get ans
-                    mOriginalAns = mBasePage.mEquationPrac[mBasePage.mCurInGrpAt].Answer;
+                    mOriginalAns = mBasePage.mInterPrac[mBasePage.mCurInGrpAt].Answer;
+
                     break;
                 case Stage.ComprehPrac:
                     //show
-                    amAnswerShow.Content =
-                        mBasePage.mComprehPrac[mBasePage.mCurSchemeAt].mTrails[mBasePage.mCurInGrpAt].result;
+                    if (mBasePage.ARCTYPE == SECOND_ARCHI_TYPE.OPSPAN)
+                    {
+                        amAnswerShow.Content =
+                            mBasePage.mComprehPrac[mBasePage.mCurSchemeAt].mTrails[mBasePage.mCurInGrpAt].result;
+                    }
+                    else if (mBasePage.ARCTYPE == SECOND_ARCHI_TYPE.SYMMSPAN)
+                    {
+                        amAnswerShow.Content = "是否对称?";
+                    }
                     //get ans
                     mOriginalAns =
                         mBasePage.mComprehPrac[mBasePage.mCurSchemeAt].mTrails[mBasePage.mCurInGrpAt].correctness;
                     break;
                 case Stage.Formal:
                     //show
-                    amAnswerShow.Content =
-                        mBasePage.mTest[mBasePage.mCurSchemeAt].mTrails[mBasePage.mCurInGrpAt].result;
+                    if (mBasePage.ARCTYPE == SECOND_ARCHI_TYPE.OPSPAN)
+                    {
+                        amAnswerShow.Content =
+                            mBasePage.mTest[mBasePage.mCurSchemeAt].mTrails[mBasePage.mCurInGrpAt].result;
+                    }
+                    else if (mBasePage.ARCTYPE == SECOND_ARCHI_TYPE.SYMMSPAN)
+                    {
+                        amAnswerShow.Content = "是否对称?";
+                    }
                     //get ans
                     mOriginalAns =
                         mBasePage.mTest[mBasePage.mCurSchemeAt].mTrails[mBasePage.mCurInGrpAt].correctness;
@@ -60,7 +92,7 @@ namespace FiveElementsIntTest.OpSpan2
 
         private void goCorrect()
         {
-            if (mBasePage.mStage == Stage.AnimalPrac)
+            if (mBasePage.mStage == Stage.InterPrac)
             {
                 amCorrectness.Content = "正确";
                 amCorrectness.Foreground = new SolidColorBrush(Color.FromRgb(0, 255, 0));
@@ -104,10 +136,10 @@ namespace FiveElementsIntTest.OpSpan2
         {
             switch (mBasePage.mStage)
             {
-                case Stage.EquationPrac:
+                case Stage.InterPrac:
                     //iter & go out
                     mBasePage.DoCursorIteration();
-                    if (mBasePage.mCurInGrpAt != mBasePage.mEquationPrac.Count)
+                    if (mBasePage.mCurInGrpAt != mBasePage.mInterPrac.Count)
                     {
                         mBasePage.Dispatcher.Invoke(new TimeDele(mBasePage.ShowEquationPage));
                     }
@@ -158,7 +190,7 @@ namespace FiveElementsIntTest.OpSpan2
             long pressTime = mBasePage.mTimeline.ElapsedMilliseconds;
             switch (mBasePage.mStage)
             {
-                case Stage.EquationPrac:
+                case Stage.InterPrac:
                     mBasePage.mRecorder.mathPracAnswers.Add("True");
                     break;
                 case Stage.ComprehPrac:
@@ -186,7 +218,7 @@ namespace FiveElementsIntTest.OpSpan2
             long pressTime = mBasePage.mTimeline.ElapsedMilliseconds;
             switch (mBasePage.mStage)
             {
-                case Stage.EquationPrac:
+                case Stage.InterPrac:
                     mBasePage.mRecorder.mathPracAnswers.Add("False");
                     break;
                 case Stage.ComprehPrac:

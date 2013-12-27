@@ -4,11 +4,11 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" 
-             d:DesignHeight="768" d:DesignWidth="1024" FontFamily="KaiTi" Loaded="UserControl_Loaded">
-    <Grid Background="Black">
-        <Label Content="请按顺序回忆属相" Height="56" HorizontalAlignment="Left" Margin="362,140,0,0" Name="label1" VerticalAlignment="Top" Width="303" Foreground="Lime" FontFamily="KaiTi" FontSize="36" />
+             d:DesignHeight="768" d:DesignWidth="1024" FontFamily="KaiTi" Loaded="UserControl_Loaded" xmlns:my="clr-namespace:FiveElementsIntTest.OpSpan2">
+    <Grid Background="Black" Name="amGrid" HorizontalAlignment="Center" VerticalAlignment="Center" Width="1024" Height="768">
+        <Label Content="请按顺序回忆属相" Height="56" HorizontalAlignment="Left" Margin="362,80,0,0" Name="label1" VerticalAlignment="Top" Width="303" Foreground="Lime" FontFamily="KaiTi" FontSize="36" />
         <Rectangle Height="2" HorizontalAlignment="Left" Margin="112,272,0,0" Name="rectangle1" Stroke="White" VerticalAlignment="Top" Width="800" Fill="White" />
-        <TextBlock FontFamily="KaiTi" FontSize="32" Foreground="Red" Height="50" Margin="12,288,12,0" Name="amTBNotice" Text="错误，请再试一遍" TextAlignment="Center" VerticalAlignment="Top" />
+        <TextBlock FontFamily="KaiTi" FontSize="32" Foreground="Red" Height="50" Margin="12,162,12,0" Name="amTBNotice" Text="错误，请再试一遍" TextAlignment="Center" VerticalAlignment="Top" />
         <Label Content="鼠" Height="55" Width ="55" HorizontalAlignment="Left" Margin="272,362,0,0" Name="amAni1" VerticalAlignment="Top" FontFamily="SimHei" FontSize="40" Foreground="White" BorderThickness="2" BorderBrush="White" Padding="4" />
         <Label BorderBrush="White" BorderThickness="2" Content="蛇" FontFamily="SimHei" FontSize="40" Foreground="White" Height="55" HorizontalAlignment="Left" Margin="696,362,0,0" Name="amAni6" Padding="4" VerticalAlignment="Top" Width="55" />
         <Label BorderBrush="White" BorderThickness="2" Content="牛" FontFamily="SimHei" FontSize="40" Foreground="White" Height="55" HorizontalAlignment="Left" Margin="356,362,0,0" Name="amAni2" Padding="4" VerticalAlignment="Top" Width="55" />

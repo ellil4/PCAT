@@ -27,7 +27,12 @@ namespace FiveElementsIntTest.Paper
             InitializeComponent();
             Canvas.SetLeft(image1, 0);
             Canvas.SetTop(image1, actual_y + 26);
-           
+            BitmapImage bitim = new BitmapImage();
+            bitim.BeginInit();
+            bitim.UriSource = new Uri(FEITStandard.GetExePath() + "Paper\\PaperRes\\Example\\paperins.jpg");
+            bitim.EndInit();
+            image1.Stretch = Stretch.Fill;
+            image1.Source = bitim;
         }
     }
 }

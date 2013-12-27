@@ -12,6 +12,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Timers;
+using System.Drawing;
 
 namespace FiveElementsIntTest.OpSpan2
 {
@@ -22,6 +23,7 @@ namespace FiveElementsIntTest.OpSpan2
     {
         public BasePage mBasePage;
         public Timer mLimit;
+        IntPtr mpPic = IntPtr.Zero;
         public BoardEquation(BasePage bp)
         {
             InitializeComponent();
@@ -35,19 +37,51 @@ namespace FiveElementsIntTest.OpSpan2
             mLimit.Interval = mBasePage.mInterTimeLimit;
             mLimit.Elapsed += new ElapsedEventHandler(mLimit_Elapsed);
 
+            if (mBasePage.ARCTYPE == SECOND_ARCHI_TYPE.SYMMSPAN)
+            {
+                amOKBtn.Content = "看好了";
+                amEquation.Visibility = System.Windows.Visibility.Hidden;
+
+                amLabelOvertime.Margin = new Thickness(432, 586, 432, 126);
+                amOKBtn.Margin = new Thickness(0, 400, 0, 0);
+            }
+
             switch (mBasePage.mStage)
             {
-                case Stage.EquationPrac:
+                case Stage.InterPrac:
                     //show
-                    amEquation.Content = mBasePage.mEquationPrac[mBasePage.mCurInGrpAt].Equation;
+                    if (mBasePage.ARCTYPE == SECOND_ARCHI_TYPE.OPSPAN)
+                    {
+                        amEquation.Content = mBasePage.mInterPrac[mBasePage.mCurInGrpAt].Equation;
+                    }
+                    else
+                    {
+                        Bitmap bmp = new Bitmap(
+                            FEITStandard.GetExePath() + "SYMM\\" + 
+                            mBasePage.mInterPrac[mBasePage.mCurInGrpAt].Equation + ".bmp");
+
+                        amImage.Source = BitmapSourceFactory.GetBitmapSource(bmp, out mpPic);
+                    }
                     //rec
-                    mBasePage.mRecorder.mathPracEquations.Add(mBasePage.mEquationPrac[mBasePage.mCurInGrpAt]);
+                    mBasePage.mRecorder.mathPracEquations.Add(mBasePage.mInterPrac[mBasePage.mCurInGrpAt]);
                     //show 
                     break;
                 case Stage.ComprehPrac:
                     //show
-                    amEquation.Content =
-                        mBasePage.mComprehPrac[mBasePage.mCurSchemeAt].mTrails[mBasePage.mCurInGrpAt].equation;
+                    if (mBasePage.ARCTYPE == SECOND_ARCHI_TYPE.OPSPAN)
+                    {
+                        amEquation.Content =
+                            mBasePage.mComprehPrac[mBasePage.mCurSchemeAt].mTrails[mBasePage.mCurInGrpAt].equation;
+                    }
+                    else if (mBasePage.ARCTYPE == SECOND_ARCHI_TYPE.SYMMSPAN)
+                    {
+                        Bitmap bmp = new Bitmap(
+                           FEITStandard.GetExePath() + "SYMM\\" +
+                           mBasePage.mComprehPrac[mBasePage.mCurSchemeAt].mTrails[mBasePage.mCurInGrpAt].equation + 
+                           ".bmp");
+
+                        amImage.Source = BitmapSourceFactory.GetBitmapSource(bmp, out mpPic);
+                    }
                     //limit
                     mLimit.Enabled = true;
                     //rec
@@ -66,8 +100,20 @@ namespace FiveElementsIntTest.OpSpan2
                     break;
                 case Stage.Formal:
                     //show
-                    amEquation.Content =
-                        mBasePage.mTest[mBasePage.mCurSchemeAt].mTrails[mBasePage.mCurInGrpAt].equation;
+                    if (mBasePage.ARCTYPE == SECOND_ARCHI_TYPE.OPSPAN)
+                    {
+                        amEquation.Content =
+                            mBasePage.mTest[mBasePage.mCurSchemeAt].mTrails[mBasePage.mCurInGrpAt].equation;
+                    }
+                    else if (mBasePage.ARCTYPE == SECOND_ARCHI_TYPE.SYMMSPAN)
+                    {
+                        Bitmap bmp = new Bitmap(
+                          FEITStandard.GetExePath() + "SYMM\\" +
+                          mBasePage.mTest[mBasePage.mCurSchemeAt].mTrails[mBasePage.mCurInGrpAt].equation +
+                          ".bmp");
+
+                        amImage.Source = BitmapSourceFactory.GetBitmapSource(bmp, out mpPic);
+                    }
                     //limit
                     mLimit.Enabled = true;
                     //rec
@@ -121,7 +167,7 @@ namespace FiveElementsIntTest.OpSpan2
             mLimit.Enabled = false;
             switch (mBasePage.mStage)
             {
-                case Stage.EquationPrac:
+                case Stage.InterPrac:
                     mBasePage.mRecorder.mathPracOff.Add(offTime);
                     mBasePage.mRecorder.mathPracRTs.Add(
                         offTime - mBasePage.mRecorder.mathPracOn[
@@ -165,13 +211,14 @@ namespace FiveElementsIntTest.OpSpan2
         void t_Elapsed(object sender, ElapsedEventArgs e)
         {
             mBasePage.Dispatcher.Invoke(new TimeDele(mBasePage.ShowEquationJudgePage));
+            BitmapSourceFactory.DeleteObject(mpPic);
         }
 
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
             switch (mBasePage.mStage)
             {
-                case Stage.EquationPrac:
+                case Stage.InterPrac:
                     mBasePage.mRecorder.mathPracOn.Add(
                         mBasePage.mTimeline.ElapsedMilliseconds);
                     break;

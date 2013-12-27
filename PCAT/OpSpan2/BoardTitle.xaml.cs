@@ -25,6 +25,15 @@ namespace FiveElementsIntTest.OpSpan2
         {
             InitializeComponent();
             mBasePage = bp;
+
+            if (mBasePage.ARCTYPE == SECOND_ARCHI_TYPE.SYMMSPAN)
+            {
+                label1.Content = "对称广度";
+                //label1.FontFamily = new FontFamily("KaiTi");
+                label2.Content = "Symmetry Span";
+                //label2.FontFamily = new FontFamily("KaiTi");
+                textBlock1.Text = "    请判断图形的对称性，并记住随后出现的红点位置。\r\n\r\n    下面先来练习一下记红点位置";
+            }
         }
 
         private void label3_MouseUp(object sender, MouseButtonEventArgs e)

@@ -185,7 +185,7 @@ namespace FiveElementsIntTest.Paper
               //  him = mImagecontrol.GetImage(82, 74);
                 him.Stretch = Stretch.Fill;
 
-                System.Drawing.Image pic = System.Drawing.Image.FromFile("PaperRes\\Test\\Pa\\" + _temporary[0] + ".bmp");
+                System.Drawing.Image pic = System.Drawing.Image.FromFile("Paper\\PaperRes\\Test\\Pa\\" + _temporary[0] + ".bmp");
                 System.Drawing.Bitmap bmp = new System.Drawing.Bitmap(pic);
 
                 IntPtr hBitmap = bmp.GetHbitmap();
@@ -228,7 +228,7 @@ namespace FiveElementsIntTest.Paper
                 him = mImagecontrol.GetImage(82, 74);
                 BitmapImage bitim = new BitmapImage();
                 bitim.BeginInit();
-                bitim.UriSource = new Uri("\\PCAT;component\\Images\\" + _temporary[0] + ".bmp", UriKind.Relative);
+           //     bitim.UriSource = new Uri("\\PCAT;component\\Images\\" + _temporary[0] + ".bmp", UriKind.Relative);
                 bitim.EndInit();
                 him.Stretch = Stretch.Fill;
                 him.Source = bitim;
@@ -275,7 +275,7 @@ namespace FiveElementsIntTest.Paper
 
                 im.Stretch = Stretch.Fill;
 
-                System.Drawing.Image picc = System.Drawing.Image.FromFile("PaperRes\\Test\\PaS\\" + _temporary[i] + ".bmp");
+                System.Drawing.Image picc = System.Drawing.Image.FromFile("Paper\\PaperRes\\Test\\PaS\\" + _temporary[i] + ".bmp");
                 System.Drawing.Bitmap bmpc = new System.Drawing.Bitmap(picc);
 
                 IntPtr hBitmapc = bmpc.GetHbitmap();
@@ -340,7 +340,7 @@ namespace FiveElementsIntTest.Paper
                 im = mImagecontrol.GetImage(82, 74);
                 BitmapImage bitim = new BitmapImage();
                 bitim.BeginInit();
-                bitim.UriSource = new Uri("\\PCAT;component\\Images\\" + _temporary[i] + ".bmp", UriKind.Relative);
+               // bitim.UriSource = new Uri("\\PCAT;component\\Images\\" + _temporary[i] + ".bmp", UriKind.Relative);
                 bitim.EndInit();
                 im.Stretch = Stretch.Fill;
                 im.Source = bitim;
@@ -419,6 +419,8 @@ namespace FiveElementsIntTest.Paper
         {
             if (e.LeftButton == MouseButtonState.Pressed)
             {
+                mPagePaper._Control_press = true;
+
                 for (int i = 0; i < vImages.Count; i++)
                 {
                     if (vImages[i].Equals(sender))
@@ -428,7 +430,7 @@ namespace FiveElementsIntTest.Paper
                         {
 
 
-                            mPagePaper.t_Display.Stop();
+                            //mPagePaper.t_Display.Stop();
                             mPagePaper.tip_display.Visibility = System.Windows.Visibility.Visible;
 
                             if (_full != null) _full.Visibility =  Visibility.Hidden;
@@ -447,25 +449,30 @@ namespace FiveElementsIntTest.Paper
                             
                             if (mPagePaper.correct_ans != opt )
                             {
+                                mPagePaper.tip_display.Foreground = Brushes.Red;
                                 mPagePaper.tip_display.Content = "选择错误，正确答案为：" + mPagePaper.correct_ans;
                                 if (mPagePaper.re_count_num<2) mPagePaper.recede_control = true;
                                
                             }
                             else
                             {
-                                mPagePaper.t_Display.Stop();
-                                mPagePaper.tip_display.Content = "恭喜你，答对了！";
+                                //mPagePaper.t_Display.Stop();
+                                mPagePaper.tip_display.Foreground = new SolidColorBrush(Color.FromRgb(0, 255, 0));
+                                mPagePaper.tip_display.Content = "正  确";
                             }
+
+                            //mPagePaper.t_Display.Stop();
+                            //mPagePaper._flash_Display.Stop();
                         
                       }
                         else if (mPagePaper.line_num_count >= 6)
                         {
 
-                            mPagePaper.tip_display.Content = "";
+                            mPagePaper.tip_display.Foreground = Brushes.Black;
 
-                            mPagePaper.t_Display.Stop();
-                          
-                      
+                            //mPagePaper.t_Display.Stop();
+
+                            mPagePaper.tip_display.Foreground = Brushes.Red;
                         /*******************用于选择多次****************************/
                         if (_full != null) _full.Visibility =  Visibility.Hidden;
 
@@ -534,8 +541,8 @@ namespace FiveElementsIntTest.Paper
             Qnum.FontSize = 26.0;
 
             PapertestCanvas.Children.Add(Qnum);
-            Canvas.SetLeft(Qnum, 400);
-            Canvas.SetTop(Qnum, FEITStandard.PAGE_BEG_Y +15);
+            Canvas.SetLeft(Qnum, 406);
+            Canvas.SetTop(Qnum, 70);
         }
 
     }

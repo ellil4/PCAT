@@ -7,7 +7,7 @@
       d:DesignHeight="300" d:DesignWidth="300"
 	Title="BasePage">
 
-    <Grid>
+    <Grid Name="amGrid">
         <Canvas Height="100" HorizontalAlignment="Left" Name="amBaseCanvas" VerticalAlignment="Top" Width="200" Background="Black" Loaded="amCanvas_Loaded" />
     </Grid>
 </Page>

@@ -119,8 +119,10 @@ namespace FiveElementsIntTest
                 {
                     String time = "";
                     DateTime dt = DateTime.Now;
-                    time = dt.Year.ToString() + dt.Month.ToString() + dt.Day.ToString() +
-                        dt.Hour.ToString() + dt.Minute.ToString() + dt.Second.ToString();
+                    time = dt.Year.ToString() + dt.Month.ToString().PadLeft(2, '0') + 
+                        dt.Day.ToString().PadLeft(2, '0') + dt.Hour.ToString().PadLeft(2, '0') + 
+                        dt.Minute.ToString().PadLeft(2, '0') + dt.Second.ToString().PadLeft(2, '0');
+
                     mMW.mDemography = new StDemography();
                     mMW.mDemography.Name = removeQuot(amTBName.Text);
                     mMW.mDemography.Age = age;

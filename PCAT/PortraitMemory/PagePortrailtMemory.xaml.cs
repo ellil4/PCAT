@@ -38,6 +38,13 @@ namespace FiveElementsIntTest.PortraitMemory
         public Timer _t_Display;
 
         public Timer _flash_Display;
+
+        /*******************************翻页*************************************/
+
+        //private Timer _t_Nest_Question;
+
+        public CompCountDown mCountDown;
+
         /*****************************学习*****************************/
         
         MemoryControl mMemoryControl;
@@ -78,12 +85,19 @@ namespace FiveElementsIntTest.PortraitMemory
         /**************************结果**************************/
         TestResult mTestResult;
 
+        /***************************迫选*****************************/
+
+        public bool _IsOption = false;
+
         public PagePortrailtMemory(MainWindow _mainWindow)
         {
             InitializeComponent();
             mMainWindow = _mainWindow;
             this.Focus();
             mLayoutInstruction = new LayoutInstruction(ref PortCanvas);
+
+            mCountDown = new CompCountDown();
+            mCountDown.FunctionElapsed = autopage_processing;
         }
 
         private void Page_Loaded(object sender, RoutedEventArgs e)
@@ -100,7 +114,7 @@ namespace FiveElementsIntTest.PortraitMemory
             mLayoutInstruction.addTitle(50, 0, "人像特点联系回忆", "KaiTi_GB2312", 48, Color.FromRgb(255, 255, 255));
             mLayoutInstruction.addTitle(113, 110, "Portrait Memory", "", 28, Color.FromRgb(255, 255, 255));
             mLayoutInstruction.addInstruction(200, 10, FEITStandard.PAGE_WIDTH / 100 * 68, 400,
-                "    你将看到一些人像，同时还要记住他姓什么，做什么工作，爱好什么。请将人像和他的三个特点联系起来记忆。 \r    看完全部人像后，会有一个测试，当再看到每一张人像时，请选出他姓什么，做什么工作和有什么爱好。 ", "Kaiti_GB2312", 30, Color.FromRgb(255, 255, 255));
+                "    本测验将呈现一些人像，同时向你介绍他姓什么，做什么工作，爱好什么。请将人像和他的三个特点联系起来记忆。 \r    看完全部人像后，会有一个记忆测试，当再看到每一张人像时，请点选出他的姓氏、工作和爱好。 ", "Kaiti_GB2312", 30, Color.FromRgb(255, 255, 255));
             
             chageNextLabel();
 
@@ -108,41 +122,43 @@ namespace FiveElementsIntTest.PortraitMemory
 
         private void loadStartPage()
         {
-            //mLayoutInstruction.addTitle(50, 0, "人像特点联系回忆", "KaiTi_GB2312", 48, Color.FromRgb(255, 255, 255));
-            //mLayoutInstruction.addTitle(113, 110, "Portrait Memory", "", 28, Color.FromRgb(255, 255, 255));
+            mLayoutInstruction.addInstruction(200, 90, FEITStandard.PAGE_WIDTH / 100 * 68,280,
+                 "    下面开始呈现人像\r   以及人像的三个特点 \n\r \n\r     本测验没有练习 ", "Kaiti_GB2312", 30, Color.FromRgb(255, 255, 255));
 
             _promptlabel.Visibility = System.Windows.Visibility.Visible;
-            _promptlabel.Content = "下 面 请 注 意 记 ！";
+            _promptlabel.Content = "请 注 意 记 ！";
 
             startTestLabel();
         }
 
         private void loadFirstTest()
         {
-            //mLayoutInstruction.addTitle(50, 0, "人像特点联系回忆", "KaiTi_GB2312", 48, Color.FromRgb(255, 255, 255));
-            //mLayoutInstruction.addTitle(113, 110, "Portrait Memory", "", 28, Color.FromRgb(255, 255, 255));
 
-            _promptlabel.Visibility = System.Windows.Visibility.Visible;
-            _promptlabel.Content = "记 忆 测 试 （一）";
+            mLayoutInstruction.addInstruction(200, 90, FEITStandard.PAGE_WIDTH / 100 * 68, 280,
+                  "\n\n    记 忆 测 试 （一） ", "Kaiti_GB2312", 30, Color.FromRgb(255, 255, 255));
+             _promptlabel.Visibility = System.Windows.Visibility.Hidden;
+            
 
             startTestLabel();
-
+            
         }
         private void loadSecondPage()
         {
-            //mLayoutInstruction.addTitle(50, 0, "人像特点联系回忆", "KaiTi_GB2312", 48, Color.FromRgb(255, 255, 255));
-            //mLayoutInstruction.addTitle(113, 110, "Portrait Memory", "", 28, Color.FromRgb(255, 255, 255));
+            mLayoutInstruction.addInstruction(200, 90, FEITStandard.PAGE_WIDTH / 100 * 68, 280,
+                " \n\r     下面再呈现一遍", "Kaiti_GB2312", 30, Color.FromRgb(255, 255, 255));
             _promptlabel.Visibility = System.Windows.Visibility.Visible;
-            _promptlabel.Content = "下 面 再 记 一 遍 ！";
+             
+            _promptlabel.Content = "请 注 意 记  ！";
 
             startTestLabel();
         }
         private void loadSecondTest()
         {
-            //mLayoutInstruction.addTitle(50, 0, "人像特点联系回忆", "KaiTi_GB2312", 48, Color.FromRgb(255, 255, 255));
-            //mLayoutInstruction.addTitle(113, 110, "Portrait Memory", "", 28, Color.FromRgb(255, 255, 255));
-            _promptlabel.Visibility = System.Windows.Visibility.Visible;
-            _promptlabel.Content = "记 忆 测 试（二）";
+            mLayoutInstruction.addInstruction(200, 90, FEITStandard.PAGE_WIDTH / 100 * 68, 280,
+                  "\n\n    记 忆 测 试 （二） ", "Kaiti_GB2312", 30, Color.FromRgb(255, 255, 255));
+             
+            _promptlabel.Visibility = System.Windows.Visibility.Hidden;
+             
 
             startTestLabel();
 
@@ -150,24 +166,19 @@ namespace FiveElementsIntTest.PortraitMemory
 
         private void laodReport()
         {
-            
-
-            String showtext = "一共" + mTestReader._TestList.Count + "道题,完整做对" + mTestResult._Account + "道题；共用时" + _accountRT + "毫秒";
-
-            mLayoutInstruction.addInstruction(160, 90, 794, 450, showtext, "result", 32, Color.FromRgb(34, 177, 76));
-            _close_win = new Label();
+             _close_win = new Label();
             _close_win.Height = 50;
             _close_win.Width = 250;
             _close_win.Foreground = Brushes.White;
-            _close_win.FontSize = 24.0;
+            _close_win.FontSize = 28.0;
             _close_win.FontFamily = new FontFamily("KaiTi_GB2312");
-            _close_win.Content = "关闭测试";
+            _close_win.Content = "本 项 测 验 结 束";
             _close_win.MouseLeftButtonDown += new MouseButtonEventHandler(_close_win_MouseLeftButtonDown);
             PortCanvas.Children.Add(_close_win);
-            Canvas.SetLeft(_close_win, FEITStandard.PAGE_BEG_X + 522);
+            Canvas.SetLeft(_close_win, FEITStandard.PAGE_BEG_X + 275);
             Canvas.SetTop(_close_win, FEITStandard.PAGE_BEG_Y + 300);
 
-            // mMainWindow.Closing = null;
+             
         }
         void _close_win_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
@@ -187,12 +198,13 @@ namespace FiveElementsIntTest.PortraitMemory
         {
             _next_page = new Label();
 
-            _next_page.Height = 38;
+            _next_page.Height = 43;
             _next_page.Width = 100;
-            _next_page.Foreground = Brushes.White;
-
+            _next_page.Foreground = Brushes.Black;
+            _next_page.Background = Brushes.White;
+           // _next_page.FontWeight = FontWeights.Heavy;
             PortCanvas.Children.Add(_next_page);
-            _next_page.FontSize = 24.0;
+            _next_page.FontSize = 28.0;
             _next_page.Content = "下一页";
             _next_page.HorizontalContentAlignment = HorizontalAlignment.Center;
             _next_page.BorderThickness = new Thickness(2.0);
@@ -215,12 +227,14 @@ namespace FiveElementsIntTest.PortraitMemory
         {
             _begin_test = new Label();
 
-            _begin_test.Height = 38;
+            _begin_test.Height = 43;
             _begin_test.Width = 120;
-            _begin_test.Foreground = Brushes.White;
+            _begin_test.Foreground = Brushes.Black;
+            _begin_test.Background = Brushes.White;
+         //   _begin_test.FontWeight = FontWeights.Heavy;
 
             PortCanvas.Children.Add(_begin_test);
-            _begin_test.FontSize = 24.0;
+            _begin_test.FontSize = 28.0;
             _begin_test.FontFamily = new FontFamily("KaiTi_GB2312");
             _begin_test.HorizontalContentAlignment = HorizontalAlignment.Center;
             _begin_test.Content = "开  始";
@@ -229,20 +243,20 @@ namespace FiveElementsIntTest.PortraitMemory
             Canvas.SetLeft(_begin_test, FEITStandard.PAGE_BEG_X + 355);
             Canvas.SetTop(_begin_test, FEITStandard.PAGE_BEG_Y + 600);
 
-            _begin_test.MouseLeftButtonDown += new MouseButtonEventHandler(_begin_test_MouseLeftButtonDown);
+            _begin_test.MouseLeftButtonUp += new MouseButtonEventHandler(_begin_test_MouseLeftButtonUp);
 
 
 
         }
 
-        void _begin_test_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        void _begin_test_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
 
             switch (_startButtomStep)
             {
                 case 0:
-                   studyOne();
-                 // testOne();
+                     studyOne();
+                    //testOne();
                     break;
                 case 1:
                     testOne();
@@ -265,11 +279,13 @@ namespace FiveElementsIntTest.PortraitMemory
         private void nextQuestionLabel()//横向490
         {
             _nextQuestion = new Label();
-            _nextQuestion.Height = 38;
+            _nextQuestion.Height = 43;
             _nextQuestion.Width = 125;
-            //_nextQuestion.Background = Brushes.Black;
-            _nextQuestion.Foreground = Brushes.Black;
-            _nextQuestion.FontSize = 26.0;
+            _nextQuestion.Background = Brushes.Black;
+            _nextQuestion.Foreground = Brushes.White;
+
+           // _nextQuestion.FontWeight = FontWeights.Heavy;
+            _nextQuestion.FontSize = 28.0;
             _nextQuestion.FontFamily = new FontFamily("KaiTi_GB2312");
             _nextQuestion.Content = "下一题";
             _nextQuestion.HorizontalContentAlignment = HorizontalAlignment.Center;
@@ -277,19 +293,24 @@ namespace FiveElementsIntTest.PortraitMemory
             _nextQuestion.BorderBrush = Brushes.Black;
             PortCanvas.Children.Add(_nextQuestion);
             Canvas.SetLeft(_nextQuestion, FEITStandard.PAGE_BEG_X + 540);
-            Canvas.SetTop(_nextQuestion, FEITStandard.PAGE_BEG_Y + 480);
+            Canvas.SetTop(_nextQuestion, FEITStandard.PAGE_BEG_Y + 500);
 
 
 
-            _nextQuestion.MouseLeftButtonDown += new MouseButtonEventHandler(_nextQuestion_MouseLeftButtonDown);
+            _nextQuestion.MouseLeftButtonUp +=new MouseButtonEventHandler(_nextQuestion_MouseLeftButtonUp);
 
         }
 
-        void _nextQuestion_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        void _nextQuestion_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
            
-            if (e.LeftButton == MouseButtonState.Pressed)
+            if (e.LeftButton == MouseButtonState.Released && _IsOption)
             {
+                _tip_display.Visibility = System.Windows.Visibility.Hidden;
+                _tip_display.Content = " ";
+                _flash_Display.Stop();
+                _t_Display.Stop();
+
                 if (!_remember)
                 {
                     _line_num++;
@@ -297,15 +318,16 @@ namespace FiveElementsIntTest.PortraitMemory
                     {
                         if (_line_num == mTestReader._TestList.Count / 2 - 1)
                         {
-                            _nextQuestion.Content = "测试(一)完";
+                            _nextQuestion.Content = "下 一 题";
                            
                             lastQuestionLabel();
 
                             _remember = true;
                         }
-                        _tip_display.Content = " ";
-                        _flash_Display.Stop();
-                        _t_Display.Stop();
+                        //_t_Nest_Question.Stop();//自动翻页加
+                        //_tip_display.Content = " ";
+                        //_flash_Display.Stop();
+                        //_t_Display.Stop();
                        
                         
                         
@@ -336,11 +358,15 @@ namespace FiveElementsIntTest.PortraitMemory
                 }
                 else if (_remember &&_line_num == mTestReader._TestList.Count / 2 - 1)
                 {
+                    //_tip_display.Content = " ";
+                    //_t_Nest_Question.Stop();//自动翻页加
                     _time_blank.Stop();
-                    _tip_display.Content = " ";
+                    
                     PortCanvas.Children.Remove(_tip_display);
-                    _flash_Display.Stop();
-                    _t_Display.Stop();
+                    PortCanvas.Children.Remove(mCountDown);
+                    mCountDown.Stop();
+                    //_flash_Display.Stop();
+                    //_t_Display.Stop();
                     
                     
                     _rtime.Stop();
@@ -369,7 +395,7 @@ namespace FiveElementsIntTest.PortraitMemory
                         if (_line_num == mTestReader._TestList.Count - 1)
                         {
 
-                            _nextQuestion.Content = "测试(二)完";
+                            _nextQuestion.Content = "下 一 题";
                             
                             lastQuestionLabel();
 
@@ -377,9 +403,10 @@ namespace FiveElementsIntTest.PortraitMemory
 
                             
                         }
-                        _tip_display.Content = " ";
-                        _flash_Display.Stop();
-                        _t_Display.Stop();
+                        //_t_Nest_Question.Stop();//自动翻页加
+                        //_tip_display.Content = " ";
+                        //_flash_Display.Stop();
+                        //_t_Display.Stop();
                        
                         _rtime.Stop();
 
@@ -405,10 +432,15 @@ namespace FiveElementsIntTest.PortraitMemory
                 }
                 else if (_line_num == mTestReader._TestList.Count - 1 && colTestTwo == -1)
                 {
+                    //_tip_display.Content = " ";
+                    //_t_Nest_Question.Stop();//自动翻页加
+                    PortCanvas.Children.Remove(mCountDown);
+                    mCountDown.Stop();
+
                     _time_blank.Stop();
-                    _tip_display.Content = " ";
-                    _flash_Display.Stop();
-                    _t_Display.Stop();
+                    
+                    //_flash_Display.Stop();
+                    //_t_Display.Stop();
                   
                     _rtime.Stop();
 
@@ -416,11 +448,16 @@ namespace FiveElementsIntTest.PortraitMemory
                     _startButtomStep = 0;
                     clearAll();
                     PortCanvas.Background = Brushes.Black;
-                    mTestResult = new TestResult(mTestReader._ResultList, _answers);
+                    mTestResult = new TestResult(mTestReader._ResultList, _answers, mMainWindow);
                     laodReport();
                 }
             }
+
+            _IsOption = false;
         }
+
+
+
         private void lastQuestionLabel()
         {
            
@@ -431,11 +468,11 @@ namespace FiveElementsIntTest.PortraitMemory
         private void promptLabel()
         {
             _promptlabel = new Label();
-            _promptlabel.Height = 58;
+            _promptlabel.Height = 46;
             _promptlabel.Width = 340;
             _promptlabel.Background = Brushes.Black;
-            _promptlabel.Foreground = Brushes.White;
-            _promptlabel.FontSize = 34.0;
+            _promptlabel.Foreground = new SolidColorBrush(Color.FromRgb(0, 255, 0));
+            _promptlabel.FontSize = 32.0;
             _promptlabel.FontFamily = new FontFamily("KaiTi_GB2312");
             _promptlabel.Content = "";
             _promptlabel.HorizontalContentAlignment = HorizontalAlignment.Center;
@@ -444,7 +481,7 @@ namespace FiveElementsIntTest.PortraitMemory
             _promptlabel.Visibility = System.Windows.Visibility.Hidden;
             PortCanvas.Children.Add(_promptlabel);
             Canvas.SetLeft(_promptlabel, FEITStandard.PAGE_BEG_X + 245);
-            Canvas.SetTop(_promptlabel, FEITStandard.PAGE_BEG_Y + 300);
+            Canvas.SetTop(_promptlabel, FEITStandard.PAGE_BEG_Y + 480);
         }
 
         private void clearAll()
@@ -459,13 +496,14 @@ namespace FiveElementsIntTest.PortraitMemory
         {
             mMemoryControl = new MemoryControl();
             PortCanvas.Children.Add(mMemoryControl);
-            Canvas.SetLeft(mMemoryControl, FEITStandard.PAGE_BEG_X);
+            Canvas.SetLeft(mMemoryControl, FEITStandard.PAGE_BEG_X );
             Canvas.SetTop(mMemoryControl, FEITStandard.PAGE_BEG_Y);
             _begin_test.Visibility = System.Windows.Visibility.Hidden;
             backTextPage();
+            
             mMemoryControl.displayInformation(_remember);
-           
             _t_Total_Time.Start();
+            
             PortCanvas.Cursor = Cursors.None;
         }
 
@@ -475,13 +513,14 @@ namespace FiveElementsIntTest.PortraitMemory
             _remember = true;
             _begin_test.Visibility = System.Windows.Visibility.Hidden;
             PortCanvas.Children.Add(mMemoryControl);
-            Canvas.SetLeft(mMemoryControl, FEITStandard.PAGE_BEG_X);
+            Canvas.SetLeft(mMemoryControl, FEITStandard.PAGE_BEG_X );
             Canvas.SetTop(mMemoryControl, FEITStandard.PAGE_BEG_Y);
-            
-            
+
+
             
             mMemoryControl.displayInformation(_remember);
             _t_Total_Time.Start();
+            
             PortCanvas.Cursor = Cursors.None;
         }
 
@@ -515,7 +554,9 @@ namespace FiveElementsIntTest.PortraitMemory
             flash_Time();
             _flash_Display.Start();
             _startButtomStep++;
-            
+           
+            //autoNextPage();
+            //_t_Nest_Question.Start();
         
             _rtime.Start();
         }
@@ -540,7 +581,25 @@ namespace FiveElementsIntTest.PortraitMemory
           //  flash_Time();
             _flash_Display.Start();
 
+            //_t_Nest_Question.Start();
+
             _rtime.Start();
+
+        }
+
+        public void SetCountDowner()
+        {
+            mCountDown.Stop();
+
+            if (!PortCanvas.Children.Contains(mCountDown))
+            {
+                PortCanvas.Children.Add(mCountDown);
+                Canvas.SetLeft(mCountDown, (SystemParameters.PrimaryScreenWidth - 300) / 2);
+                Canvas.SetTop(mCountDown, FEITStandard.PAGE_BEG_Y + 600);
+            }
+
+            mCountDown.Duration = 45;
+            mCountDown.Start();
         }
 
 
@@ -563,11 +622,11 @@ namespace FiveElementsIntTest.PortraitMemory
             _tip_display.Visibility = System.Windows.Visibility.Hidden;
             PortCanvas.Children.Add(_tip_display);
             Canvas.SetLeft(_tip_display, FEITStandard.PAGE_BEG_X + 25);
-            Canvas.SetTop(_tip_display, FEITStandard.PAGE_BEG_Y + 480);
+            Canvas.SetTop(_tip_display, FEITStandard.PAGE_BEG_Y + 500);
         }
         private void flash_Time()
         {
-            _flash_Display = new Timer(10000);
+            _flash_Display = new Timer(30000);
             _flash_Display.AutoReset = false;
             _flash_Display.Enabled = true;
             _flash_Display.Elapsed += new ElapsedEventHandler(_flash_Display_Elapsed);
@@ -579,8 +638,12 @@ namespace FiveElementsIntTest.PortraitMemory
         }
         private void fv_processing() //超时跳出测试
         {
-            _flash_Display.Stop();
+           // _tip_display.Visibility = System.Windows.Visibility.Hidden;
             
+            _flash_Display.Stop();
+
+            _tip_display.Visibility = System.Windows.Visibility.Visible;
+
             _t_Display.Start();
 
         }
@@ -602,7 +665,7 @@ namespace FiveElementsIntTest.PortraitMemory
 
         private void ev_processing() //超时跳出测试
         {
-             _tip_display.Content = "** 请 尽 快 选 择 答 案 **";
+             _tip_display.Content = "  请 尽 快 选 择 答 案  ";
             if (_tip_display.Visibility == System.Windows.Visibility.Hidden)
             {
                 _tip_display.Visibility = System.Windows.Visibility.Visible;
@@ -622,7 +685,7 @@ namespace FiveElementsIntTest.PortraitMemory
         /// 
         private void backTextPage()
         {
-            _t_Total_Time = new Timer(51300);
+            _t_Total_Time = new Timer(49000);
             _t_Total_Time.AutoReset = true;
             _t_Total_Time.Enabled = true;
             _t_Total_Time.Elapsed += new ElapsedEventHandler(_t_Total_Time_Elapsed);
@@ -638,8 +701,10 @@ namespace FiveElementsIntTest.PortraitMemory
 
         private void bp_processing() //超时跳出测试
         {
-            PortCanvas.Children.Remove(mMemoryControl);
             _startButtomStep++;
+
+            PortCanvas.Children.Remove(mMemoryControl);
+            
             if (_startButtomStep==1)
             loadFirstTest();
             if (_startButtomStep == 3)
@@ -667,15 +732,18 @@ namespace FiveElementsIntTest.PortraitMemory
 
         private void bl_processing() //超时跳出测试
         {
+
             
-           
             mPortrailtMemoryTestControl.DisplayComponent();
-            _tip_display.Visibility = System.Windows.Visibility.Visible;
+           
             _nextQuestion.Visibility = System.Windows.Visibility.Visible;
             //_t_Display.Start();
             _flash_Display.Start();
             _time_blank.Stop();
+            //_t_Nest_Question.Start();
             _rtime.Start();
+            _tip_display.Foreground = Brushes.Red;
+
         }
 
       /****************************记录****************************/
@@ -718,7 +786,168 @@ namespace FiveElementsIntTest.PortraitMemory
 
         }
 
+/*************************************自动翻页功能******************************************/
+        /*private void autoNextPage()
+        {
+            _t_Nest_Question = new Timer(45000);
+            _t_Nest_Question.AutoReset = true;
+            _t_Nest_Question.Enabled = true;
+            _t_Nest_Question.Elapsed += new ElapsedEventHandler(_t_Nest_Question_Elapsed);
 
+
+        }
+
+        void _t_Nest_Question_Elapsed(object sender, ElapsedEventArgs e)
+        {
+            PortCanvas.Dispatcher.Invoke(new autonextpagetime(autopage_processing));
+        }*/
+        private delegate void autonextpagetime();
+
+        private void autopage_processing() //超时跳出测试
+        {
+          //  _tip_display.Visibility = System.Windows.Visibility.Hidden;
+            _tip_display.Foreground = Brushes.White;
+            _flash_Display.Stop();
+            _t_Display.Stop();
+            if (!_remember)
+            {
+                _line_num++;
+                if (_line_num < mTestReader._TestList.Count / 2)
+                {
+                    if (_line_num == mTestReader._TestList.Count / 2 - 1)
+                    {
+                        _nextQuestion.Content = "下 一 题";
+
+                        lastQuestionLabel();
+
+                        _remember = true;
+                    }
+                    //_t_Nest_Question.Stop();//自动翻页加
+                   
+
+
+
+
+                    _rtime.Stop();
+
+                    optionAnswerRecord();
+
+                    _NameAnswer = "";
+                    _JobAnswer = "";
+                    _LikeAnswer = "";
+                    _rtime.Reset();
+                    mPortrailtMemoryTestControl.ClearLists();
+
+                    mPortrailtMemoryTestControl.LayoutTestPage(mTestReader._TestList[_line_num]);
+
+                    _tip_display.Visibility = System.Windows.Visibility.Hidden;
+
+                    _nextQuestion.Visibility = System.Windows.Visibility.Hidden;
+
+                    mPortrailtMemoryTestControl.HideComponent();
+
+
+                    testBlankTime();
+
+                    _time_blank.Start();
+                }
+            }
+            else if (_remember && _line_num == mTestReader._TestList.Count / 2 - 1)
+            {
+                //_tip_display.Content = " ";
+                //_t_Nest_Question.Stop();//自动翻页加
+                _time_blank.Stop();
+                
+                PortCanvas.Children.Remove(_tip_display);
+                //_flash_Display.Stop();
+                //_t_Display.Stop();
+
+
+                _rtime.Stop();
+
+                optionAnswerRecord();
+
+                _NameAnswer = "";
+                _JobAnswer = "";
+                _LikeAnswer = "";
+                _rtime.Reset();
+                mPortrailtMemoryTestControl.ClearLists();
+                _tip_display.Visibility = System.Windows.Visibility.Hidden;
+
+                _nextQuestion.Visibility = System.Windows.Visibility.Hidden;
+                PortCanvas.Children.Remove(mPortrailtMemoryTestControl);
+                PortCanvas.Background = Brushes.Black;
+                _line_num++;
+                _promptlabel.Visibility = System.Windows.Visibility.Visible;
+
+                loadSecondPage();
+            }
+            else if (_remember && _line_num <= mTestReader._TestList.Count - 1 && colTestTwo == 0)
+            {
+                _line_num++;
+
+                if (_line_num == mTestReader._TestList.Count - 1)
+                {
+
+                    _nextQuestion.Content = "下 一 题";
+
+                    lastQuestionLabel();
+
+                    colTestTwo = -1;
+
+
+                }
+                //_t_Nest_Question.Stop();//自动翻页加
+                //_tip_display.Content = " ";
+                //_flash_Display.Stop();
+                //_t_Display.Stop();
+
+                _rtime.Stop();
+
+                optionAnswerRecord();
+                _NameAnswer = "";
+                _JobAnswer = "";
+                _LikeAnswer = "";
+                _rtime.Reset();
+                mPortrailtMemoryTestControl.ClearLists();
+                mPortrailtMemoryTestControl.LayoutTestPage(mTestReader._TestList[_line_num]);
+
+                _tip_display.Visibility = System.Windows.Visibility.Hidden;
+
+                _nextQuestion.Visibility = System.Windows.Visibility.Hidden;
+
+                mPortrailtMemoryTestControl.HideComponent();
+
+
+                testBlankTime();
+
+                _time_blank.Start();
+
+            }
+            else if (_line_num == mTestReader._TestList.Count - 1 && colTestTwo == -1)
+            {
+               // _tip_display.Content = " ";
+                //_t_Nest_Question.Stop();//自动翻页加
+                _time_blank.Stop();
+                
+                //_flash_Display.Stop();
+                //_t_Display.Stop();
+
+                _rtime.Stop();
+
+                optionAnswerRecord();
+                _startButtomStep = 0;
+                clearAll();
+                PortCanvas.Background = Brushes.Black;
+                mTestResult = new TestResult(mTestReader._ResultList, _answers, mMainWindow);
+                laodReport();
+            }
+
+
+
+            _IsOption = false;
+
+        }
 
 
     }//----class

@@ -6,6 +6,6 @@
              mc:Ignorable="d" 
              d:DesignHeight="600" d:DesignWidth="800"  >
     <Canvas Height="600" Name="canvas1" Width="800"  Background="Black" >
-        <Image  Height="500" Name="image1" Stretch="Fill" Width="788" Source="/PCAT;component/Images/cubinsExer1_ins.bmp" />
+        <Image  Height="500" Name="image_ins1" Stretch="Fill" Width="788" />
     </Canvas>
 </UserControl>

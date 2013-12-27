@@ -20,9 +20,9 @@ namespace FiveElementsIntTest.PortraitMemory
     /// </summary>
     public partial class PortrailtMemoryTestControl : UserControl
     {
-        private static int actual_x = 0;
+        //private static int actual_x = 0;
         
-        private static int actual_y = 0;
+        //private static int actual_y = 0;
 
         Image portrailImage;
 
@@ -74,10 +74,10 @@ namespace FiveElementsIntTest.PortraitMemory
             Canvas.SetTop(namecanvas, memorytestCanvas.Height *0.15);
 
             Canvas.SetLeft(jobcanvas, memorytestCanvas.Width*0.54);//横向
-            Canvas.SetTop(jobcanvas, memorytestCanvas.Height*0.35);
+            Canvas.SetTop(jobcanvas, memorytestCanvas.Height*0.37);
 
             Canvas.SetLeft(likecanvas, memorytestCanvas.Width *0.54);//横向
-            Canvas.SetTop(likecanvas, memorytestCanvas.Height*0.55);
+            Canvas.SetTop(likecanvas, memorytestCanvas.Height*0.59);
 
             Canvas.SetLeft(nametip, memorytestCanvas.Width * 0.42);//横向
             Canvas.SetTop(nametip, memorytestCanvas.Height * 0.24);
@@ -114,6 +114,8 @@ namespace FiveElementsIntTest.PortraitMemory
                 _namecontrol = false;
                 _jobcontrol = false;
                 _likecontrol = false;
+
+                vPagePortrailtMemory.SetCountDowner();
                 
        }
            
@@ -130,6 +132,7 @@ namespace FiveElementsIntTest.PortraitMemory
             IntPtr hBitmap = bmp.GetHbitmap();
             System.Windows.Media.ImageSource WpfBitmap = System.Windows.Interop.Imaging.CreateBitmapSourceFromHBitmap(hBitmap, IntPtr.Zero, Int32Rect.Empty, BitmapSizeOptions.FromWidthAndHeight(imagewith, imageheight));//FromEmptyOptions() 源图像大小
             portrailImage.Source = WpfBitmap;
+            
 
 
             picturecanvas.Children.Add(portrailImage);
@@ -302,7 +305,7 @@ namespace FiveElementsIntTest.PortraitMemory
                     {
                         if (_nameLabel[i].Equals(sender))
                         {
-                            _nameLabel[i].BorderBrush = new SolidColorBrush(Color.FromRgb(255, 0, 0));
+                            _nameLabel[i].BorderBrush = new SolidColorBrush(Color.FromRgb(255, 69, 0));
 
 
                         }
@@ -315,7 +318,7 @@ namespace FiveElementsIntTest.PortraitMemory
                     {
                         if (_jobLabel[i].Equals(sender))
                         {
-                            _jobLabel[i].BorderBrush = new SolidColorBrush(Color.FromRgb(255, 0, 0));
+                            _jobLabel[i].BorderBrush = new SolidColorBrush(Color.FromRgb(255, 69, 0));
 
 
                         }
@@ -328,7 +331,7 @@ namespace FiveElementsIntTest.PortraitMemory
                     {
                         if (_likeLabel[i].Equals(sender))
                         {
-                            _likeLabel[i].BorderBrush = new SolidColorBrush(Color.FromRgb(255, 0, 0));
+                            _likeLabel[i].BorderBrush = new SolidColorBrush(Color.FromRgb(255, 69, 0));
 
 
                         }
@@ -344,6 +347,7 @@ namespace FiveElementsIntTest.PortraitMemory
             {
                 if (_namepanel)
                 {
+                    vPagePortrailtMemory._IsOption = true;
 
                     for (int i = 0; i < _nameLabel.Count; i++)
                     {
@@ -358,7 +362,7 @@ namespace FiveElementsIntTest.PortraitMemory
 
                             }
                            
-                           _nameLabel[i].BorderBrush = new SolidColorBrush(Color.FromRgb(255, 0, 0));
+                           _nameLabel[i].BorderBrush = new SolidColorBrush(Color.FromRgb(255, 69, 0));
 
                            
                           
@@ -372,6 +376,7 @@ namespace FiveElementsIntTest.PortraitMemory
                 }
                 if (_jobpanel)
                 {
+                    vPagePortrailtMemory._IsOption = true;
 
                     for (int j = 0; j < _jobLabel.Count; j++)
                     {
@@ -384,7 +389,7 @@ namespace FiveElementsIntTest.PortraitMemory
                                 else _recoderjobLabel.BorderBrush = new SolidColorBrush(Color.FromRgb(0, 0, 0));
 
                             }
-                            _jobLabel[j].BorderBrush = new SolidColorBrush(Color.FromRgb(255, 0, 0));
+                            _jobLabel[j].BorderBrush = new SolidColorBrush(Color.FromRgb(255, 69, 0));
                             
 
                            
@@ -400,6 +405,7 @@ namespace FiveElementsIntTest.PortraitMemory
                 }
                 if (_likepanel)
                 {
+                    vPagePortrailtMemory._IsOption = true;
 
                     for (int k = 0; k < _likeLabel.Count; k++)
                     {
@@ -414,7 +420,7 @@ namespace FiveElementsIntTest.PortraitMemory
 
                             }
                             
-                            _likeLabel[k].BorderBrush = new SolidColorBrush(Color.FromRgb(255, 0, 0));
+                            _likeLabel[k].BorderBrush = new SolidColorBrush(Color.FromRgb(255,69, 0));
 
                             _recoderlikeLabel = _likeLabel[k];
 
@@ -456,6 +462,7 @@ namespace FiveElementsIntTest.PortraitMemory
 
         public void DisplayComponent()
         {
+            vPagePortrailtMemory._tip_display.Visibility = System.Windows.Visibility.Hidden;
             picturecanvas.Visibility = System.Windows.Visibility.Visible;
             namecanvas.Visibility = System.Windows.Visibility.Visible;
             jobcanvas.Visibility = System.Windows.Visibility.Visible;

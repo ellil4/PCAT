@@ -12,8 +12,8 @@ namespace FiveElementsIntTest.PortraitMemory
     {
         
         TabCharter mTabCharter;//写入硬盘
-        
-        String file_Loca = @"PortraitMemory\PortraitMemory_result\" + FEITStandard.GetStamp() + ".txt"; //系统时间文件地址
+
+        String file_Loca = ""; //系统时间文件地址
         
         private List<List<String>> _putout;
 
@@ -21,8 +21,12 @@ namespace FiveElementsIntTest.PortraitMemory
 
         public int _Account = 0;
 
-        public TestResult(List<List<String>> outtep,List<List<String>> usemp)
+        MainWindow mMainWindow;
+
+        public TestResult(List<List<String>> outtep,List<List<String>> usemp, MainWindow mw)
         {
+            mMainWindow = mw;
+            file_Loca = @"Report\PortraitMemory_result\" + mMainWindow.mDemography.GenBriefString() + ".txt";
             mTabCharter = new TabCharter(file_Loca);//写入硬盘
 
             _putout = outtep;

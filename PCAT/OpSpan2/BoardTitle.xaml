@@ -8,7 +8,7 @@
     <Grid>
         <Canvas Height="768" HorizontalAlignment="Left" Name="amCanvas" VerticalAlignment="Top" Width="1024">
             <Label Canvas.Left="425" Canvas.Top="150" Content="操作广度" Height="62" Name="label1" Foreground="White" FontSize="48" FontFamily="KaiTi" Width="208" />
-            <Label Canvas.Left="432" Canvas.Top="219" Content="Operation Span" FontFamily="Batang" FontSize="24" Foreground="White" Height="40" Name="label2" Width="184" />
+            <Label Canvas.Left="383" Canvas.Top="219" Content="Operation Span" FontFamily="Batang" FontSize="24" Foreground="White" Height="40" Name="label2" Width="280" HorizontalAlignment="Center" VerticalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Top" />
             <TextBlock Canvas.Left="186" Canvas.Top="280" Height="165" Name="textBlock1" Text="    请在做心算题的同时，记住随后出现的属相（十二生肖）&#xD;&#xD;    下面先来练习一下记忆属相。
 " FontFamily="KaiTi" FontSize="32" Width="680" Foreground="White" TextWrapping="Wrap" />
             <Label Canvas.Left="483" Canvas.Top="492" Content="开始" Height="46" Name="label3" FontFamily="KaiTi" FontSize="28" Foreground="Black" Width="94" Background="White" MouseUp="label3_MouseUp" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" />

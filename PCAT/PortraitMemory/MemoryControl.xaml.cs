@@ -58,18 +58,23 @@ namespace FiveElementsIntTest.PortraitMemory
         }
         public void displayInformation(bool choose)
         {
-            studyTime();
+           
             blankTime();
             if (!choose)
             {
+               
+                _t_blank.Start(); 
                 
-                _t_Study.Start();
+              //  _t_Study.Start();
               
             }
             else
             {
                 _inferControl = true;
-                _t_Study.Start();
+                studyTime();
+                _t_blank.Start(); 
+                
+               // _t_Study.Start();
                 
             }
 
@@ -138,13 +143,13 @@ namespace FiveElementsIntTest.PortraitMemory
         private void layoutName() //Canvas.Left="470" Canvas.Top="187"
         {
             _nameLabel.Content = _personName;
-            Canvas.SetLeft(_nameLabel, actual_x + 470);
-            Canvas.SetTop(_nameLabel, 187);
+            Canvas.SetLeft(_nameLabel, actual_x + 430);
+            Canvas.SetTop(_nameLabel, 227);
         }
         private void layoutJob() //Canvas.Left="470" Canvas.Top="287"
         {
             _jobLabel.Content = _personJob;
-            Canvas.SetLeft(_jobLabel, actual_x + 470);
+            Canvas.SetLeft(_jobLabel, actual_x + 430);
             Canvas.SetTop(_jobLabel, 287);
 
         }
@@ -154,8 +159,8 @@ namespace FiveElementsIntTest.PortraitMemory
         private void layoutLike()//Canvas.Left="470" Canvas.Top="387"
         {
             _likeLabel.Content = _personLike;
-            Canvas.SetLeft(_likeLabel, actual_x + 470);
-            Canvas.SetTop(_likeLabel, 387);
+            Canvas.SetLeft(_likeLabel, actual_x + 430);
+            Canvas.SetTop(_likeLabel, 347);
         }
 
         
@@ -170,8 +175,8 @@ namespace FiveElementsIntTest.PortraitMemory
 
         private void studyTime()
         {
-            _t_Study = new Timer(8000);
-            _t_Study.AutoReset = true;
+            _t_Study = new Timer(6000);
+            _t_Study.AutoReset = false;
             _t_Study.Enabled = true;
             _t_Study.Elapsed += new ElapsedEventHandler(_t_Study_Elapsed);
 
@@ -195,7 +200,7 @@ namespace FiveElementsIntTest.PortraitMemory
         }
         private void blankTime()
         {
-            _t_blank = new Timer(500);
+            _t_blank = new Timer(2000);
             _t_blank.AutoReset = true;
             _t_blank.Enabled = true;
             _t_blank.Elapsed += new ElapsedEventHandler(_t_blank_Elapsed);
@@ -220,6 +225,7 @@ namespace FiveElementsIntTest.PortraitMemory
                     layoutContent();
 
                     _t_blank.Stop();
+                    studyTime();
                     _t_Study.Start();
                 }
                 else
@@ -241,6 +247,7 @@ namespace FiveElementsIntTest.PortraitMemory
                     layoutContent();
 
                     _t_blank.Stop();
+                    studyTime();
                     _t_Study.Start();
                 }
                 else
@@ -250,6 +257,7 @@ namespace FiveElementsIntTest.PortraitMemory
                 }
 
             }
+
         }
 
 

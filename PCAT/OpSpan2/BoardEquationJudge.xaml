@@ -8,7 +8,7 @@
     <Grid Background="Black">
         <Label Background="White" Content="对" FontFamily="KaiTi" FontSize="32" Foreground="Black" Height="52" HorizontalAlignment="Left" HorizontalContentAlignment="Center" Margin="300,410,0,0" Name="amTrueBtn" VerticalAlignment="Top" VerticalContentAlignment="Center" Width="105" MouseUp="amTrueBtn_MouseUp" />
         <Label Background="White" Content="错" FontFamily="KaiTi" FontSize="32" Foreground="Black" Height="52" HorizontalAlignment="Left" HorizontalContentAlignment="Center" Margin="614,410,0,0" Name="amFalseBtn" VerticalAlignment="Top" VerticalContentAlignment="Center" Width="105" MouseUp="amFalseBtn_MouseUp" />
-        <Label Content="5" FontFamily="Batang" FontSize="48" Foreground="White" Height="68" HorizontalAlignment="Left" HorizontalContentAlignment="Center" Margin="0,320,0,0" Name="amAnswerShow" VerticalAlignment="Top" VerticalContentAlignment="Center" Width="1024" />
+        <Label Content="5" FontFamily="KaiTi" FontSize="48" Foreground="White" Height="68" HorizontalAlignment="Left" HorizontalContentAlignment="Center" Margin="0,320,0,0" Name="amAnswerShow" VerticalAlignment="Top" VerticalContentAlignment="Center" Width="1024" />
         <Label Content="错误" Height="56" HorizontalAlignment="Center" Margin="430,408,434,304" Name="amCorrectness" VerticalAlignment="Center" Width="160" Foreground="Red" FontFamily="KaiTi" FontSize="32" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" />
     </Grid>
 </UserControl>

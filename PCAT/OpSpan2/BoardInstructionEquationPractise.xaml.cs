@@ -24,6 +24,16 @@ namespace FiveElementsIntTest.OpSpan2
         {
             InitializeComponent();
             mBasePage = bp;
+
+            if (mBasePage.ARCTYPE == SECOND_ARCHI_TYPE.SYMMSPAN)
+            {
+                label1.Content = "下面开始练习判断图形是否对称";
+                label2.Content = "得出答案后请尽快点击";
+                label2.HorizontalContentAlignment = System.Windows.HorizontalAlignment.Center;
+                label4.Content = "然后判断给出的图形是否对称";
+                label4.HorizontalContentAlignment = System.Windows.HorizontalAlignment.Center;
+                //label3.Visibility = System.Windows.Visibility.Hidden;
+            }
         }
 
         private void label5_MouseUp(object sender, MouseButtonEventArgs e)

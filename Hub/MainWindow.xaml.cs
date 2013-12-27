@@ -11,6 +11,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.IO;
 
 namespace Hub
 {
@@ -48,21 +49,34 @@ namespace Hub
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            switch (mVersion)
+            try
             {
-                case PCATData.VERSION.CLIENT:
-                    this.Visibility = System.Windows.Visibility.Hidden;
-                    FiveElementsIntTest.MainWindow mw = 
-                        new FiveElementsIntTest.MainWindow(
-                            Query.TestConfig.GetTestArrayFromFile(), mVersion);
-                    mw.ShowDialog();
-                    this.Close();
-                    break;
-                case PCATData.VERSION.MANAGER:
-                    this.Visibility = System.Windows.Visibility.Hidden;
-                    (new Query.MainWindow(mVersion)).ShowDialog();
-                    this.Close();
-                    break;
+                switch (mVersion)
+                {
+                    case PCATData.VERSION.CLIENT:
+                        this.Visibility = System.Windows.Visibility.Hidden;
+                        FiveElementsIntTest.MainWindow mw =
+                            new FiveElementsIntTest.MainWindow(
+                                Query.TestConfig.GetTestArrayFromFile(), mVersion);
+                        mw.ShowDialog();
+                        this.Close();
+                        break;
+                    case PCATData.VERSION.MANAGER:
+                        this.Visibility = System.Windows.Visibility.Hidden;
+                        (new Query.MainWindow(mVersion)).ShowDialog();
+                        this.Close();
+                        break;
+                }
+            }
+            catch (Exception ex)
+            {
+                StreamWriter sw = new StreamWriter(FiveElementsIntTest.FEITStandard.GetExePath() + "exception.txt");
+                sw.WriteLine(ex.Message);
+                sw.WriteLine(ex.StackTrace);
+                sw.WriteLine(ex.Source);
+                sw.WriteLine(ex.InnerException.Message);
+                sw.Flush();
+                sw.Close();
             }
         }
     }

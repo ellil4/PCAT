@@ -28,7 +28,7 @@ namespace FiveElementsIntTest.Cube
         public int ansCount = 0;
         public Boolean choose_buttom=true;
         
-         public String Ans = "";
+         public String Ans = "  ";
         CompCubeDisplay g;//选项方块
         Border b;//选项方框
         private PageCube mPage;
@@ -359,6 +359,7 @@ namespace FiveElementsIntTest.Cube
             if (e.LeftButton == System.Windows.Input.MouseButtonState.Pressed)
             {
               choose_buttom = false;
+              mPage._Control_choose = false;
               if (optEnable)
               {
                 if (mPage.Surface.Count < 50)
@@ -387,32 +388,33 @@ namespace FiveElementsIntTest.Cube
                                     if (!mPage._isDisplayhide)
                                     {
                                          if (mPage.Anstandard[mPage.Anstandard.Count - 1] == Ans)
-                                    {
-                                        mPage._flash_Display.Stop();
-                                        mPage.t_Display.Close();
-                                        if (mPage.tip_display.Visibility == System.Windows.Visibility.Hidden)
                                         {
-                                            mPage.tip_display.Visibility = System.Windows.Visibility.Visible;
-                                        }
+                                            //mPage._flash_Display.Stop();
+                                            //mPage.t_Display.Close();
+                                             if (mPage.tip_display.Visibility == System.Windows.Visibility.Hidden)
+                                                {
+                                                mPage.tip_display.Visibility = System.Windows.Visibility.Visible;
+                                                }
 
-                                        mPage.tip_display.Content = "恭喜你答对了！";
-                                        optEnable = false;
+                                            mPage.tip_display.Foreground = new SolidColorBrush(Color.FromRgb(0, 255, 0));
+                                            mPage.tip_display.Content = "正  确";
+                                            optEnable = false;
                                         
 
-                                    }
-                                    else
-                                     {
-                                        mPage._flash_Display.Stop();
-                                        mPage.t_Display.Stop();
-                                        if (mPage.tip_display.Visibility == System.Windows.Visibility.Hidden)
-                                        {
-                                            mPage.tip_display.Visibility = System.Windows.Visibility.Visible;
-                                        }
-
-                                        mPage.tip_display.Content = "选择错误，正确答案为：" + mPage.Anstandard[mPage.Anstandard.Count - 1];
-                                        optEnable = false;
+                                         }
+                                        else
+                                         {
+                                            //mPage._flash_Display.Stop();
+                                            //mPage.t_Display.Stop();
+                                            if (mPage.tip_display.Visibility == System.Windows.Visibility.Hidden)
+                                            {
+                                                mPage.tip_display.Visibility = System.Windows.Visibility.Visible;
+                                            }
+                                            mPage.tip_display.Foreground = Brushes.Red;
+                                            mPage.tip_display.Content = "选择错误，正确答案为：" + mPage.Anstandard[mPage.Anstandard.Count - 1];
+                                            optEnable = false;
                                         
-                                    }
+                                        }
                                     }
                                     else if(mPage._isDisplayhide)
                                     {
@@ -422,10 +424,10 @@ namespace FiveElementsIntTest.Cube
                                             {
                                                 mPage.tip_display.Visibility = System.Windows.Visibility.Visible;
                                             }
-
-                                            mPage.tip_display.Content = "恭喜你答对了！";
+                                            mPage.tip_display.Foreground = new SolidColorBrush(Color.FromRgb(0, 255, 0));
+                                            mPage.tip_display.Content = "正  确";
                                             optEnable = false;
-                                            mPage.t_Display.Close();
+                                            //mPage.t_Display.Close();
 
                                         }
                                         else
@@ -434,12 +436,15 @@ namespace FiveElementsIntTest.Cube
                                             {
                                                 mPage.tip_display.Visibility = System.Windows.Visibility.Visible;
                                             }
-
+                                            mPage.tip_display.Foreground = Brushes.Red;
                                             mPage.tip_display.Content = "选择错误，正确答案为：" + mPage.Anstandard[mPage.hide_count - 1];
                                             optEnable = false;
-                                            mPage.t_Display.Stop();
+                                            //mPage.t_Display.Stop();
                                         }
                                     }
+
+                                    //mPage.t_Display.Stop();
+                                    //mPage._flash_Display.Stop();
 
                                 }
                                 else//做完前面的6道
@@ -448,8 +453,13 @@ namespace FiveElementsIntTest.Cube
                                     {
                                         mPage.tip_display.Visibility = System.Windows.Visibility.Hidden;
                                     }
-                                    mPage._flash_Display.Stop();
-                                    mPage.t_Display.Stop();
+                                    
+
+                                    mPage.tip_display.Foreground = Brushes.Black;
+
+                                    //mPage.t_Display.Stop();
+
+                                    mPage.tip_display.Foreground = Brushes.Red;
                                 }
                             }
                             else break;

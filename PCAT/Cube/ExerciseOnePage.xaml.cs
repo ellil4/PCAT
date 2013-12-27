@@ -25,6 +25,14 @@ namespace FiveElementsIntTest.Cube
         public ExerciseOnePage()
         {
             InitializeComponent();
+
+            BitmapImage bitim = new BitmapImage();
+            bitim.BeginInit();
+            bitim.UriSource = new Uri(FEITStandard.GetExePath() + "Cube\\CubeRes\\cubinsExer-1-0.bmp");
+            bitim.EndInit();
+            image1.Stretch = Stretch.Fill;
+            image1.Source = bitim;
+
             Canvas.SetLeft(image1, actual_x + 27);
             Canvas.SetTop(image1, actual_y + 26);
 
@@ -34,17 +42,52 @@ namespace FiveElementsIntTest.Cube
             Canvas.SetLeft(border1, actual_x + 59);
             Canvas.SetTop(border1, actual_y + 306);
 
+            BitmapImage bitim2 = new BitmapImage();
+            bitim2.BeginInit();
+            bitim2.UriSource = new Uri(FEITStandard.GetExePath() + "Cube\\CubeRes\\cubinsExer-1.bmp");
+            bitim2.EndInit();
+            image2.Stretch = Stretch.Fill;
+            image2.Source = bitim2;
+
             Canvas.SetLeft(image2, actual_x + 76);
             Canvas.SetTop(image2, actual_y + 356);
+
+            BitmapImage bitim3 = new BitmapImage();
+            bitim3.BeginInit();
+            bitim3.UriSource = new Uri(FEITStandard.GetExePath() + "Cube\\CubeRes\\cubinsExer-2.bmp");
+            bitim3.EndInit();
+            image3.Stretch = Stretch.Fill;
+            image3.Source = bitim3;
 
             Canvas.SetLeft(image3, actual_x + 210);
             Canvas.SetTop(image3, actual_y + 356);
 
+            BitmapImage bitim4 = new BitmapImage();
+            bitim4.BeginInit();
+            bitim4.UriSource = new Uri(FEITStandard.GetExePath() + "Cube\\CubeRes\\cubinsExer-3.bmp");
+            bitim4.EndInit();
+            image4.Stretch = Stretch.Fill;
+            image4.Source = bitim4;
+
             Canvas.SetLeft(image4, actual_x + 349);
             Canvas.SetTop(image4, actual_y + 356);
 
+            BitmapImage bitim5 = new BitmapImage();
+            bitim5.BeginInit();
+            bitim5.UriSource = new Uri(FEITStandard.GetExePath() + "Cube\\CubeRes\\cubinsExer-3.bmp");
+            bitim5.EndInit();
+            image5.Stretch = Stretch.Fill;
+            image5.Source = bitim5;
+
             Canvas.SetLeft(image5, actual_x + 487);
             Canvas.SetTop(image5, actual_y + 356);
+
+            BitmapImage bitim6 = new BitmapImage();
+            bitim6.BeginInit();
+            bitim6.UriSource = new Uri(FEITStandard.GetExePath() + "Cube\\CubeRes\\cubinsExer-3.bmp");
+            bitim6.EndInit();
+            image6.Stretch = Stretch.Fill;
+            image6.Source = bitim6;
 
             Canvas.SetLeft(image6, actual_x + 626);
             Canvas.SetTop(image6, actual_y + 356);
@@ -74,7 +117,8 @@ namespace FiveElementsIntTest.Cube
                 Canvas.IsEnabled = false;
                 border2.Visibility = Visibility.Visible;
                 border_control = true;
-                label1.Content = "恭喜你，答对了！";
+                label1.Foreground = new SolidColorBrush(Color.FromRgb(0,255, 0));
+                label1.Content = "正  确";
                
             }
         }
@@ -86,7 +130,8 @@ namespace FiveElementsIntTest.Cube
                 border3.Visibility = Visibility.Visible;
                 Canvas.IsEnabled = false;
                 border_control = true;
-                label1.Content = "选择错误，正确答案第一个";
+                label1.Foreground = Brushes.Red;
+                label1.Content = "错误，正确答案：1";
             }
         }
 
@@ -97,7 +142,8 @@ namespace FiveElementsIntTest.Cube
                 border4.Visibility = Visibility.Visible;
                 Canvas.IsEnabled = false;
                 border_control = true;
-                label1.Content = "选择错误，正确答案第一个";
+                label1.Foreground = Brushes.Red;
+                label1.Content = "错误，正确答案：1";
             }
         }
 
@@ -108,7 +154,8 @@ namespace FiveElementsIntTest.Cube
                border5.Visibility = Visibility.Visible;
                Canvas.IsEnabled = false;
                border_control = true;
-               label1.Content = "选择错误，正确答案第一个";
+               label1.Foreground = Brushes.Red;
+               label1.Content = "错误，正确答案：1";
             }
         }
 
@@ -119,7 +166,8 @@ namespace FiveElementsIntTest.Cube
                border6.Visibility = Visibility.Visible;
                Canvas.IsEnabled = false;
                border_control = true;
-               label1.Content = "选择错误，正确答案第一个";
+               label1.Foreground = Brushes.Red;
+               label1.Content = "错误，正确答案：1";
             }
         }
 
