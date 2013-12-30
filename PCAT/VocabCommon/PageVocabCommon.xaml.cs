@@ -32,6 +32,7 @@ namespace FiveElementsIntTest.VocabCommon
         public List<StVCItem> mItems;
         public StVCResult[] mResults;
         private int mCurTillIndex = 2;//begin with the third one
+        private int mHideCount = 2;//hide 2 items
         private bool mbReturned = false;
         private int mReturnedAt = -1;
 
@@ -47,10 +48,11 @@ namespace FiveElementsIntTest.VocabCommon
         public static String INPUT_FILE_VOC = "FEITSWsource.txt";
         public static String INPUT_FILE_COMM = "FEITCOMMsource.txt";
 
-        private int mContinuousNon2 = 0;
-
-        public CompOvertimeWarning mWarning;
+        //public CompOvertimeWarning mWarning;
+        CompCountDown mCountDown;
         private TestType mTestType;
+
+        private List<int> mSocres8 = new List<int>();
 
         public PageVocabCommon(MainWindow _mainWindow, TestType type)
         {
@@ -70,8 +72,9 @@ namespace FiveElementsIntTest.VocabCommon
                 mMainWindow.mDB.CreateVocabTable(SHEET_LENGTH);
             }*/
 
-            mWarning = new CompOvertimeWarning(this);
-            mtWarn = new Timer();
+            mCountDown = new CompCountDown();
+            mCountDown.Duration = 30;
+            mCountDown.FunctionElapsed = nextBtnDownCore;
         }
 
         private void prefillExtraItemzResult()
@@ -160,72 +163,106 @@ namespace FiveElementsIntTest.VocabCommon
 
             if (selIndex != -1 && mItems[mCurTillIndex - 1].Weights[selIndex] != 2)
             {
-                mContinuousNon2++;
-                if (mContinuousNon2 == 3)
+                mSocres8.Add(mItems[mCurTillIndex - 1].Weights[selIndex]);
+            }
+            else if(selIndex == -1)
+            {
+                mSocres8.Add(0);
+            }
+
+            if(mSocres8.Count > 8)//remove extra scores (more than 8) form head
+            {
+                for (int i = 0; i < mSocres8.Count - 8; i++)
+                {
+                    mSocres8.Remove(mSocres8[0]);
+                }
+            }
+
+            if(mSocres8.Count == 8)
+            {
+                int sum = 0;
+                for(int i = 0 ; i < mSocres8.Count; i++)
+                {
+                    sum += mSocres8[i];
+                }
+
+                if(sum <= 6)
                 {
                     retval = true;
                     testEnd();
                 }
             }
-            else
-            {
-                mContinuousNon2 = 0;
-            }
 
             return retval;
         }
 
-        void mNextBtn_MouseDown(object sender, MouseButtonEventArgs e)
+        void nextBtnDownCore()
         {
             int selectedIndex = SelectedIdx();
+
+                //save result
+            mTimer.Stop();
+            StVCResult result = new StVCResult();
+            result.SelectedItemIndex = selectedIndex;
+            result.RT = mTimer.GetElapsedTime();
+            mResults[mCurTillIndex - 1] = result;
+            mTimer.Reset();
+            //mtWarn.Enabled = false;
+
+            //return process
+            bool continuousErrQuit = continuousZeroQuit(selectedIndex);
+            int thisScore = 0;
             if (selectedIndex != -1)
             {
-                //save result
-                mTimer.Stop();
-                StVCResult result = new StVCResult();
-                result.SelectedItemIndex = selectedIndex;
-                result.RT = mTimer.GetElapsedTime();
-                mResults[mCurTillIndex - 1] = result;
-                mTimer.Reset();
-                mtWarn.Enabled = false;
+                thisScore = mItems[mCurTillIndex - 1].Weights[result.SelectedItemIndex];
+            }
 
-                //return process
-                bool continuousErrQuit = continuousZeroQuit(selectedIndex);
-                int thisScore = mItems[mCurTillIndex - 1].Weights[result.SelectedItemIndex];
-
-                if (mCurTillIndex - 1 < 5 && mbReturned == false)
+            if (mCurTillIndex - 1 < 5 && mbReturned == false)//go return
+            {
+                if (thisScore == 0)
                 {
-                    if (thisScore == 0)
-                    {
-                        mReturnedAt = mCurTillIndex;
-                        mCurTillIndex = 0;
-                        mbReturned = true;
-                    }
+                    mReturnedAt = mCurTillIndex;
+                    mCurTillIndex = 0;
+                    mbReturned = true;
                 }
+            }
 
-                if (mCurTillIndex - 1 == 1)//return process finished
+            if (mCurTillIndex - 1 == 1)//return process finished
+            {
+                mCurTillIndex = mReturnedAt;
+            }
+
+            if (mCurTillIndex - 1 >= 5 && !mbReturned)//count the skipped items as correct
+            {
+                for (int i = 0; i < mHideCount; i++)
                 {
-                    mCurTillIndex = mReturnedAt;
+                    mSocres8.Add(2);
                 }
+            }
 
 
-                //3 errors
-                if (!continuousErrQuit)
+            //8 items more than 6 socres
+            if (!continuousErrQuit)
+            {
+                if (mCurTillIndex < SHEET_LENGTH)
                 {
-                    if (selectedIndex != -1)
-                    {
-                        if (mCurTillIndex < SHEET_LENGTH)
-                        {
-                            //UI Work
-                            deselectAll();
-                            nextPage();
-                        }
-                        else
-                        {
-                            testEnd();
-                        }
-                    }
+                    //UI Work
+                    deselectAll();
+                    nextPage();
                 }
+                else
+                {
+                    testEnd();
+                }
+            }
+            
+        }
+
+        void mNextBtn_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            if (SelectedIdx() != -1)
+            {
+                nextBtnDownCore();
             }
         }
 
@@ -353,31 +390,11 @@ namespace FiveElementsIntTest.VocabCommon
             mOrganizer.StartPage();
         }
 
-        private Timer mtWarn;
-
         public void nextPage()
         {
             fillPage(mCurTillIndex);
             mCurTillIndex++;
             mTimer.Start();
-
-            mWarning.Out();
-
-            mtWarn.Interval = 10000;
-            mtWarn.Elapsed += new ElapsedEventHandler(tWarn_Elapsed);
-            mtWarn.AutoReset = false;
-            mtWarn.Enabled = true;
-        }
-
-        void tWarn_Elapsed(object sender, ElapsedEventArgs e)
-        {
-            Dispatcher.Invoke(new timeDele(showWarning), 
-                System.Windows.Threading.DispatcherPriority.Normal);
-        }
-
-        void showWarning()
-        {
-            mWarning.Flashing();
         }
 
         private void fillPage(int index)
@@ -387,6 +404,19 @@ namespace FiveElementsIntTest.VocabCommon
             {
                 mSelections[i].SetText(mItems[index].Selections[i]);
             }
+
+            mCountDown.Stop();
+
+            if (!amCanvas.Children.Contains(mCountDown))
+            {
+                amCanvas.Children.Add(mCountDown);
+                Canvas.SetTop(mCountDown, FEITStandard.PAGE_BEG_Y + 580);
+                Canvas.SetLeft(mCountDown, FEITStandard.PAGE_BEG_X + 
+                    (FEITStandard.PAGE_WIDTH - 300) / 2);//center
+            }
+
+            mCountDown.Duration = 30;
+            mCountDown.Start();
         }
     }
 }

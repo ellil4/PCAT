@@ -52,17 +52,8 @@ namespace FiveElementsIntTest.VocabCommon
                 (HEAD_SPACE + HEIGHT_SELECTION * 5 + 20));
         }
 
-        private void addWarning()
-        {
-            mPage.amCanvas.Children.Add(mPage.mWarning);
-            Canvas.SetTop(mPage.mWarning, FEITStandard.PAGE_BEG_Y + 600);
-            Canvas.SetLeft(mPage.mWarning, FEITStandard.PAGE_BEG_X + (FEITStandard.PAGE_WIDTH - 300) / 2);
-            mPage.mWarning.Out();
-        }
-
         public void arrangeLayout()
         {
-            addWarning();
             addMainLabel();
             addSelections();
             addBtn();

@@ -99,6 +99,8 @@ namespace FiveElementsIntTest.SybSrh
                 }
             }*/
 
+            Cursor = Cursors.None;
+
         }
 
         private void getFixedDataReady()
@@ -482,6 +484,7 @@ namespace FiveElementsIntTest.SybSrh
         private delegate void nonParaInvoke();
         void t_Elapsed(object sender, ElapsedEventArgs e)
         {
+            Cursor = Cursors.Hand;
             Dispatcher.Invoke(new nonParaInvoke(mMainWindow.TestForward), DispatcherPriority.Normal);
         }
 
@@ -587,12 +590,12 @@ namespace FiveElementsIntTest.SybSrh
             {
                 mTimer.Stop();
                 mDidCount++;
-                if (e.Key == Key.O)
+                if (e.Key == Key.J)
                 {
                     mResult.Add(new SybSrhResult(true, mTimer.GetElapsedTime(), mItems[mCurTillIdx - 1]));
                     Next();
                 }
-                else if (e.Key == Key.X)
+                else if (e.Key == Key.F)
                 {
                     mResult.Add(new SybSrhResult(false, mTimer.GetElapsedTime(), mItems[mCurTillIdx - 1]));
                     Next();
@@ -605,12 +608,12 @@ namespace FiveElementsIntTest.SybSrh
                 if (mPracIndex == 4)
                     mStatus = STATUS.INSTRUCTION2;
 
-                if (e.Key == Key.O)
+                if (e.Key == Key.J)
                 {
                     mResult.Add(new SybSrhResult(true, mTimer.GetElapsedTime(), mItems[mPracIndex - 1]));
                     Next();
                 }
-                else if (e.Key == Key.X)
+                else if (e.Key == Key.F)
                 {
                     mResult.Add(new SybSrhResult(false, mTimer.GetElapsedTime(), mItems[mPracIndex - 1]));
                     Next();

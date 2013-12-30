@@ -245,7 +245,7 @@ namespace FiveElementsIntTest.Cube
             mBaseCanvas.Children.Add(close_win);
             Canvas.SetLeft(close_win, FEITStandard.PAGE_BEG_X + 275);
             Canvas.SetTop(close_win, FEITStandard.PAGE_BEG_Y + 300);
-
+            mMainWindow.TestForward();
             // mMainWindow.Closing = null;
         }
 

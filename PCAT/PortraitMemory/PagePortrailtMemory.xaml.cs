@@ -177,7 +177,7 @@ namespace FiveElementsIntTest.PortraitMemory
             PortCanvas.Children.Add(_close_win);
             Canvas.SetLeft(_close_win, FEITStandard.PAGE_BEG_X + 275);
             Canvas.SetTop(_close_win, FEITStandard.PAGE_BEG_Y + 300);
-
+            mMainWindow.TestForward();
              
         }
         void _close_win_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
