@@ -32,6 +32,8 @@ namespace FiveElementsIntTest.PairedAsso
         public List<long> mRTs;
         public List<List<int>> mOrders;
 
+        public bool mFreeze = false;
+
         public PagePairedAsso(MainWindow mw)
         {
             InitializeComponent();
@@ -112,19 +114,23 @@ namespace FiveElementsIntTest.PairedAsso
             }
         }
 
+        public OrganizerLearning mInstOL = null;
+
         private void showLearning(int index)
         {
             clearAll();
 
-            OrganizerLearning ol = new OrganizerLearning(this, mLearningItems[index]);
-            ol.Begin();
+            mInstOL = new OrganizerLearning(this, mLearningItems[index]);
+            mInstOL.Begin();
         }
+
+        public OrganizerTest mInstOT = null;
 
         private void showTest(int index, String charNum)
         {
             clearAll();
-            OrganizerTest ot = new OrganizerTest(this, mTestItems[index], charNum);
-            ot.Begin();
+            mInstOT = new OrganizerTest(this, mTestItems[index], charNum);
+            mInstOT.Begin();
         }
 
         private void showEndPage()
@@ -180,12 +186,6 @@ namespace FiveElementsIntTest.PairedAsso
                 case PairedAssoStep.test2:
                     showTest(1, "(二)");
                     break;
-                /*case PairedAssoStep.learning3:
-                    showLearning(2);
-                    break;
-                case PairedAssoStep.test3:
-                    showTest(2, "(三)");
-                    break;*/
                 case PairedAssoStep.end:
                     showEndPage();
                     break;

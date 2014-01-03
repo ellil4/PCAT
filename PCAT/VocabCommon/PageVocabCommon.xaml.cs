@@ -49,7 +49,7 @@ namespace FiveElementsIntTest.VocabCommon
         public static String INPUT_FILE_COMM = "FEITCOMMsource.txt";
 
         //public CompOvertimeWarning mWarning;
-        CompCountDown mCountDown;
+        public CompCountDown mCountDown;
         public TestType mTestType;
 
         private List<int> mSocres8 = new List<int>();
@@ -123,7 +123,7 @@ namespace FiveElementsIntTest.VocabCommon
         private void buildElements()
         {
             mMainLabel = new TextBox();
-            mMainLabel.Width = 300;
+            mMainLabel.Width = 800;
             mMainLabel.Height = 200;
             mMainLabel.Text = "Psych";
             mMainLabel.Foreground = new SolidColorBrush(Color.FromRgb(255, 255, 255));

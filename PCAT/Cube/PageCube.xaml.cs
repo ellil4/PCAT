@@ -90,7 +90,7 @@ namespace FiveElementsIntTest.Cube
 
         //public Timer _flash_Display;
 
-        CompCountDown mCountDownUI;//count down component in user interface
+        public CompCountDown mCountDownUI;//count down component in user interface
         /******************************迫选*********************************/
         public bool _Control_choose = true;
 

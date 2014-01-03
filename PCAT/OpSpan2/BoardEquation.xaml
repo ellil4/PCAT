@@ -7,7 +7,7 @@
              d:DesignHeight="768" d:DesignWidth="1024" Background="Black" Loaded="UserControl_Loaded">
     <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
         <Image Height="300" HorizontalAlignment="Center" Margin="0" Name="amImage" Stretch="Fill" VerticalAlignment="Center" Width="400" />
-        <Label Content="7 + 2 - 4 = ?" Height="68" HorizontalAlignment="Left" Margin="0,324,0,0" Name="amEquation" VerticalAlignment="Top" Width="1024" Foreground="White" FontFamily="Batang" FontSize="48" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" />
+        <Label Content="7 + 2 - 4 = ?" Height="68" HorizontalAlignment="Left" Margin="0,324,0,0" Name="amEquation" VerticalAlignment="Top" Width="1024" Foreground="White" FontFamily="KaiTi" FontSize="48" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" />
         <Label Background="White" Content="算好了" FontFamily="KaiTi" FontSize="32" Foreground="Black" Height="52" HorizontalAlignment="Center" Margin="0,100,0,0" Name="amOKBtn" VerticalAlignment="Center" Width="105" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" MouseUp="amOKBtn_MouseUp" />
         <Label Content="超时" FontFamily="KaiTi" FontSize="32" Foreground="Red" Height="56" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="430,406,434,306" Name="amLabelOvertime" Width="160" />
     </Grid>

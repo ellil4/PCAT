@@ -45,91 +45,101 @@ namespace FiveElementsIntTest
         public List<TestType> mTestList;
         public PCATData.VERSION mVersion;
 
+        public Page mPage = null;
+        TestType mPreType = TestType.NONE;
+
         public void GoToTest(TestType type)
         {
+            if(mPage != null)
+                shutPage(mPage);
+
             switch (type)
             {
                 case TestType.DigitSymbol:
                     if(mVersion == VERSION.CLIENT)
                         mClient.SendTestBeginMessage("数字符号");
 
-                    NavigationService.Navigate(new PageDigitSymbol(this));
+                    mPage = new PageDigitSymbol(this);
                     break;
                 case TestType.SymbolSearch:
                     if (mVersion == VERSION.CLIENT)
                         mClient.SendTestBeginMessage("符号搜索");
 
-                    NavigationService.Navigate(new PageSybSrh(this));
+                    mPage = new PageSybSrh(this);
                     break;
                 case TestType.OpSpan:
                     if (mVersion == VERSION.CLIENT)
                         mClient.SendTestBeginMessage("操作广度");
 
-                    NavigationService.Navigate(new PageOpSpan(this));
+                    mPage = new PageOpSpan(this);
                     break;
                 case TestType.SymSpan:
                     if (mVersion == VERSION.CLIENT)
                         mClient.SendTestBeginMessage("对称广度");
 
-                    NavigationService.Navigate(new PageSymmSpan(this));
+                    mPage = new PageSymmSpan(this);
                     break;
 
                 case TestType.CtSpan:
                     if (mVersion == VERSION.CLIENT)
                         mClient.SendTestBeginMessage("计数广度");
 
-                    NavigationService.Navigate(new PageCtSpan(this));
+                    mPage = new PageCtSpan(this);
                     break;
                 case TestType.VocAsso:
                     if (mVersion == VERSION.CLIENT)
                         mClient.SendTestBeginMessage("词对联想");
 
-                    NavigationService.Navigate(new PagePairedAsso(this));
+                    mPage = new PagePairedAsso(this);
                     break;
                 case TestType.GraphAsso:
                     if (mVersion == VERSION.CLIENT)
                         mClient.SendTestBeginMessage("图对联想");
 
-                    NavigationService.Navigate(new PageGraphicRecog(this));
+                    mPage = new PageGraphicRecog(this);
                     break;
                 case TestType.Paper:
                     if (mVersion == VERSION.CLIENT)
                         mClient.SendTestBeginMessage("折纸测验");
-                    //////////////////////////////////////////////////////////////////////////////
-					NavigationService.Navigate(new PagePaper(this));
+                    
+                    mPage = new PagePaper(this);
                     break;
                 case TestType.Cube:
                     if (mVersion == VERSION.CLIENT)
                         mClient.SendTestBeginMessage("魔方旋转");
 
-                    NavigationService.Navigate(new PageCube(this));
+                    mPage = new PageCube(this);
                     break;
                 case TestType.Vocabulary:
                     if (mVersion == VERSION.CLIENT)
                         mClient.SendTestBeginMessage("词汇测验");
 
-                    NavigationService.Navigate(new PageVocabCommon(this, TestType.Vocabulary));
+                    mPage = new PageVocabCommon(this, TestType.Vocabulary);
                     break;
                 case TestType.Similarity:
                     if (mVersion == VERSION.CLIENT)
                         mClient.SendTestBeginMessage("类同测验");
 
-                    NavigationService.Navigate(new PageVocabCommon(this, TestType.Similarity));
+                    mPage = new PageVocabCommon(this, TestType.Similarity);
                     break;
 					
 				case TestType.PortraitMemory:
                     if (mVersion == VERSION.CLIENT)
                         mClient.SendTestBeginMessage("人像特点联系回忆");
-						
-                    NavigationService.Navigate(new PagePortrailtMemory(this));
+
+                    mPage = new PagePortrailtMemory(this);
                     break;
                 case TestType.OpSpan2:
-                    NavigationService.Navigate(new OpSpan2.BasePage(this, SECOND_ARCHI_TYPE.OPSPAN));
+                    mPage = new OpSpan2.BasePage(this, SECOND_ARCHI_TYPE.OPSPAN);
                     break;
                 case TestType.SymmSpan2:
-                    NavigationService.Navigate(new OpSpan2.BasePage(this, SECOND_ARCHI_TYPE.SYMMSPAN));
+                    mPage = new OpSpan2.BasePage(this, SECOND_ARCHI_TYPE.SYMMSPAN);
                     break;
             }
+
+            mPreType = type;
+            NavigationService.Navigate(mPage);
+            GC.Collect();
         }
 
         public void TestForward()
@@ -193,6 +203,43 @@ namespace FiveElementsIntTest
         //override to disable the hotkey
         void BrowseForward(object sender, ExecutedRoutedEventArgs args)
         { }
+
+        void shutPage(Page pg)
+        {
+            if (mPreType == TestType.DigitSymbol)
+            {
+                if (((PageDigitSymbol)pg)._time_test != null)
+                    ((PageDigitSymbol)pg)._time_test.Stop();
+            }
+            else if (mPreType == TestType.Cube)
+            {
+                if (((PageCube)pg).mCountDownUI != null)
+                    ((PageCube)pg).mCountDownUI.Stop();
+            }
+            else if (mPreType == TestType.Paper)
+            {
+                if (((PagePaper)pg).mCountDown != null)
+                    ((PagePaper)pg).mCountDown.Stop();
+            }
+            else if (mPreType == TestType.Vocabulary || mPreType == TestType.Similarity)
+            {
+                if (((PageVocabCommon)pg).mCountDown != null)
+                    ((PageVocabCommon)pg).mCountDown.Stop();
+            }
+            else if (mPreType == TestType.VocAsso)
+            {
+                ((PagePairedAsso)pg).mFreeze = true;
+            }
+            else if (mPreType == TestType.SymbolSearch)
+            {
+                ((PageSybSrh)pg).mFreeze = true;
+            }
+            else if (mPreType == TestType.PortraitMemory)
+            {
+                if (((PagePortrailtMemory)pg).mCountDown != null)
+                    ((PagePortrailtMemory)pg).mCountDown.Stop();
+            }
+        }
 
         private void FullScreen()
         {

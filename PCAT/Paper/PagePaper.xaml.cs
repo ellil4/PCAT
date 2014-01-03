@@ -68,7 +68,7 @@ namespace FiveElementsIntTest.Paper
 
         //public Timer _flash_Display;
 
-        CompCountDown mCountDown;
+        public CompCountDown mCountDown;
         /*************************回退规则*************/
         //用到的方法 recede_ans()  recede_pro()
 

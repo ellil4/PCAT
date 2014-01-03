@@ -10,7 +10,7 @@ using System.Diagnostics;
 
 namespace FiveElementsIntTest.PairedAsso
 {
-    class OrganizerTest
+    public class OrganizerTest
     {
         public PagePairedAsso mPage;
         public List<StTest> mSource;
@@ -20,7 +20,7 @@ namespace FiveElementsIntTest.PairedAsso
         //private CompOvertimeWarning mWarning;
         //private Timer mtWarn;
         private Timer mtFlipper = null;
-        CompCountDown mCountDown;
+        public CompCountDown mCountDown;
         
 
         public OrganizerTest(PagePairedAsso page, List<StTest> source, String charNum)
@@ -91,28 +91,35 @@ namespace FiveElementsIntTest.PairedAsso
 
         private void next()
         {
-            if (mWatch.IsRunning)
+            if (!mPage.mFreeze)
             {
-                mPage.mRTs.Add(mWatch.ElapsedMilliseconds);
-                mWatch.Stop();
-                mWatch.Reset();
-            }
+                if (mWatch.IsRunning)
+                {
+                    mPage.mRTs.Add(mWatch.ElapsedMilliseconds);
+                    mWatch.Stop();
+                    mWatch.Reset();
+                }
 
-            mCountDown.Stop();
-            mCountDown.Duration = 30;
+                mCountDown.Stop();
+                mCountDown.Duration = 30;
 
-            if (mtFlipper != null && mtFlipper.Enabled)
-                mtFlipper.Enabled = false;
+                if (mtFlipper != null && mtFlipper.Enabled)
+                    mtFlipper.Enabled = false;
 
 
-            if (mCurAt == mSource.Count)
-            {
-                mPage.next();
+                if (mCurAt == mSource.Count)
+                {
+                    mPage.next();
+                }
+                else
+                {
+                    show9CellsPad();
+                    mCurAt++;
+                }
             }
             else
             {
-                show9CellsPad();
-                mCurAt++;
+                mWatch.Stop();
             }
         }
 
@@ -135,7 +142,9 @@ namespace FiveElementsIntTest.PairedAsso
             mWatch.Start();
 
             mCountDown.Visibility = System.Windows.Visibility.Visible;
-            mCountDown.Start();
+            
+            if(!mPage.mFreeze)
+                mCountDown.Start();
         }
 
         void confirmCheckNext(object obj)

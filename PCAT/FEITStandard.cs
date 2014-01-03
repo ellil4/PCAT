@@ -9,7 +9,8 @@ namespace FiveElementsIntTest
     public enum TestType
     {
         DigitSymbol, SymbolSearch, OpSpan, SymSpan, CtSpan,
-        VocAsso, GraphAsso, Paper, Cube, Vocabulary, Similarity, PortraitMemory, OpSpan2, SymmSpan2
+        VocAsso, GraphAsso, Paper, Cube, Vocabulary, Similarity, PortraitMemory, OpSpan2, SymmSpan2,
+        NONE
     }
 
     public class FEITStandard

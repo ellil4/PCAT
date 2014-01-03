@@ -61,6 +61,8 @@ namespace FiveElementsIntTest.SybSrh
 
         bool mbFixedMode = true;
 
+        public bool mFreeze = false;
+
         public enum STATUS
         {
             TITLE, INSTRUCTION, ON_PRAC, INSTRUCTION2, INSTRUCTION3, INSTRUCTION4, TEST, FINISH
@@ -263,37 +265,40 @@ namespace FiveElementsIntTest.SybSrh
 
         public void Next()
         {
-            if (m2Minute.ElapsedMilliseconds >= 120000 || mDidCount == MAXTRAILCOUNT)
+            if (!mFreeze)
             {
-                mStatus = STATUS.FINISH;
-            }
+                if (m2Minute.ElapsedMilliseconds >= 120000 || mDidCount == MAXTRAILCOUNT)
+                {
+                    mStatus = STATUS.FINISH;
+                }
 
-            switch (mStatus)
-            {
-                case STATUS.INSTRUCTION:
-                    mLayout.SetInstructionLayout2();
-                    break;
-                case STATUS.ON_PRAC:
-                    goPrac();
-                    break;
-                case STATUS.INSTRUCTION2:
-                    mLayout.SetInstructionLayout3();
-                    mStatus = STATUS.INSTRUCTION3;
-                    break;
-                case STATUS.INSTRUCTION3:
-                    mLayout.SetInstructionLayout4();
-                    mStatus = STATUS.INSTRUCTION4;
-                    break;
-                case STATUS.INSTRUCTION4:
-                    preTextNextReaction(STATUS.TEST);
-                    break;
-                case STATUS.TEST:
-                    testNextReaction();
-                    break;
-                case STATUS.FINISH:
-                    writeResult();
-                    testEnd();
-                    break;
+                switch (mStatus)
+                {
+                    case STATUS.INSTRUCTION:
+                        mLayout.SetInstructionLayout2();
+                        break;
+                    case STATUS.ON_PRAC:
+                        goPrac();
+                        break;
+                    case STATUS.INSTRUCTION2:
+                        mLayout.SetInstructionLayout3();
+                        mStatus = STATUS.INSTRUCTION3;
+                        break;
+                    case STATUS.INSTRUCTION3:
+                        mLayout.SetInstructionLayout4();
+                        mStatus = STATUS.INSTRUCTION4;
+                        break;
+                    case STATUS.INSTRUCTION4:
+                        preTextNextReaction(STATUS.TEST);
+                        break;
+                    case STATUS.TEST:
+                        testNextReaction();
+                        break;
+                    case STATUS.FINISH:
+                        writeResult();
+                        testEnd();
+                        break;
+                }
             }
         }
 
@@ -474,6 +479,7 @@ namespace FiveElementsIntTest.SybSrh
                 BitmapSourceFactory.DeleteObject(mWasteIPtrs[i]);
             }
 
+            m2Minute.Stop();
             Timer t = new Timer();
             t.Elapsed += new ElapsedEventHandler(t_Elapsed);
             t.Interval = 3000;
@@ -537,9 +543,6 @@ namespace FiveElementsIntTest.SybSrh
             else if (mStatus == STATUS.ON_PRAC && !mPressLock)
             {
                 mTimer.Stop();
-
-                if (mPracIndex == 4)
-                    mStatus = STATUS.INSTRUCTION2;
                 
                 //show label
                 mExeInfomlabel = new Label();
@@ -595,6 +598,8 @@ namespace FiveElementsIntTest.SybSrh
             tmc.Elapsed += new ElapsedEventHandler(tmc_Elapsed);
             tmc.Enabled = true;
             mPressLock = true;*/
+            if (mPracIndex == 4)
+                mStatus = STATUS.INSTRUCTION2;
 
             hideLabelAndNext();
         }

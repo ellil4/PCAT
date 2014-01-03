@@ -51,7 +51,7 @@ namespace FiveElementsIntTest
         public bool _ControlExercise = true;//练习对比
 
         //private int exer_num = 3;
-        private Timer _time_test;//测试总时间
+        public Timer _time_test;//测试总时间
 
         public int _second_chage;
         public enum DIGIT_SYMBOL_STEP
@@ -150,11 +150,12 @@ namespace FiveElementsIntTest
                     break;
                 case DIGIT_SYMBOL_STEP.instruction3:
                     testTotalTime();
-                    _time_test.Start();
+                    
                     mTimer.Start();
                     loadTestPage(0);
                     break;
                 case DIGIT_SYMBOL_STEP.testPage1:
+                    _time_test.Start();
                     loadTestPage(1);
                     break;
                 case DIGIT_SYMBOL_STEP.testPage2:
@@ -165,8 +166,8 @@ namespace FiveElementsIntTest
                     break;
                 case DIGIT_SYMBOL_STEP.testPage4:
                     loadTestPage(4);
-                    mTimer.Stop();
                     _time_test.Stop();
+                    mTimer.Stop();
                     break;
                 case DIGIT_SYMBOL_STEP.testPage5:
                     laodReport();                    
@@ -272,6 +273,7 @@ namespace FiveElementsIntTest
 
         private void exitDigitSynbol()
         {
+            _time_test.Stop();
             OutputDigitSymbol ods = new OutputDigitSymbol();
             if (!Directory.Exists(FEITStandard.GetRepotOutputPath()))
                 Directory.CreateDirectory(FEITStandard.GetRepotOutputPath());
@@ -307,7 +309,7 @@ namespace FiveElementsIntTest
         {
             _time_test = new Timer(120000);//120000
             _time_test.AutoReset = false;
-            _time_test.Enabled = true;
+            //_time_test.Enabled = true;
             _time_test.Elapsed += new ElapsedEventHandler(_time_test_Elapsed);
         
         }

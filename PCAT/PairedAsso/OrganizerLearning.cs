@@ -33,7 +33,21 @@ namespace FiveElementsIntTest.PairedAsso
 
             CompBtnNextPage btn = new CompBtnNextPage("开始");
             btn.Add2Page(mPage.amBaseCanvas, FEITStandard.PAGE_BEG_Y + 470);
-            btn.mfOnAction = showBlackPage;
+            btn.mfOnAction = afterCallingAttentionPagesBlack;
+        }
+
+        void afterCallingAttentionPagesBlack(object obj)
+        {
+            mPage.clearAll();
+            Timer t = new Timer();
+            t.Interval = 1000;
+            //systest
+            //t.Interval = 10;
+            t.AutoReset = false;
+            t.Elapsed += new ElapsedEventHandler(showBlackPage_Elapsed);
+            
+            if(!mPage.mFreeze)
+                t.Enabled = true;
         }
 
         public void Begin()
@@ -56,7 +70,9 @@ namespace FiveElementsIntTest.PairedAsso
             //t.Interval = 10;
             t.AutoReset = false;
             t.Elapsed += new ElapsedEventHandler(showPair_Elapsed);
-            t.Enabled = true;
+            
+            if (!mPage.mFreeze)
+                t.Enabled = true;
         }
 
         public delegate void timedele();
@@ -75,7 +91,9 @@ namespace FiveElementsIntTest.PairedAsso
             //t.Interval = 10;
             t.AutoReset = false;
             t.Elapsed += new ElapsedEventHandler(showBlackPage_Elapsed);
-            t.Enabled = true;
+
+            if (!mPage.mFreeze)
+                t.Enabled = true;
         }
 
         private void showBlackPage(object obj)
