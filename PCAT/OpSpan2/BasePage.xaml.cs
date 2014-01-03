@@ -468,11 +468,11 @@ namespace FiveElementsIntTest.OpSpan2
             ShowBoard(bsi1);
         }
 
-        public void ShowSymmInst2()
+        /*public void ShowSymmInst2()
         {
             BoardSymmInst2 bsi2 = new BoardSymmInst2(this);
             ShowBoard(bsi2);
-        }
+        }*/
 
         public void ShowInstructionComprehPrac()
         {

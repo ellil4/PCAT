@@ -36,7 +36,11 @@ namespace FiveElementsIntTest.OpSpan2
 
         void amNextBtn_MouseUp(object sender, MouseButtonEventArgs e)
         {
-            mBasePage.ShowSymmInst2();
+            BoardInstructionEquationPractise biep =
+                new BoardInstructionEquationPractise(mBasePage);
+
+            biep.label3.Content = "看好了";
+            mBasePage.ShowBoard(biep);
         }
     }
 }

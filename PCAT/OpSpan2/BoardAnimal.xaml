@@ -6,6 +6,6 @@
              mc:Ignorable="d" 
              d:DesignHeight="768" d:DesignWidth="1024">
     <Grid Background="Black" Name="amGrid" HorizontalAlignment="Center" VerticalAlignment="Center" Width="1024" Height="768">
-        <Label Content="字" Height="56" HorizontalAlignment="Center" Margin="484,356,474,356" Name="label1" VerticalAlignment="Center" Width="66" FontFamily="Shonar Bangla" FontSize="48" Foreground="White" />
+        <Label Content="字" Height="91" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" HorizontalAlignment="Center" Name="label1" VerticalAlignment="Center" Width="91" FontFamily="SimHei" FontSize="48" Foreground="White" Margin="472,329,462,348" />
     </Grid>
 </UserControl>

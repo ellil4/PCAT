@@ -16,6 +16,8 @@ namespace FiveElementsIntTest
         public List<SYMBOL_TYPE> mRightInput;
         public List<SYMBOL_TYPE> mRightAnswer;
 
+        
+
         public EvalueDigitSymbol(PageDigitSymbol _page)
         {
             mPage = _page;
@@ -46,6 +48,33 @@ namespace FiveElementsIntTest
                 mTF.Add(false);
             }
         }
+        //练习鼠标指针位置改变
+        public SYMBOL_TYPE SetValue()
+        {
+
+            int num = ((CompDigiSymbol)mPage.mSymbols[mPage.mElemFocus]).GetNumber();
+
+            SYMBOL_TYPE leftE = FEITStandard.SYMBOL_LEFT[num];
+
+            SYMBOL_TYPE pointAs = leftE;
+            return pointAs;
+
+        }
+
+        //练习鼠标指针位置改变
+        public SYMBOL_TYPE SetValueOne()
+        {
+
+            int num = ((CompDigiSymbol)mPage.mSymbols[mPage.mElemFocus]).GetNumber();
+
+
+            SYMBOL_TYPE rightE = FEITStandard.SYMBOL_RIGHT[num];
+            SYMBOL_TYPE pointAsOne = rightE;
+            return pointAsOne;
+
+        }
+
+
 
         public int CorrectCount()
         {

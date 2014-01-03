@@ -159,7 +159,7 @@ namespace FiveElementsIntTest.SymSpan
 
             CompBtnNextPage btnOKexap = new CompBtnNextPage("看好了");
             btnOKexap.Add2Page(mPage.mBaseCanvas, FEITStandard.PAGE_BEG_Y + FEITStandard.PAGE_HEIGHT / 2
-                - CompCentralText.OUTHEIGHT / 2 - 55, 200);
+                - text3.OUTHEIGHT / 2 - 55, 200);
             btnOKexap.mfOnAction = doNothing;
 
             CompCentralText text2 = new CompCentralText();

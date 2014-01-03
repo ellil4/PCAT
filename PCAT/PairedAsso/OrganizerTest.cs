@@ -17,9 +17,10 @@ namespace FiveElementsIntTest.PairedAsso
         public int mCurAt = 0;
         public String mCharNum;
         private Stopwatch mWatch;
-        private CompOvertimeWarning mWarning;
-        private Timer mtWarn;
-        private Timer mtFlipper;
+        //private CompOvertimeWarning mWarning;
+        //private Timer mtWarn;
+        private Timer mtFlipper = null;
+        CompCountDown mCountDown;
         
 
         public OrganizerTest(PagePairedAsso page, List<StTest> source, String charNum)
@@ -29,7 +30,9 @@ namespace FiveElementsIntTest.PairedAsso
             mCharNum = charNum;
             mWatch = new Stopwatch();
 
-            mWarning = new CompOvertimeWarning(mPage);
+            mCountDown = new CompCountDown();
+            mCountDown.Duration = 30;
+            mCountDown.FunctionElapsed = next;
         }
 
         private void showCallingAttentionPage()
@@ -58,10 +61,10 @@ namespace FiveElementsIntTest.PairedAsso
         private void showBlackPage()
         {
             mPage.clearAll();
-            mPage.amBaseCanvas.Children.Add(mWarning);
-            Canvas.SetTop(mWarning, FEITStandard.PAGE_BEG_Y + 360);
-            Canvas.SetLeft(mWarning, FEITStandard.PAGE_BEG_X + (FEITStandard.PAGE_WIDTH - 300) / 2 - 150);
-            mWarning.Out();
+            mPage.amBaseCanvas.Children.Add(mCountDown);
+            Canvas.SetTop(mCountDown, FEITStandard.PAGE_BEG_Y + 360);
+            Canvas.SetLeft(mCountDown, FEITStandard.PAGE_BEG_X + (FEITStandard.PAGE_WIDTH - 300) / 2 - 150);
+            mCountDown.Visibility = System.Windows.Visibility.Hidden;
 
             Timer t = new Timer();
             t.Interval = 1000;
@@ -95,10 +98,8 @@ namespace FiveElementsIntTest.PairedAsso
                 mWatch.Reset();
             }
 
-            if (mtWarn != null && mtWarn.Enabled)
-                mtWarn.Enabled = false;
-
-            mWarning.Out();
+            mCountDown.Stop();
+            mCountDown.Duration = 30;
 
             if (mtFlipper != null && mtFlipper.Enabled)
                 mtFlipper.Enabled = false;
@@ -133,11 +134,8 @@ namespace FiveElementsIntTest.PairedAsso
             mPage.mOrders.Add(mCompHold.mSelectedOrder);
             mWatch.Start();
 
-            mtWarn = new Timer();
-            mtWarn.Interval = 10000;
-            mtWarn.Elapsed += new ElapsedEventHandler(tWarn_Elapsed);
-            mtWarn.AutoReset = false;
-            mtWarn.Enabled = true;
+            mCountDown.Visibility = System.Windows.Visibility.Visible;
+            mCountDown.Start();
         }
 
         void confirmCheckNext(object obj)
@@ -152,16 +150,6 @@ namespace FiveElementsIntTest.PairedAsso
         void mtFlipper_Elapsed(object sender, ElapsedEventArgs e)
         {
             mPage.Dispatcher.Invoke(DispatcherPriority.Normal, new timedele(next));
-        }
-
-        void tWarn_Elapsed(object sender, ElapsedEventArgs e)
-        {
-            mPage.Dispatcher.Invoke(DispatcherPriority.Normal, new timedele(showWarning));
-        }
-
-        void showWarning()
-        {
-            mWarning.Flashing();
         }
     }
 }

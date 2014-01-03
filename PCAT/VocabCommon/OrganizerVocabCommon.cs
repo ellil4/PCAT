@@ -71,11 +71,24 @@ namespace FiveElementsIntTest.VocabCommon
         public void StartPage()
         {
             mPage.clearAll();
-            mPage.mMainLabel.Text = "点击鼠标左键开始测试";
+            /*mPage.mMainLabel.Text = "点击鼠标左键开始测试";
             mPage.mMainLabel.Width = 800;
             addMainLabel();
             Canvas.SetTop(mPage.mMainLabel, FEITStandard.PAGE_BEG_Y + 220); 
-            new FEITClickableScreen(ref mPage.amCanvas, mPage.TestStart);
+            new FEITClickableScreen(ref mPage.amCanvas, mPage.TestStart);*/
+
+            PageTitle title = new PageTitle(mPage);
+
+            if (mPage.mTestType == TestType.Similarity)
+            {
+                title.textBlock1.Text = "    请思考每次呈现的两个词语有什么相似的地方，选出你认为最准确的选项。";
+                title.label1.Content = "类同";
+                title.label2.Content = "Similarities";
+            }
+
+            mPage.amCanvas.Children.Add(title);
+            Canvas.SetTop(title, FEITStandard.PAGE_BEG_Y);
+            Canvas.SetLeft(title, FEITStandard.PAGE_BEG_X);
         }
     }
 }

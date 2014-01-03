@@ -85,7 +85,8 @@ namespace FiveElementsIntTest.PairedAsso
             clearAll();
 
             CompCentralText ct = new CompCentralText();
-            ct.PutTextToCentralScreen("如，学习阶段记忆“太阳-月亮”，测试时会出现，",
+            ct.mText.Height = 125;
+            ct.PutTextToCentralScreen("    呈现完12对词后，会有一个记忆测试，给出前面\r\n一个词，要求你点选出后面一个词。比如给出“太阳”，\r\n你就 …",
                 "KaiTi", 32, ref amBaseCanvas, -250, Color.FromRgb(255, 255, 255));
 
             CompChinese9Cells cells = new CompChinese9Cells(this);
@@ -94,12 +95,12 @@ namespace FiveElementsIntTest.PairedAsso
             cells.SetQuest("太阳");
             cells.mfConfirm = instructionInteractionJudge;
             amBaseCanvas.Children.Add(cells);
-            Canvas.SetTop(cells, FEITStandard.PAGE_BEG_Y + (FEITStandard.PAGE_HEIGHT - 515) / 2 + 50);
+            Canvas.SetTop(cells, FEITStandard.PAGE_BEG_Y + (FEITStandard.PAGE_HEIGHT - 515) / 2 + 75);
             Canvas.SetLeft(cells, FEITStandard.PAGE_BEG_X + (FEITStandard.PAGE_WIDTH - 800) / 2);
 
             CompCentralText ct2 = new CompCentralText();
-            ct2.PutTextToCentralScreen("此时，用鼠标依次点击“月”“亮”二字即可完成作答。\r\n请点击“月”“亮”， 然后点击“确定”进入下一页。",
-                "KaiTi", 32, ref amBaseCanvas, 300, Color.FromRgb(255, 255, 255));
+            ct2.PutTextToCentralScreen("请用鼠标依次点选出“月”、“亮”二字作答 \r\n 然后点击“确定”进入下一页。",
+                "KaiTi", 32, ref amBaseCanvas, 300, Color.FromRgb(0, 255, 0));
         }
 
         private void instructionInteractionJudge(object obj)
@@ -139,17 +140,12 @@ namespace FiveElementsIntTest.PairedAsso
             //new FEITClickableScreen(ref amBaseCanvas, close);
             CompBtnNextPage btn = new CompBtnNextPage("结束测验");
             btn.Add2Page(amBaseCanvas, FEITStandard.PAGE_BEG_Y + 470);
-            btn.mfOnAction = close;
+            btn.mfOnAction = testForward;
         }
 
-        private void close(object obj)
+        void testForward(object obj)
         {
-            close();
-        }
-
-        private void close()
-        {
-            Environment.Exit(0);
+            mMainWindow.TestForward();
         }
 
         public void clearAll()

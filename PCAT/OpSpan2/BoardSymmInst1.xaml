@@ -6,10 +6,12 @@
              mc:Ignorable="d" 
              d:DesignHeight="768" d:DesignWidth="1024" Background="Black">
     <Grid>
-        <Label Content="后两侧图形可以重合，是对称的" FontFamily="KaiTi" FontSize="32" Foreground="White" Height="60" HorizontalContentAlignment="Center" Margin="350,472,200,0" Name="label3" VerticalAlignment="Top" />
-        <Label Background="White" Content="下一步" FontFamily="KaiTi" FontSize="32" Foreground="Black" Height="52" HorizontalAlignment="Left" Margin="602,556,0,0" Name="amNextBtn" VerticalAlignment="Top" Width="110" />
-        <Label Content="左右对折" FontFamily="KaiTi" FontSize="32" Foreground="Lime" Height="60" HorizontalContentAlignment="Center" Margin="222,472,650,0" Name="label4" VerticalAlignment="Top" />
-        <Image Height="300" HorizontalAlignment="Center" Margin="284,130,284,338" Name="image1" Stretch="Fill" VerticalAlignment="Center" Width="400" Source="/PCAT;component/Res/symmInstruction.bmp" />
-        <Label Background="White" Content="上一步" FontFamily="KaiTi" FontSize="32" Foreground="Black" Height="52" HorizontalAlignment="Left" Margin="312,556,0,0" Name="amPrevBtn" VerticalAlignment="Top" Width="110" />
+        <Label Background="White" Content="下一页" FontFamily="KaiTi" FontSize="32" Foreground="Black" Height="52" HorizontalAlignment="Left" Margin="616,556,0,0" Name="amNextBtn" VerticalAlignment="Top" Width="110" />
+        <Label Content="对称" FontFamily="KaiTi" FontSize="32" Foreground="Lime" Height="60" HorizontalContentAlignment="Center" Margin="288,490,584,0" Name="label4" VerticalAlignment="Top" />
+        <Image Height="300" HorizontalAlignment="Center" Margin="162,175,462,293" Name="image1" Stretch="Fill" VerticalAlignment="Center" Width="400" Source="/PCAT;component/Res/symmInstruction.bmp" />
+        <Label Background="White" Content="上一页" FontFamily="KaiTi" FontSize="32" Foreground="Black" Height="52" HorizontalAlignment="Left" Margin="312,556,0,0" Name="amPrevBtn" VerticalAlignment="Top" Width="110" />
+        <Image Height="300" HorizontalAlignment="Center" Margin="470,166,154,302" Name="image2" Source="/PCAT;component/Res/insymmInstruction.bmp" Stretch="Fill" VerticalAlignment="Center" Width="400" />
+        <Label Content="不对称" FontFamily="KaiTi" FontSize="32" Foreground="Lime" Height="60" HorizontalContentAlignment="Center" Margin="598,490,274,0" Name="label1" VerticalAlignment="Top" />
+        <Label Content="请注意左右对折后两边图形是否重合" FontFamily="KaiTi" FontSize="32" Foreground="White" Height="60" HorizontalContentAlignment="Center" Margin="12,104,12,0" Name="label2" VerticalAlignment="Top" FontWeight="Bold" />
     </Grid>
 </UserControl>

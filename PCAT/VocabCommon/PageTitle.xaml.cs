@@ -12,16 +12,23 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace FiveElementsIntTest.SybSrh
+namespace FiveElementsIntTest.VocabCommon
 {
     /// <summary>
-    /// PageX2.xaml 的互動邏輯
+    /// PageTitle.xaml 的互動邏輯
     /// </summary>
-    public partial class PageX2 : UserControl
+    public partial class PageTitle : UserControl
     {
-        public PageX2()
+        PageVocabCommon mPage;
+        public PageTitle(PageVocabCommon pg)
         {
             InitializeComponent();
+            mPage = pg;
+        }
+
+        private void amStartBtn_MouseUp(object sender, MouseButtonEventArgs e)
+        {
+            mPage.TestStart();
         }
     }
 }

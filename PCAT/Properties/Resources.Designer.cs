@@ -319,6 +319,13 @@ namespace FiveElementsIntTest.Properties {
             }
         }
         
+        public static System.Drawing.Bitmap rightimg {
+            get {
+                object obj = ResourceManager.GetObject("rightimg", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         public static System.Drawing.Bitmap SlashTexULRD {
             get {
                 object obj = ResourceManager.GetObject("SlashTexULRD", resourceCulture);

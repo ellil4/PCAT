@@ -6,6 +6,8 @@
              mc:Ignorable="d" 
              d:DesignHeight="600" d:DesignWidth="800" Width="800" Height="600">
     <Grid Background="Black">
-        <TextBlock FontFamily="Microsoft YaHei" FontSize="35" Foreground="White" Height="200" HorizontalAlignment="Left" Margin="96,194,0,0" Name="textBlock3" Text="请将手放在&quot;O&quot; &quot;X&quot;键上&#x0a;注意：包含按&quot;O&quot;不包含按&quot;X&quot;&#x0a;请在保证正确的前提下尽快按键。&#x0a;准备好后按空格键开始正式测验。" TextAlignment="Center" TextWrapping="WrapWithOverflow" VerticalAlignment="Top" Width="608" />
+        <TextBlock FontFamily="KaiTi" FontSize="32" Foreground="White" Height="83" HorizontalAlignment="Left" Margin="98,249,0,0" Name="textBlock3" Text="请又好又快地完成任务,&#x0a;如果按错键，不能修改，继续往下做。
+" TextAlignment="Center" TextWrapping="WrapWithOverflow" VerticalAlignment="Top" Width="608" FontWeight="Bold" />
+        <TextBlock FontFamily="KaiTi" FontSize="32" Foreground="White" Height="56" HorizontalAlignment="Left" Margin="195,390,0,0" Name="textBlock1" Text="(按空格键继续)" TextAlignment="Center" TextWrapping="WrapWithOverflow" VerticalAlignment="Top" Width="394" />
     </Grid>
 </UserControl>

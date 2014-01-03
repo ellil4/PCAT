@@ -64,8 +64,7 @@ namespace FiveElementsIntTest
                 {
                     MessageBox.Show(
                         "须输入整数作为年龄", "信息", MessageBoxButton.OK, MessageBoxImage.Information);
-                }
-                    
+                }  
             }
             else if (mMW.mVersion == PCATData.VERSION.STANDALONE)
             {
@@ -75,7 +74,7 @@ namespace FiveElementsIntTest
 
         public void callbackStartTest(String message)
         {
-            mMW.mTestAt = 0;
+            //mMW.mTestAt = 0;
             mbSet = true;
 
             //parse message to keep server information and make a testList

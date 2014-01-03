@@ -50,7 +50,7 @@ namespace FiveElementsIntTest.VocabCommon
 
         //public CompOvertimeWarning mWarning;
         CompCountDown mCountDown;
-        private TestType mTestType;
+        public TestType mTestType;
 
         private List<int> mSocres8 = new List<int>();
 
@@ -144,7 +144,7 @@ namespace FiveElementsIntTest.VocabCommon
             mNextBtn.BorderBrush = new SolidColorBrush(Color.FromRgb(255, 255, 255));
             mNextBtn.FontFamily = new FontFamily("Microsoft YaHei");
             mNextBtn.FontSize = 31;
-            mNextBtn.MouseDown += new MouseButtonEventHandler(mNextBtn_MouseDown);
+            mNextBtn.MouseUp += new MouseButtonEventHandler(mNextBtn_MouseUp);
 
             for(int i = 0; i < 5; i++)
             {
@@ -161,7 +161,7 @@ namespace FiveElementsIntTest.VocabCommon
         {
             bool retval = false;
 
-            if (selIndex != -1 && mItems[mCurTillIndex - 1].Weights[selIndex] != 2)
+            if (selIndex != -1)/* && mItems[mCurTillIndex - 1].Weights[selIndex] != 2)*/
             {
                 mSocres8.Add(mItems[mCurTillIndex - 1].Weights[selIndex]);
             }
@@ -172,7 +172,8 @@ namespace FiveElementsIntTest.VocabCommon
 
             if(mSocres8.Count > 8)//remove extra scores (more than 8) form head
             {
-                for (int i = 0; i < mSocres8.Count - 8; i++)
+                int limit = mSocres8.Count - 8;
+                for (int i = 0; i < limit; i++)
                 {
                     mSocres8.Remove(mSocres8[0]);
                 }
@@ -219,7 +220,7 @@ namespace FiveElementsIntTest.VocabCommon
 
             if (mCurTillIndex - 1 < 5 && mbReturned == false)//go return
             {
-                if (thisScore == 0)
+                if (thisScore != 2)
                 {
                     mReturnedAt = mCurTillIndex;
                     mCurTillIndex = 0;
@@ -232,7 +233,7 @@ namespace FiveElementsIntTest.VocabCommon
                 mCurTillIndex = mReturnedAt;
             }
 
-            if (mCurTillIndex - 1 >= 5 && !mbReturned)//count the skipped items as correct
+            if (mCurTillIndex - 1 == 5 && !mbReturned)//count the skipped items as correct
             {
                 for (int i = 0; i < mHideCount; i++)
                 {
@@ -258,7 +259,7 @@ namespace FiveElementsIntTest.VocabCommon
             
         }
 
-        void mNextBtn_MouseDown(object sender, MouseButtonEventArgs e)
+        void mNextBtn_MouseUp(object sender, MouseButtonEventArgs e)
         {
             if (SelectedIdx() != -1)
             {
@@ -310,6 +311,7 @@ namespace FiveElementsIntTest.VocabCommon
         private void testEnd()
         {
             //PCATDataSaveReport();
+            mCountDown.Stop();
             new VCReportWriter(getOutputPath(), mResults, mItems);
 
             mOrganizer.EndPage();

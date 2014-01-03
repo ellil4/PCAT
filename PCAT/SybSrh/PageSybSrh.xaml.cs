@@ -63,7 +63,7 @@ namespace FiveElementsIntTest.SybSrh
 
         public enum STATUS
         {
-            INSTRUCTION, INSTRUCTION_PLUS, GO_PRAC, ON_PRAC, INSTRUCTION2, INSTRUCTION3, TEST, FINISH
+            TITLE, INSTRUCTION, ON_PRAC, INSTRUCTION2, INSTRUCTION3, INSTRUCTION4, TEST, FINISH
         }
 
         public PageSybSrh(MainWindow mw)
@@ -195,6 +195,7 @@ namespace FiveElementsIntTest.SybSrh
 
             mLayout = new LayoutSybSrh(this);
             mLayout.SetInstructionLayout();
+            mStatus = STATUS.TITLE;
 
             this.Focus();
 
@@ -271,11 +272,6 @@ namespace FiveElementsIntTest.SybSrh
             {
                 case STATUS.INSTRUCTION:
                     mLayout.SetInstructionLayout2();
-                    mStatus = STATUS.INSTRUCTION_PLUS;
-                    break;
-                case STATUS.INSTRUCTION_PLUS:
-                    mLayout.SetInstructionLayout2p();
-                    mStatus = STATUS.GO_PRAC;
                     break;
                 case STATUS.ON_PRAC:
                     goPrac();
@@ -285,6 +281,10 @@ namespace FiveElementsIntTest.SybSrh
                     mStatus = STATUS.INSTRUCTION3;
                     break;
                 case STATUS.INSTRUCTION3:
+                    mLayout.SetInstructionLayout4();
+                    mStatus = STATUS.INSTRUCTION4;
+                    break;
+                case STATUS.INSTRUCTION4:
                     preTextNextReaction(STATUS.TEST);
                     break;
                 case STATUS.TEST:
@@ -482,111 +482,44 @@ namespace FiveElementsIntTest.SybSrh
         }
 
         private delegate void nonParaInvoke();
-        void t_Elapsed(object sender, ElapsedEventArgs e)
+
+        void cursor2Hand()
         {
             Cursor = Cursors.Hand;
+        }
+        void t_Elapsed(object sender, ElapsedEventArgs e)
+        {
+            Dispatcher.Invoke(new nonParaInvoke(cursor2Hand));
             Dispatcher.Invoke(new nonParaInvoke(mMainWindow.TestForward), DispatcherPriority.Normal);
         }
 
-        //private float correctnessCalc()
-        //{
-        //    float retval = -1f;
-        //    int correctCount = 0;
-            
-        //    for (int i = 0; i < mSpanResult.Count; i++)
-        //    {
-        //        if (mSpanResult[i].Answer == mItems[i].CorrectAnswer)
-        //        {
-        //            mSpanResult[i].Correctness = true;
-        //            correctCount++;
-        //        }
-        //        else
-        //        {
-        //            mSpanResult[i].Correctness = false;
-        //        }
-        //    }
 
-        //    if (mSpanResult.Count == 0)
-        //    {
-        //        retval = -1;
-        //    }
-        //    else
-        //    {
-        //        retval = ((float)correctCount) / ((float)mSpanResult.Count);
-        //    }
-            
-        //    return retval;
-        //}
-
-        //private long getMeanRT()
-        //{
-        //    long retval = -1;
-        //    long totalRT = 0;
-
-        //    for (int i = 0; i < mSpanResult.Count; i++)
-        //    {
-        //        totalRT += mSpanResult[i].RT;
-        //    }
-
-        //    if (mSpanResult.Count == 0)
-        //    {
-        //        retval = -1;
-        //    }
-        //    else
-        //    {
-        //        retval = totalRT / mSpanResult.Count;
-        //    }
-
-        //    return retval;
-        //}
-
-        //private void Page_KeyDown(object sender, KeyEventArgs e)
-        //{
-        //    if(mStatus == STATUS.INSTRUCTION)
-        //    {
-        //        if (e.Key == Key.Space)
-        //        {
-        //            Next();
-        //        }
-        //    }
-        //    else if (mStatus == STATUS.TEST)
-        //    {
-        //        mTimer.Stop();
-        //        if (e.Key == Key.F)
-        //        {
-        //            mResult.Add(new SybSrhResult(true, mTimer.GetElapsedTime(), mItems[mCurTillIdx - 1]));
-        //            Next();
-        //        }
-        //        else if(e.Key == Key.J)
-        //        {
-        //            mResult.Add(new SybSrhResult(false, mTimer.GetElapsedTime(), mItems[mCurTillIdx - 1]));
-        //            Next();
-        //        }
-        //    }
-        //}
-
+        Label mExeInfomlabel;
+        bool mPressLock = false;
         private void Page_KeyUp(object sender, KeyEventArgs e)
         {
-            /*if (e.Key == Key.Enter)
-            {
-                mGen.Get12Items();
-                //Console.WriteLine("good");
-            }*/
 
-            if (mStatus == STATUS.INSTRUCTION || 
+            if (mStatus == STATUS.TITLE||
+                mStatus == STATUS.INSTRUCTION || 
                 mStatus == STATUS.INSTRUCTION2 || 
-                mStatus == STATUS.INSTRUCTION3 || 
-                mStatus == STATUS.INSTRUCTION_PLUS ||
-                mStatus == STATUS.GO_PRAC)
+                mStatus == STATUS.INSTRUCTION3 ||
+                mStatus == STATUS.INSTRUCTION4)
             {
                 if (e.Key == Key.Space)
                 {
-                    if (mStatus == STATUS.GO_PRAC)
+                    if (mStatus == STATUS.INSTRUCTION)
+                    {
                         mStatus = STATUS.ON_PRAC;
+                    }
+                    if (mStatus == STATUS.TITLE)
+                    {
+                        mStatus = STATUS.INSTRUCTION;
+                    }
+
                     Next();
                 }
             }
-            else if (mStatus == STATUS.TEST && mDidCount < MAXTRAILCOUNT)
+            else if ((mStatus == STATUS.TEST) && mDidCount < MAXTRAILCOUNT)
             {
                 mTimer.Stop();
                 mDidCount++;
@@ -601,24 +534,110 @@ namespace FiveElementsIntTest.SybSrh
                     Next();
                 }
             }
-            else if (mStatus == STATUS.ON_PRAC)
+            else if (mStatus == STATUS.ON_PRAC && !mPressLock)
             {
                 mTimer.Stop();
 
                 if (mPracIndex == 4)
                     mStatus = STATUS.INSTRUCTION2;
+                
+                //show label
+                mExeInfomlabel = new Label();
+                mExeInfomlabel.FontFamily = new System.Windows.Media.FontFamily("KaiTi");
+                mExeInfomlabel.FontSize = 35;
+                amCanvas.Children.Add(mExeInfomlabel);
+                Canvas.SetTop(mExeInfomlabel, FEITStandard.PAGE_BEG_Y + 500);
+                Canvas.SetLeft(mExeInfomlabel, FEITStandard.PAGE_BEG_X + (800 - 70) / 2);
+                
 
                 if (e.Key == Key.J)
                 {
-                    mResult.Add(new SybSrhResult(true, mTimer.GetElapsedTime(), mItems[mPracIndex - 1]));
-                    Next();
+                    
+                    if (SybSrhItemGenerator.hasTrueTarget(mItems[mPracIndex - 1]))
+                    {
+                        //say true 500ms
+                        exeRightBehavior();
+                    }
+                    else
+                    {
+                        //say false 500ms
+                        exeWrongBehavior();
+
+                    }
                 }
                 else if (e.Key == Key.F)
                 {
-                    mResult.Add(new SybSrhResult(false, mTimer.GetElapsedTime(), mItems[mPracIndex - 1]));
-                    Next();
+                    if (!SybSrhItemGenerator.hasTrueTarget(mItems[mPracIndex - 1]))
+                    {
+                        //say true 500ms
+                        exeRightBehavior();
+                    }
+                    else
+                    {
+                        //say false 500ms
+                        exeWrongBehavior();
+                    }
                 }
             }
+        }
+
+        void exeRightBehavior()
+        {
+            /*mExeInfomlabel.Foreground =
+               new SolidColorBrush(
+                   System.Windows.Media.Color.FromRgb(0, 255, 0));
+            mExeInfomlabel.Content = "正确";
+            mExeInfomlabel.Visibility = System.Windows.Visibility.Visible;
+
+            Timer tmc = new Timer();
+            tmc.AutoReset = false;
+            tmc.Interval = 500;
+            tmc.Elapsed += new ElapsedEventHandler(tmc_Elapsed);
+            tmc.Enabled = true;
+            mPressLock = true;*/
+
+            hideLabelAndNext();
+        }
+
+        void exeWrongBehavior()
+        {
+            mExeInfomlabel.Foreground =
+                new SolidColorBrush(
+                    System.Windows.Media.Color.FromRgb(255, 0, 0));
+            mExeInfomlabel.Content = "错误";
+            mExeInfomlabel.Visibility = System.Windows.Visibility.Visible;
+
+            Timer tmw = new Timer();
+            tmw.AutoReset = false;
+            tmw.Interval = 500;
+            tmw.Elapsed += new ElapsedEventHandler(tmw_Elapsed);
+            tmw.Enabled = true;
+            mPressLock = true;
+        }
+
+        delegate void TimeDele();
+
+        void hideLabelAndNext()
+        {
+            hideLabel();
+            Next();
+        }
+
+        /*void tmc_Elapsed(object sender, ElapsedEventArgs e)
+        {
+            Dispatcher.Invoke(new TimeDele(hideLabelAndNext));
+            mPressLock = false;
+        }*/
+
+        void hideLabel()
+        {
+            mExeInfomlabel.Visibility = System.Windows.Visibility.Hidden;
+        }
+
+        void tmw_Elapsed(object sender, ElapsedEventArgs e)
+        {
+            Dispatcher.Invoke(new TimeDele(hideLabel));
+            mPressLock = false;
         }
 
 

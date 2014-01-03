@@ -41,7 +41,7 @@ namespace FiveElementsIntTest
         public Client mClient;
         public StDemography mDemography;
 
-        public int mTestAt = 0;
+        public int mTestAt = -1;
         public List<TestType> mTestList;
         public PCATData.VERSION mVersion;
 
@@ -130,24 +130,25 @@ namespace FiveElementsIntTest
                     NavigationService.Navigate(new OpSpan2.BasePage(this, SECOND_ARCHI_TYPE.SYMMSPAN));
                     break;
             }
-
-            mTestAt++;
         }
 
         public void TestForward()
         {
-            if (mTestAt < mTestList.Count)
+            if (mTestAt + 1 < mTestList.Count)
+            {
+                mTestAt++;
                 GoToTest(mTestList[mTestAt]);
+            }
             else
             {
-                if(mClient != null)
+                if (mClient != null)
                     mClient.SendAllEndMessage();
 
                 if (mVersion == VERSION.CLIENT)
                 {
                     System.Environment.Exit(0);
                 }
-                else if(mVersion == VERSION.STANDALONE)
+                else if (mVersion == VERSION.STANDALONE)
                 {
                     this.Close();
                 }

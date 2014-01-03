@@ -18,7 +18,7 @@ namespace FiveElementsIntTest
 
         public ResHolderDigitSymbol()
         {
-            Bitmap bitmapO = FiveElementsIntTest.Properties.Resources.CIRCLE;
+            Bitmap bitmapO = FiveElementsIntTest.Properties.Resources.rightimg;//替换原来的circle
             mImageO = 
                 System.Windows.Interop.Imaging.CreateBitmapSourceFromHBitmap(
                 bitmapO.GetHbitmap(), IntPtr.Zero, System.Windows.Int32Rect.Empty,

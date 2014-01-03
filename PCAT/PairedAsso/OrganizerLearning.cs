@@ -24,8 +24,12 @@ namespace FiveElementsIntTest.PairedAsso
         public void ShowCallingAttentionPage()
         {
             CompCentralText ct = new CompCentralText();
-            ct.PutTextToCentralScreen("下面请注意记！",
-                "KaiTi", 50, ref mPage.amBaseCanvas, 0, Color.FromRgb(255, 255, 255));
+            ct.PutTextToCentralScreen("下面开始呈现词对",
+                "KaiTi", 32, ref mPage.amBaseCanvas, 0, Color.FromRgb(255, 255, 255));
+
+            CompCentralText ct2 = new CompCentralText();
+            ct2.PutTextToCentralScreen("请注意记",
+                "KaiTi", 32, ref mPage.amBaseCanvas, 150, Color.FromRgb(0, 255, 0));
 
             CompBtnNextPage btn = new CompBtnNextPage("开始");
             btn.Add2Page(mPage.amBaseCanvas, FEITStandard.PAGE_BEG_Y + 470);
@@ -47,7 +51,7 @@ namespace FiveElementsIntTest.PairedAsso
 
             Timer t = new Timer();
             
-            t.Interval = 4000;
+            t.Interval = 3000;
             //systest
             //t.Interval = 10;
             t.AutoReset = false;
@@ -66,7 +70,7 @@ namespace FiveElementsIntTest.PairedAsso
         {
             mPage.clearAll();
             Timer t = new Timer();
-            t.Interval = 1000;
+            t.Interval = 2000;
             //systest
             //t.Interval = 10;
             t.AutoReset = false;

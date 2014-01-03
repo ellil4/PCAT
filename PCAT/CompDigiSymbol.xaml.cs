@@ -103,5 +103,20 @@ namespace FiveElementsIntTest
                     break;
             }
         }
-    }
-}
+
+        //练习题鼠标指示位置改动
+        public void FillpiontAnswer(SYMBOL_TYPE content, SYMBOL_TYPE content_one)
+        {
+
+            amInputImage1.Source = mPage.mResHolder.GetImage(content);
+            mLeftSymbol = content;
+
+            amInputImage2.Source = mPage.mResHolder.GetImage(content_one);
+            mRightSymbol = content_one;
+        }
+
+
+       
+
+    }//class
+}//namespace

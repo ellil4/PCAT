@@ -6,10 +6,12 @@
              mc:Ignorable="d" 
              d:DesignHeight="600" d:DesignWidth="800" Width="800" Height="600">
     <Grid Background="Black">
-        <TextBlock Height="155" HorizontalAlignment="Left" Margin="64,293,0,0" Name="textBlock1" Text="包含&#x0a;在键盘上按&#x0a;&quot;o&quot;" VerticalAlignment="Top" Width="318" Foreground="White" FontSize="35" FontFamily="Microsoft YaHei" TextWrapping="WrapWithOverflow" TextAlignment="Center" />
+        <TextBlock Height="95" HorizontalAlignment="Left" Margin="64,339,0,0" Name="textBlock1" Text="在键盘上按&#x0a;&quot;√&quot;" VerticalAlignment="Top" Width="318" Foreground="White" FontSize="32" FontFamily="KaiTi" TextWrapping="WrapWithOverflow" TextAlignment="Center" FontWeight="Bold" />
         <Image Height="208" HorizontalAlignment="Left" Margin="64,51,0,0" Name="image1" Stretch="Fill" VerticalAlignment="Top" Width="318" Source="/PCAT;component/Res/SymSrhInstruction1.bmp" />
         <Image Height="208" HorizontalAlignment="Left" Margin="422,51,0,0" Name="image2" Source="/PCAT;component/Res/SymSrhInstruction2.bmp" Stretch="Fill" VerticalAlignment="Top" Width="318" />
-        <TextBlock FontFamily="Microsoft YaHei" FontSize="35" Foreground="White" Height="155" HorizontalAlignment="Left" Margin="422,293,0,0" Name="textBlock2" Text="不包含&#x0a;在键盘上按&#x0a;&quot;x&quot;" TextWrapping="WrapWithOverflow" VerticalAlignment="Top" Width="318" TextAlignment="Center" />
-        <TextBlock FontFamily="Microsoft YaHei" FontSize="35" Foreground="White" Height="56" HorizontalAlignment="Left" Margin="200,474,0,0" Name="textBlock3" Text="按空格键开始练习" TextAlignment="Center" TextWrapping="WrapWithOverflow" VerticalAlignment="Top" Width="394" />
+        <TextBlock FontFamily="KaiTi" FontSize="32" Foreground="White" Height="91" HorizontalAlignment="Left" Margin="422,341,0,0" Name="textBlock2" Text="在键盘上按&#x0a;&quot;x&quot;" TextWrapping="WrapWithOverflow" VerticalAlignment="Top" Width="318" TextAlignment="Center" FontWeight="Bold" />
+        <TextBlock FontFamily="KaiTi" FontSize="32" Foreground="White" Height="56" HorizontalAlignment="Left" Margin="200,474,0,0" Name="textBlock3" Text="(按空格键开始练习)" TextAlignment="Center" TextWrapping="WrapWithOverflow" VerticalAlignment="Top" Width="394" />
+        <Label Content="有其中一个" FontFamily="KaiTi" FontSize="32" Foreground="Lime" Height="52" HorizontalContentAlignment="Center" HorizontalAlignment="Center" Margin="64,293,404,255" Name="label3" VerticalAlignment="Center" Width="332" FontWeight="Bold" />
+        <Label Content="都没有" FontFamily="KaiTi" FontSize="32" Foreground="Lime" Height="52" HorizontalAlignment="Center" HorizontalContentAlignment="Center" Margin="416,293,52,255" Name="label1" VerticalAlignment="Center" Width="332" FontWeight="Bold" />
     </Grid>
 </UserControl>

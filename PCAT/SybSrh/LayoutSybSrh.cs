@@ -46,15 +46,6 @@ namespace FiveElementsIntTest.SybSrh
 
                     Canvas.SetTop(ci, FEITStandard.PAGE_BEG_Y + 350);
                 }
-                /*else if (i >= 6 && i < 10)
-                {
-                    Canvas.SetLeft(ci,
-                        FEITStandard.PAGE_BEG_X +
-                        (FEITStandard.PAGE_WIDTH - COMP_SIDE_LEN * 4 - HORIZONTAL_GAP * 3) / 
-                        2 + (i - 6) * (COMP_SIDE_LEN + HORIZONTAL_GAP));
-
-                    Canvas.SetTop(ci, FEITStandard.PAGE_BEG_Y + 400);
-                }*/
             }
 
             Rectangle rect = new Rectangle();
@@ -87,19 +78,19 @@ namespace FiveElementsIntTest.SybSrh
             Canvas.SetTop(pt, FEITStandard.PAGE_BEG_Y);
         }
 
-        public void SetInstructionLayout2p()
+        public void SetInstructionLayout3()
         {
             mPage.clearAll();
-            PageX2 pt = new PageX2();
+            PageTitle3 pt = new PageTitle3();
             mPage.amCanvas.Children.Add(pt);
             Canvas.SetLeft(pt, FEITStandard.PAGE_BEG_X);
             Canvas.SetTop(pt, FEITStandard.PAGE_BEG_Y);
         }
 
-        public void SetInstructionLayout3()
+        public void SetInstructionLayout4()
         {
             mPage.clearAll();
-            PageTitle3 pt = new PageTitle3();
+            PageTitle4 pt = new PageTitle4();
             mPage.amCanvas.Children.Add(pt);
             Canvas.SetLeft(pt, FEITStandard.PAGE_BEG_X);
             Canvas.SetTop(pt, FEITStandard.PAGE_BEG_Y);
@@ -129,7 +120,7 @@ namespace FiveElementsIntTest.SybSrh
 
             LayoutInstruction instruction = new LayoutInstruction(ref mPage.amCanvas);
 
-            instruction.addTitle(190, 0, "测试结束，程序将自动退出", "KaiTi", 44,
+            instruction.addTitle(190, 0, "测试结束，请稍作休息进行下一项测试", "KaiTi", 44,
                 System.Windows.Media.Color.FromRgb(255, 255, 255), false);
         }
     }

@@ -21,8 +21,8 @@ namespace FiveElementsIntTest
     /// </summary>
     public partial class CompCentralText : UserControl
     {
-        public static int OUTWIDTH = 796;
-        public static int OUTHEIGHT = 100;
+        public int OUTWIDTH = 796;
+        public int OUTHEIGHT = 100;
 
         public CompCentralText()
         {
@@ -45,11 +45,11 @@ namespace FiveElementsIntTest
             canvas.Children.Add(this);
 
             Canvas.SetLeft(this,
-                FEITStandard.PAGE_BEG_X + (FEITStandard.PAGE_WIDTH - CompCentralText.OUTWIDTH) / 2);
+                FEITStandard.PAGE_BEG_X + (FEITStandard.PAGE_WIDTH - OUTWIDTH) / 2);
 
             Canvas.SetTop(this,
                 FEITStandard.PAGE_BEG_Y + FEITStandard.PAGE_HEIGHT / 2
-                - CompCentralText.OUTHEIGHT / 2 + yOff);
+                - OUTHEIGHT / 2 + yOff);
         }
     }
 }

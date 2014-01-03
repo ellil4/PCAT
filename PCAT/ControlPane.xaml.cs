@@ -37,10 +37,8 @@ namespace FiveElementsIntTest
                 RadioButton rb = new RadioButton();
                 rb.Content = FEITStandard.TEST_TITLE[(int)mMW.mTestList[i]] + "        ";
 
-                if (i < 5)
-                    amStackPane1.Children.Add(rb);
-                else
-                    amStackPane2.Children.Add(rb);
+                amStackPan.Children.Add(rb);
+                rb.Margin = new Thickness(0, 15, 0, 0);
 
                 mRBs.Add(rb);
             }

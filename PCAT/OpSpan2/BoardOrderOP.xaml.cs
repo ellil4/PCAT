@@ -51,7 +51,7 @@ namespace FiveElementsIntTest.OpSpan2
                 //manipulate
                 amAniQues.Visibility = System.Windows.Visibility.Hidden;
                 label1.Content = "请按顺序回忆红点出现过的位置";
-                rectangle1.Visibility = System.Windows.Visibility.Hidden;
+                //rectangle1.Visibility = System.Windows.Visibility.Hidden;
 
                 commonInit();
                 for (int i = 0; i < mAnimalButtons.Count; i++)
@@ -212,12 +212,12 @@ namespace FiveElementsIntTest.OpSpan2
             amQuesLabel.Visibility = System.Windows.Visibility.Hidden;
         }
 
-        void showRight()
+        /*void showRight()
         {
             amTBNotice.Text = "正确";
             amTBNotice.Foreground = new SolidColorBrush(Color.FromRgb(0, 255, 0));
             amTBNotice.Visibility = System.Windows.Visibility.Visible;
-        }
+        }*/
 
         void showWrong()
         {
@@ -270,14 +270,16 @@ namespace FiveElementsIntTest.OpSpan2
 
             if (realOrder.Equals(userOrder))
             {
-                showRight();
+                /*showRight();
                 //go formal
                 Timer outAsInstructionFormal = new Timer();
                 outAsInstructionFormal.Interval = 500;
                 outAsInstructionFormal.AutoReset = false;
                 outAsInstructionFormal.Elapsed +=
                     new ElapsedEventHandler(outAsComprhPracRight_Elapsed);
-                outAsInstructionFormal.Enabled = true;
+                outAsInstructionFormal.Enabled = true;*/
+
+                outAsComprhPracRight_Elapsed(null, null);
 
             }
             else
@@ -486,14 +488,16 @@ namespace FiveElementsIntTest.OpSpan2
                     if (realOrder.Equals(userOrder))
                     {
                         mBasePage.mRecorder.orderPracCorrectness.Add(true);
-                        showRight();
+                        /*showRight();
 
                         Timer out2Equa = new Timer();
                         out2Equa.Interval = 500;
                         out2Equa.AutoReset = false;
                         out2Equa.Elapsed +=
                             new ElapsedEventHandler(outAsAnimalPracRight_Elapsed);
-                        out2Equa.Enabled = true;
+                        out2Equa.Enabled = true;*/
+
+                        outAsAnimalPracRight_Elapsed(null, null);
                     }
                     else
                     {

@@ -5,7 +5,7 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       mc:Ignorable="d" 
       d:DesignHeight="300" d:DesignWidth="300"
-	Title="PageDigitSymbol" Loaded="Page_Loaded" KeyDown="Page_KeyDown" Focusable="True">
+	Title="PageDigitSymbol" Loaded="Page_Loaded" Focusable="True" KeyUp="Page_KeyUp">
 
     <Grid Focusable="False">
         <Canvas Height="100" HorizontalAlignment="Left" Name="mBaseCanvas" VerticalAlignment="Top" Width="200" Background="Black">

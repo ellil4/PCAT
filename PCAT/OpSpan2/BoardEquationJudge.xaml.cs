@@ -92,19 +92,20 @@ namespace FiveElementsIntTest.OpSpan2
 
         private void goCorrect()
         {
-            if (mBasePage.mStage == Stage.InterPrac)
+            /*if (mBasePage.mStage == Stage.InterPrac)
             {
                 amCorrectness.Content = "正确";
                 amCorrectness.Foreground = new SolidColorBrush(Color.FromRgb(0, 255, 0));
                 amCorrectness.Visibility = System.Windows.Visibility.Visible;
-            }
+            }*/
 
 
-            Timer t_correct = new Timer();
+            /*Timer t_correct = new Timer();
             t_correct.Interval = 500;
             t_correct.AutoReset = false;
             t_correct.Elapsed += new ElapsedEventHandler(t_afterShowCorrectness_Elapsed);
-            t_correct.Enabled = true;
+            t_correct.Enabled = true;*/
+            t_afterShowCorrectness_Elapsed(null, null);
         }
 
         delegate void TimeDele();

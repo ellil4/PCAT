@@ -166,7 +166,16 @@
     <Compile Include="DemographyPane.xaml.cs">
       <DependentUpon>DemographyPane.xaml</DependentUpon>
     </Compile>
+    <Compile Include="DigitSymbol\DigiPointPageOneControl.xaml.cs">
+      <DependentUpon>DigiPointPageOneControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="DigitSymbol\DigiPointPageTwoControl.xaml.cs">
+      <DependentUpon>DigiPointPageTwoControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="DigitSymbol\OutputDigitSymbol.cs" />
+    <Compile Include="DigitSymbol\PointPageControl.xaml.cs">
+      <DependentUpon>PointPageControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="DigitSymbol\ResHolderDigitSymbol.cs" />
     <Compile Include="FEITClickableScreen.cs" />
     <Compile Include="FEITCentralFlipper.cs" />
@@ -203,9 +212,6 @@
     </Compile>
     <Compile Include="OpSpan2\BoardSubChess.xaml.cs">
       <DependentUpon>BoardSubChess.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="OpSpan2\BoardSymmInst2.xaml.cs">
-      <DependentUpon>BoardSymmInst2.xaml</DependentUpon>
     </Compile>
     <Compile Include="OpSpan2\BoardTitle.xaml.cs">
       <DependentUpon>BoardTitle.xaml</DependentUpon>
@@ -277,9 +283,6 @@
       <DependentUpon>ServerConfigDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="StDemography.cs" />
-    <Compile Include="SybSrh\PageX2.xaml.cs">
-      <DependentUpon>PageX2.xaml</DependentUpon>
-    </Compile>
     <Compile Include="SybSrh\SybSrhItemGenerator.cs" />
     <Compile Include="SybSrh\SybSrhVisualElem.cs" />
     <Compile Include="SybSrh\SybSrhSourceFetcher.cs" />
@@ -293,6 +296,9 @@
     <Compile Include="SybSrh\SybSrhFixedReader.cs" />
     <Compile Include="SybSrh\PageTitle.xaml.cs">
       <DependentUpon>PageTitle.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SybSrh\PageTitle4.xaml.cs">
+      <DependentUpon>PageTitle4.xaml</DependentUpon>
     </Compile>
     <Compile Include="SymSpan\OrganizerPracLocation.cs" />
     <Compile Include="SymSpan\OrganizerPracSymm.cs" />
@@ -318,6 +324,9 @@
     <Compile Include="OpSpan\SubPageOrderOS.cs" />
     <Compile Include="RecorderBase.cs" />
     <Compile Include="VocabCommon\OrganizerVocabCommon.cs" />
+    <Compile Include="VocabCommon\PageTitle.xaml.cs">
+      <DependentUpon>PageTitle.xaml</DependentUpon>
+    </Compile>
     <Compile Include="VocabCommon\PageVocabCommon.xaml.cs">
       <DependentUpon>PageVocabCommon.xaml</DependentUpon>
     </Compile>
@@ -457,6 +466,18 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="DigitSymbol\DigiPointPageOneControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="DigitSymbol\DigiPointPageTwoControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="DigitSymbol\PointPageControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="GraphicRecog\PageGraphicRecog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -538,10 +559,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="OpSpan2\BoardSymmInst2.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="OpSpan2\BoardTitle.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -606,9 +623,13 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="SybSrh\PageX2.xaml">
-      <SubType>Designer</SubType>
+    <Page Include="SybSrh\PageTitle4.xaml">
       <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="VocabCommon\PageTitle.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="VocabCommon\PageVocabCommon.xaml">
       <SubType>Designer</SubType>
@@ -787,6 +808,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Res\insymmInstruction.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Res\rightimg.jpg" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

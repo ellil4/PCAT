@@ -35,7 +35,7 @@ namespace FiveElementsIntTest.PortraitMemory
 
         public Label _tip_display;
 
-        public Timer _t_Display;
+        //public Timer _t_Display;
 
         public Timer _flash_Display;
 
@@ -309,7 +309,7 @@ namespace FiveElementsIntTest.PortraitMemory
                 _tip_display.Visibility = System.Windows.Visibility.Hidden;
                 _tip_display.Content = " ";
                 _flash_Display.Stop();
-                _t_Display.Stop();
+                //_t_Display.Stop();
 
                 if (!_remember)
                 {
@@ -548,9 +548,9 @@ namespace FiveElementsIntTest.PortraitMemory
             
             nextQuestionLabel();
             tipDisplay();
-            Display_Timer();
+            //Display_Timer();
             
-            _t_Display.Close();
+            //_t_Display.Close();
             flash_Time();
             _flash_Display.Start();
             _startButtomStep++;
@@ -577,7 +577,7 @@ namespace FiveElementsIntTest.PortraitMemory
 
           //  Display_Timer();
              
-            _t_Display.Close();
+            //_t_Display.Close();
           //  flash_Time();
             _flash_Display.Start();
 
@@ -644,18 +644,18 @@ namespace FiveElementsIntTest.PortraitMemory
 
             _tip_display.Visibility = System.Windows.Visibility.Visible;
 
-            _t_Display.Start();
+            //_t_Display.Start();
 
         }
 
-        private void Display_Timer()
+        /*private void Display_Timer()
         {
             _t_Display = new Timer(1000);
             _t_Display.AutoReset = true;
             _t_Display.Enabled = true;
             _t_Display.Elapsed += new ElapsedEventHandler(t_Display_Elapsed);
 
-        }
+        }*/
 
         void t_Display_Elapsed(object sender, ElapsedEventArgs e)
         {
@@ -808,7 +808,7 @@ namespace FiveElementsIntTest.PortraitMemory
           //  _tip_display.Visibility = System.Windows.Visibility.Hidden;
             _tip_display.Foreground = Brushes.White;
             _flash_Display.Stop();
-            _t_Display.Stop();
+            //_t_Display.Stop();
             if (!_remember)
             {
                 _line_num++;

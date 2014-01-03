@@ -23,6 +23,11 @@ namespace FiveElementsIntTest.OpSpan2
         public BoardInstructionComprehPrac(BasePage bp)
         {
             InitializeComponent();
+            if (mBasePage.ARCTYPE == SECOND_ARCHI_TYPE.SYMMSPAN)
+            {
+                label2.Content = "请在做对称判断的同时";
+                label3.Content = "记住随后出现的红点位置";
+            }
             mBasePage = bp;
         }
 

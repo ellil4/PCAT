@@ -43,7 +43,7 @@ namespace FiveElementsIntTest
         }
 
         public void addInstruction(int yOff, int xOff, int width, int height,
-            String content, String fontFamily, int size, Color color)
+            String content, String fontFamily, int size, Color color, bool ifBold = false)
         {
             RichTextBox rtb = new RichTextBox();
             rtb.AppendText(content);
@@ -57,6 +57,9 @@ namespace FiveElementsIntTest
             rtb.FontSize = size;
             rtb.FontFamily = new FontFamily(fontFamily);
             rtb.IsReadOnly = true;
+            
+            if(ifBold)
+                rtb.FontWeight = FontWeights.Bold;
 
             mBaseCanvas.Children.Add(rtb);
             Canvas.SetTop(rtb, FEITStandard.PAGE_BEG_Y + yOff);
