@@ -37,7 +37,7 @@ namespace FiveElementsIntTest.PortraitMemory
 
         //public Timer _t_Display;
 
-        public Timer _flash_Display;
+     //   public Timer _flash_Display;
 
         /*******************************翻页*************************************/
 
@@ -54,7 +54,7 @@ namespace FiveElementsIntTest.PortraitMemory
         private Timer _t_Total_Time;
         /****************************开始按钮*********************************/
 
-        private static int _startButtomStep = 0; 
+        private  int _startButtomStep = 0; 
 
 
         /******************************测试界面*********************************/
@@ -70,7 +70,7 @@ namespace FiveElementsIntTest.PortraitMemory
         /*******************************记录***************************************/
         String _rt = " "; //反应时间
         Stopwatch _rtime;//每道题花费时间
-        long _runtime = 0;
+        long _runtime  = 0;
 
         long _accountRT = 0;
 
@@ -80,7 +80,7 @@ namespace FiveElementsIntTest.PortraitMemory
 
         private List<String> _optionAnswers;
 
-        private List<List<String>> _answers = new List<List<string>>();
+        private List<List<String>> _answers = new List<List<string>>() ;
 
         /**************************结果**************************/
         TestResult mTestResult;
@@ -91,6 +91,7 @@ namespace FiveElementsIntTest.PortraitMemory
 
         public PagePortrailtMemory(MainWindow _mainWindow)
         {
+            
             InitializeComponent();
             mMainWindow = _mainWindow;
             this.Focus();
@@ -98,6 +99,7 @@ namespace FiveElementsIntTest.PortraitMemory
 
             mCountDown = new CompCountDown();
             mCountDown.FunctionElapsed = autopage_processing;
+
         }
 
         private void Page_Loaded(object sender, RoutedEventArgs e)
@@ -133,7 +135,10 @@ namespace FiveElementsIntTest.PortraitMemory
 
         private void loadFirstTest()
         {
+            _t_Total_Time.Enabled = false;////////////
+            _t_Total_Time.Stop();///////////
 
+            mMemoryControl.Close_Thread();///////
             mLayoutInstruction.addInstruction(200, 90, FEITStandard.PAGE_WIDTH / 100 * 68, 280,
                   "\n\n    记 忆 测 试 （一） ", "Kaiti_GB2312", 30, Color.FromRgb(255, 255, 255));
              _promptlabel.Visibility = System.Windows.Visibility.Hidden;
@@ -144,6 +149,8 @@ namespace FiveElementsIntTest.PortraitMemory
         }
         private void loadSecondPage()
         {
+            _t_Total_Time.Enabled = false;////////////
+            _t_Total_Time.Stop();///////////
             mLayoutInstruction.addInstruction(200, 90, FEITStandard.PAGE_WIDTH / 100 * 68, 280,
                 " \n\r     下面再呈现一遍", "Kaiti_GB2312", 30, Color.FromRgb(255, 255, 255));
             _promptlabel.Visibility = System.Windows.Visibility.Visible;
@@ -166,7 +173,7 @@ namespace FiveElementsIntTest.PortraitMemory
 
         private void laodReport()
         {
-             _close_win = new Label();
+            _close_win = new Label();
             _close_win.Height = 50;
             _close_win.Width = 250;
             _close_win.Foreground = Brushes.White;
@@ -308,7 +315,7 @@ namespace FiveElementsIntTest.PortraitMemory
             {
                 _tip_display.Visibility = System.Windows.Visibility.Hidden;
                 _tip_display.Content = " ";
-                _flash_Display.Stop();
+                //_flash_Display.Stop();
                 //_t_Display.Stop();
 
                 if (!_remember)
@@ -502,9 +509,12 @@ namespace FiveElementsIntTest.PortraitMemory
             backTextPage();
             
             mMemoryControl.displayInformation(_remember);
+
+            _t_Total_Time.Enabled = true;/////////
             _t_Total_Time.Start();
             
             PortCanvas.Cursor = Cursors.None;
+            _startButtomStep++;
         }
 
         private void studyTwo()
@@ -518,14 +528,19 @@ namespace FiveElementsIntTest.PortraitMemory
 
 
             
+             PortCanvas.Cursor = Cursors.None;
+             _startButtomStep++;
             mMemoryControl.displayInformation(_remember);
+
+            _t_Total_Time.Enabled = true;/////////
             _t_Total_Time.Start();
             
-            PortCanvas.Cursor = Cursors.None;
+            
         }
 
         private void testOne()
         {
+            
             _begin_test.Visibility = System.Windows.Visibility.Hidden;
             _promptlabel.Visibility = System.Windows.Visibility.Hidden;
             
@@ -551,8 +566,8 @@ namespace FiveElementsIntTest.PortraitMemory
             //Display_Timer();
             
             //_t_Display.Close();
-            flash_Time();
-            _flash_Display.Start();
+            //flash_Time();
+            //_flash_Display.Start();
             _startButtomStep++;
            
             //autoNextPage();
@@ -579,7 +594,7 @@ namespace FiveElementsIntTest.PortraitMemory
              
             //_t_Display.Close();
           //  flash_Time();
-            _flash_Display.Start();
+            //_flash_Display.Start();
 
             //_t_Nest_Question.Start();
 
@@ -624,29 +639,29 @@ namespace FiveElementsIntTest.PortraitMemory
             Canvas.SetLeft(_tip_display, FEITStandard.PAGE_BEG_X + 25);
             Canvas.SetTop(_tip_display, FEITStandard.PAGE_BEG_Y + 500);
         }
-        private void flash_Time()
-        {
-            _flash_Display = new Timer(30000);
-            _flash_Display.AutoReset = false;
-            _flash_Display.Enabled = true;
-            _flash_Display.Elapsed += new ElapsedEventHandler(_flash_Display_Elapsed);
-        }
+        //private void flash_Time()
+        //{
+        //    _flash_Display = new Timer(30000);
+        //    _flash_Display.AutoReset = false;
+        //    _flash_Display.Enabled = true;
+        //    _flash_Display.Elapsed += new ElapsedEventHandler(_flash_Display_Elapsed);
+        //}
 
-        void _flash_Display_Elapsed(object sender, ElapsedEventArgs e)
-        {
-            PortCanvas.Dispatcher.Invoke(new displaytime(fv_processing));
-        }
-        private void fv_processing() //超时跳出测试
-        {
-           // _tip_display.Visibility = System.Windows.Visibility.Hidden;
+        //void _flash_Display_Elapsed(object sender, ElapsedEventArgs e)
+        //{
+        //    PortCanvas.Dispatcher.Invoke(new displaytime(fv_processing));
+        //}
+        //private void fv_processing() //超时跳出测试
+        //{
+        //   // _tip_display.Visibility = System.Windows.Visibility.Hidden;
             
-            _flash_Display.Stop();
+        //    _flash_Display.Stop();
 
-            _tip_display.Visibility = System.Windows.Visibility.Visible;
+        //    _tip_display.Visibility = System.Windows.Visibility.Visible;
 
-            //_t_Display.Start();
+        //    //_t_Display.Start();
 
-        }
+        //}
 
         /*private void Display_Timer()
         {
@@ -686,8 +701,8 @@ namespace FiveElementsIntTest.PortraitMemory
         private void backTextPage()
         {
             _t_Total_Time = new Timer(49000);
-            _t_Total_Time.AutoReset = true;
-            _t_Total_Time.Enabled = true;
+            _t_Total_Time.AutoReset = false;
+            ////
             _t_Total_Time.Elapsed += new ElapsedEventHandler(_t_Total_Time_Elapsed);
 
         }
@@ -701,7 +716,7 @@ namespace FiveElementsIntTest.PortraitMemory
 
         private void bp_processing() //超时跳出测试
         {
-            _startButtomStep++;
+            
 
             PortCanvas.Children.Remove(mMemoryControl);
             
@@ -709,7 +724,7 @@ namespace FiveElementsIntTest.PortraitMemory
             loadFirstTest();
             if (_startButtomStep == 3)
                 loadSecondTest();
-            _t_Total_Time.Stop();
+           /////////////
             PortCanvas.Cursor = Cursors.AppStarting;
             _begin_test.Visibility = System.Windows.Visibility.Visible;
         }
@@ -738,7 +753,7 @@ namespace FiveElementsIntTest.PortraitMemory
            
             _nextQuestion.Visibility = System.Windows.Visibility.Visible;
             //_t_Display.Start();
-            _flash_Display.Start();
+            //_flash_Display.Start();
             _time_blank.Stop();
             //_t_Nest_Question.Start();
             _rtime.Start();
@@ -807,7 +822,7 @@ namespace FiveElementsIntTest.PortraitMemory
         {
           //  _tip_display.Visibility = System.Windows.Visibility.Hidden;
             _tip_display.Foreground = Brushes.White;
-            _flash_Display.Stop();
+            //_flash_Display.Stop();
             //_t_Display.Stop();
             if (!_remember)
             {

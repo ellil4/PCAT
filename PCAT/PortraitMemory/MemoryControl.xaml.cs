@@ -58,7 +58,7 @@ namespace FiveElementsIntTest.PortraitMemory
         }
         public void displayInformation(bool choose)
         {
-           
+            studyTime();
             blankTime();
             if (!choose)
             {
@@ -71,7 +71,7 @@ namespace FiveElementsIntTest.PortraitMemory
             else
             {
                 _inferControl = true;
-                studyTime();
+             //   studyTime();
                 _t_blank.Start(); 
                 
                // _t_Study.Start();
@@ -177,7 +177,7 @@ namespace FiveElementsIntTest.PortraitMemory
         {
             _t_Study = new Timer(6000);
             _t_Study.AutoReset = false;
-            _t_Study.Enabled = true;
+            ///////
             _t_Study.Elapsed += new ElapsedEventHandler(_t_Study_Elapsed);
 
 
@@ -201,7 +201,7 @@ namespace FiveElementsIntTest.PortraitMemory
         private void blankTime()
         {
             _t_blank = new Timer(2000);
-            _t_blank.AutoReset = true;
+            _t_blank.AutoReset = false;
             _t_blank.Enabled = true;
             _t_blank.Elapsed += new ElapsedEventHandler(_t_blank_Elapsed);
         }
@@ -225,13 +225,14 @@ namespace FiveElementsIntTest.PortraitMemory
                     layoutContent();
 
                     _t_blank.Stop();
-                    studyTime();
+                    _t_Study.Enabled = true;//////
                     _t_Study.Start();
                 }
                 else
                 {
-                    _t_blank.Stop();
                     _t_Study.Stop();
+                    _t_blank.Stop();
+                    
                     _inferCount--;
                 }
 
@@ -247,19 +248,25 @@ namespace FiveElementsIntTest.PortraitMemory
                     layoutContent();
 
                     _t_blank.Stop();
-                    studyTime();
+                    _t_Study.Enabled = true;//////
                     _t_Study.Start();
                 }
                 else
                 {
-                    _t_blank.Stop();
                     _t_Study.Stop();
+                    _t_blank.Stop();
+                   
                 }
 
             }
 
         }
 
+        public void Close_Thread()
+        {
+            _t_blank.Dispose();
+            _t_Study.Dispose();
+        }
 
     }//class
 }//namespace
